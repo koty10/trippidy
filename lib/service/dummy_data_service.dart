@@ -3,6 +3,7 @@ import 'package:anti_forgetter/model/list_item_model.dart';
 import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/model/trip_member_list_model.dart';
 import 'package:anti_forgetter/model/user_model.dart';
+import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
 
 class DummyDataService {
   List<TripModel> getTrips() {
@@ -120,14 +121,17 @@ class DummyDataService {
     ];
   }
 
-  Map<String, List<ListItemModel>> getMyListItems() {
+  List<BasicTile> getMyListItems() {
     var tmp = getTrips()[0].myListCollection.listItemCollection;
 
-    var dict = <String, List<ListItemModel>>{};
+    var dict = <BasicTile>[];
     for (var element in tmp) {
-      dict[element.item.category] != null
-          ? dict[element.item.category]?.add(element)
-          : dict.putIfAbsent(element.item.category, () => [element]);
+      dict.any((e) => e.title == element.item.category)
+          ? dict
+              .firstWhere((e) => e.title == element.item.category)
+              .titles
+              .add(element.item.name)
+          : dict.add(BasicTile(title: element.item.category));
     }
     return dict;
   }
