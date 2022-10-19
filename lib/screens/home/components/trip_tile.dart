@@ -1,16 +1,22 @@
 import 'package:anti_forgetter/model/trip_model.dart';
+import 'package:anti_forgetter/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
 
-class RecordTile extends StatelessWidget {
-  //const RecordTile({super.key, required this.record});
+class TripTile extends StatelessWidget {
+  TripTile({super.key, required this.trip})
+      : tripMembers = trip.memberListCollection.length > 3
+            ? trip.memberListCollection
+                    .map((e) => e.user.name[0])
+                    .take(2)
+                    .toList() +
+                ["..."]
+            : trip.memberListCollection
+                .map((e) => e.user.name[0])
+                .take(3)
+                .toList();
 
-  RecordTile({super.key, required this.record})
-      : recordMembers = record.members.length > 3
-            ? record.members.map((e) => e[0]).take(2).toList() + ["..."]
-            : record.members.map((e) => e[0]).take(3).toList();
-
-  final TripModel record;
-  final List<String> recordMembers; // = record.members.take(3).toList();
+  final TripModel trip;
+  final List<String> tripMembers;
 
   void initState() {}
 
@@ -21,7 +27,7 @@ class RecordTile extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       tileColor: Colors.amber,
       title: Text(
-        record.name,
+        trip.name,
         style: const TextStyle(
           fontSize: 18,
           color: Colors.white,
@@ -36,7 +42,7 @@ class RecordTile extends StatelessWidget {
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
-        children: recordMembers
+        children: tripMembers
             .map(
               (member) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -62,6 +68,15 @@ class RecordTile extends StatelessWidget {
             .toList(),
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TripScreen(
+                    currentTrip: trip,
+                  )),
+        );
+      },
     );
   }
 }
