@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MemberListTile extends StatelessWidget {
-  const MemberListTile({super.key, required this.title});
+class MyListItemTile extends StatelessWidget {
+  const MyListItemTile({super.key, required this.title});
 
   final String title;
 
@@ -28,7 +28,6 @@ class MemberListTile extends StatelessWidget {
         ),
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-      mouseCursor: SystemMouseCursors.click,
     );
   }
 }

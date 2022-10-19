@@ -1,4 +1,5 @@
 import 'package:anti_forgetter/model/trip_model.dart';
+import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
 import 'package:anti_forgetter/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class TripScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.white),
-        title: const Text('Seznam cest'),
+        title: Text(currentTrip.name),
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -40,7 +41,14 @@ class TripScreen extends StatelessWidget {
                     title: "Můj seznam",
                   ),
                   onTap: () {
-                    // TODO
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyListScreen(
+                          currentTrip: currentTrip,
+                        ),
+                      ),
+                    );
                   },
                 ),
                 const SizedBox(

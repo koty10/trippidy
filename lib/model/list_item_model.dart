@@ -7,4 +7,5 @@ class ListItemModel {
   ItemModel item;
   bool checked;
   int amount;
+  // možná to tu bude chtít zpětnou referenci na tripMemberListModel, potažmo na Usera
 }
