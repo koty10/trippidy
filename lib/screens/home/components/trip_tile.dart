@@ -25,7 +25,7 @@ class TripTile extends StatelessWidget {
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      tileColor: Colors.amber,
+      tileColor: Colors.lightGreen[400],
       title: Text(
         trip.name,
         style: const TextStyle(

@@ -12,10 +12,24 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Seznam cest"),
+        title: const Text('Seznam cest'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(
+                'https://source.unsplash.com/50x50/?portrait',
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 20,
+          ),
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
@@ -24,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                 return TripTile(trip: trips[index]);
               },
               separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
             ),
           ),
         ],

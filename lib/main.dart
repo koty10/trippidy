@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Anti-forgetter',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
+        primarySwatch: Colors.green,
       ),
       home: const SkeletonScreen(),
     );

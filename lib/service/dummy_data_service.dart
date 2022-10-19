@@ -56,6 +56,16 @@ class DummyDataService {
             ],
           ),
         ],
+        myListCollection: TripMemberListModel(
+          user: UserModel(name: "Admin"),
+          listItemCollection: [
+            ListItemModel(
+              amount: 10,
+              checked: false,
+              item: ItemModel(name: "Rohlíky"),
+            ),
+          ],
+        ),
       ),
       TripModel(
         name: "Itálie 2021",
@@ -96,6 +106,16 @@ class DummyDataService {
             ],
           ),
         ],
+        myListCollection: TripMemberListModel(
+          user: UserModel(name: "Admin"),
+          listItemCollection: [
+            ListItemModel(
+              amount: 1,
+              checked: false,
+              item: ItemModel(name: "Chleba"),
+            ),
+          ],
+        ),
       ),
     ];
   }

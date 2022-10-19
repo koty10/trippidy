@@ -1,12 +1,9 @@
-import 'package:anti_forgetter/model/trip_member_list_model.dart';
 import 'package:flutter/material.dart';
 
-class MyListTile extends StatelessWidget {
-  //const RecordTile({super.key, required this.record});
+class MemberListTile extends StatelessWidget {
+  const MemberListTile({super.key, required this.title});
 
-  const MyListTile({super.key, required this.memberList});
-
-  final TripMemberListModel memberList;
+  final String title;
 
   void initState() {}
 
@@ -15,9 +12,9 @@ class MyListTile extends StatelessWidget {
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      tileColor: Colors.amber,
+      tileColor: Colors.lightGreen[400],
       title: Text(
-        memberList.user.name,
+        title,
         style: const TextStyle(
           fontSize: 18,
           color: Colors.white,
