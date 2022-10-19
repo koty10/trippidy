@@ -47,11 +47,12 @@ class TripTile extends StatelessWidget {
               (member) => Container(
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: CircleAvatar(
+                  radius: 12,
                   backgroundColor: Colors.deepOrange,
                   child: Text(
                     member,
                     style: const TextStyle(
-                      fontSize: 24,
+                      //fontSize: 24,
                       color: Colors.white,
                       shadows: [
                         Shadow(

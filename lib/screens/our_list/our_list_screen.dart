@@ -3,9 +3,10 @@ import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/service/dummy_data_service.dart';
 import 'package:flutter/material.dart';
 
-class MyListScreen extends StatelessWidget {
-  MyListScreen({super.key, required this.currentTrip})
-      : myListItems = DummyDataService().getMyListItems(tripId: currentTrip.id);
+class OurListScreen extends StatelessWidget {
+  OurListScreen({super.key, required this.currentTrip})
+      : myListItems =
+            DummyDataService().getOurListItems(tripId: currentTrip.id);
 
   final TripModel currentTrip;
   final Map<String, List<ListItemModel>> myListItems;
@@ -15,7 +16,7 @@ class MyListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(color: Colors.white),
-        title: Text("${currentTrip.name} - Můj seznam"),
+        title: Text("${currentTrip.name} - Společný seznam"),
         actions: const [
           Padding(
             padding: EdgeInsets.all(8.0),
@@ -44,10 +45,25 @@ class MyListScreen extends StatelessWidget {
                           .map(
                             (val) => ListTile(
                               title: Text(val.item.name),
-                              trailing: Checkbox(
-                                value: val.checked,
-                                onChanged: (value) {}, // TODO save into DB
-                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (val.userId != 7)
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.deepOrange,
+                                        radius: 12,
+                                        child: Text(val.userId.toString()),
+                                      ),
+                                    ),
+                                  Checkbox(
+                                      value: val.checked,
+                                      onChanged: val.userId == 7
+                                          ? ((value) {})
+                                          : null),
+                                ],
+                              ), // TODO nekde musim mit ulozeny id prihlaseneho usera
                             ),
                           )
                           .toList(),
