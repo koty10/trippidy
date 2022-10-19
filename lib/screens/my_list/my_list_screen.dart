@@ -1,12 +1,14 @@
+import 'package:anti_forgetter/model/list_item_model.dart';
 import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/service/dummy_data_service.dart';
 import 'package:flutter/material.dart';
 
 class MyListScreen extends StatelessWidget {
-  MyListScreen({super.key, required this.currentTrip});
+  MyListScreen({super.key, required this.currentTrip})
+      : myListItems = DummyDataService().getMyListItems(tripId: currentTrip.id);
 
   final TripModel currentTrip;
-  final myListItems = DummyDataService().getMyListItems();
+  final Map<String, List<ListItemModel>> myListItems;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,20 @@ class MyListScreen extends StatelessWidget {
             height: 20,
           ),
 
-          ListView(
-            children: myListItems.map(buildTile).toList(),
+          Expanded(
+            child: ListView(
+              children: myListItems.entries
+                  .map(
+                    (e) => ExpansionTile(
+                      initiallyExpanded: true,
+                      title: Text(e.key),
+                      children: e.value
+                          .map((val) => ListTile(title: Text(val.item.name)))
+                          .toList(),
+                    ),
+                  )
+                  .toList(),
+            ),
           )
 
           // Expanded(
@@ -71,18 +85,4 @@ class MyListScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget buildTile(BasicTile entry) {
-    return ExpansionTile(title: Text(entry.title));
-  }
-}
-
-class BasicTile {
-  final String title;
-  final List<String> titles;
-
-  const BasicTile({
-    required this.title,
-    this.titles = const [],
-  });
 }

@@ -3,12 +3,12 @@ import 'package:anti_forgetter/model/list_item_model.dart';
 import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/model/trip_member_list_model.dart';
 import 'package:anti_forgetter/model/user_model.dart';
-import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
 
 class DummyDataService {
   List<TripModel> getTrips() {
     return [
       TripModel(
+        id: 1,
         name: "Lipno 2022",
         memberListCollection: [
           TripMemberListModel(
@@ -69,6 +69,7 @@ class DummyDataService {
         ),
       ),
       TripModel(
+        id: 2,
         name: "Itálie 2021",
         memberListCollection: [
           TripMemberListModel(
@@ -115,28 +116,48 @@ class DummyDataService {
               checked: false,
               item: ItemModel(name: "Chleba", category: "Jídlo"),
             ),
+            ListItemModel(
+              amount: 1,
+              checked: false,
+              item: ItemModel(name: "Rohlíky", category: "Jídlo"),
+            ),
+            ListItemModel(
+              amount: 1,
+              checked: false,
+              item: ItemModel(name: "Salám", category: "Jídlo"),
+            ),
+            ListItemModel(
+              amount: 1,
+              checked: false,
+              item: ItemModel(name: "Triko", category: "Oblečení"),
+            ),
+            ListItemModel(
+              amount: 1,
+              checked: false,
+              item: ItemModel(name: "Kraťasy", category: "Oblečení"),
+            ),
           ],
         ),
       ),
     ];
   }
 
-  List<BasicTile> getMyListItems() {
-    var tmp = getTrips()[0].myListCollection.listItemCollection;
+  Map<String, List<ListItemModel>> getMyListItems({required int tripId}) {
+    var tmp = getTrips()
+        .firstWhere((element) => element.id == tripId)
+        .myListCollection
+        .listItemCollection;
 
-    var dict = <BasicTile>[];
+    var dict = <String, List<ListItemModel>>{};
     for (var element in tmp) {
-      dict.any((e) => e.title == element.item.category)
-          ? dict
-              .firstWhere((e) => e.title == element.item.category)
-              .titles
-              .add(element.item.name)
-          : dict.add(BasicTile(title: element.item.category));
+      dict[element.item.category] != null
+          ? dict[element.item.category]?.add(element)
+          : dict.putIfAbsent(element.item.category, () => [element]);
     }
     return dict;
   }
 
-  List<ListItemModel> getOurListItems() {
+  List<ListItemModel> getOurListItems({required int tripId}) {
     return [
       ListItemModel(
         amount: 1,
@@ -146,8 +167,10 @@ class DummyDataService {
     ];
   }
 
-  Map<String, List<ListItemModel>> getListItemsForUser({required userId}) {
+  Map<String, List<ListItemModel>> getListItemsForUser(
+      {required int userId, required int tripId}) {
     var tmp = getTrips()
+        .where((trip) => trip.id == tripId)
         .expand((e) => e.memberListCollection)
         .where((element) => element.user.id == userId)
         .expand((element2) => element2.listItemCollection)

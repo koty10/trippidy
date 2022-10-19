@@ -4,7 +4,9 @@ class TripModel {
   TripModel(
       {required this.name,
       required this.memberListCollection,
-      required this.myListCollection});
+      required this.myListCollection,
+      required this.id});
+  int id;
   String name;
   List<TripMemberListModel> memberListCollection;
   TripMemberListModel myListCollection;
