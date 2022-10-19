@@ -42,7 +42,15 @@ class MyListScreen extends StatelessWidget {
                       initiallyExpanded: true,
                       title: Text(e.key),
                       children: e.value
-                          .map((val) => ListTile(title: Text(val.item.name)))
+                          .map(
+                            (val) => ListTile(
+                              title: Text(val.item.name),
+                              trailing: Checkbox(
+                                value: val.checked,
+                                onChanged: (value) {}, // TODO save into DB
+                              ),
+                            ),
+                          )
                           .toList(),
                     ),
                   )

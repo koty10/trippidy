@@ -128,7 +128,7 @@ class DummyDataService {
             ),
             ListItemModel(
               amount: 1,
-              checked: false,
+              checked: true,
               item: ItemModel(name: "Triko", category: "Oblečení"),
             ),
             ListItemModel(
