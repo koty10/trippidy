@@ -1,4 +1,5 @@
 import 'package:anti_forgetter/model/trip_model.dart';
+import 'package:anti_forgetter/screens/members_list/members_list_screen.dart';
 import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
 import 'package:anti_forgetter/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,16 @@ class TripScreen extends StatelessWidget {
                     title: currentTrip.memberListCollection[index].user.name,
                   ),
                   onTap: () {
-                    // TODO
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MembersListScreen(
+                          currentTrip: currentTrip,
+                          currentMember:
+                              currentTrip.memberListCollection[index].user,
+                        ),
+                      ),
+                    );
                   },
                 );
               },
