@@ -2,6 +2,7 @@ import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/screens/members_list/members_list_screen.dart';
 import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
 import 'package:anti_forgetter/screens/our_list/our_list_screen.dart';
+import 'package:anti_forgetter/screens/trip/components/add_list_tile.dart';
 import 'package:anti_forgetter/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -92,8 +93,12 @@ class TripScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: currentTrip.memberListCollection.length,
+              itemCount: currentTrip.memberListCollection.length + 1,
               itemBuilder: (BuildContext context, int index) {
+                if (index == currentTrip.memberListCollection.length) {
+                  return AddListTile(
+                      label: 'Přidat dalšího uživatele', onTap: () {});
+                }
                 return InkWell(
                   child: MemberListTile(
                     title: currentTrip.memberListCollection[index].user.name,

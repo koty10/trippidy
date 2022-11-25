@@ -18,8 +18,6 @@ class TripTile extends StatelessWidget {
   final TripModel trip;
   final List<String> tripMembers;
 
-  void initState() {}
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -44,7 +42,7 @@ class TripTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: tripMembers
             .map(
-              (member) => Container(
+              (member) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: CircleAvatar(
                   radius: 12,
@@ -52,7 +50,6 @@ class TripTile extends StatelessWidget {
                   child: Text(
                     member,
                     style: const TextStyle(
-                      //fontSize: 24,
                       color: Colors.white,
                       shadows: [
                         Shadow(
@@ -73,9 +70,10 @@ class TripTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TripScreen(
-                    currentTrip: trip,
-                  )),
+            builder: (context) => TripScreen(
+              currentTrip: trip,
+            ),
+          ),
         );
       },
     );
