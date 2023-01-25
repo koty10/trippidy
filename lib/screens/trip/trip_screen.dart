@@ -93,15 +93,15 @@ class TripScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: currentTrip.userItemsCollection.length + 1,
+              itemCount: currentTrip.memberListCollection.length + 1,
               itemBuilder: (BuildContext context, int index) {
-                if (index == currentTrip.userItemsCollection.length) {
+                if (index == currentTrip.memberListCollection.length) {
                   return AddListTile(
                       label: 'Přidat dalšího uživatele', onTap: () {});
                 }
                 return InkWell(
                   child: MemberListTile(
-                    title: currentTrip.userItemsCollection[index].user.name,
+                    title: currentTrip.memberListCollection[index].user.name,
                   ),
                   onTap: () {
                     Navigator.push(
@@ -110,7 +110,7 @@ class TripScreen extends StatelessWidget {
                         builder: (context) => MembersListScreen(
                           currentTrip: currentTrip,
                           currentMember:
-                              currentTrip.userItemsCollection[index].user,
+                              currentTrip.memberListCollection[index].user,
                         ),
                       ),
                     );

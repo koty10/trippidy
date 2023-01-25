@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class TripTile extends StatelessWidget {
   TripTile({super.key, required this.trip})
-      : tripMembers = trip.userItemsCollection.length > 3
-            ? trip.userItemsCollection
+      : tripMembers = trip.memberListCollection.length > 3
+            ? trip.memberListCollection
                     .map((e) => e.user.name[0])
                     .take(2)
                     .toList() +
                 ["..."]
-            : trip.userItemsCollection
+            : trip.memberListCollection
                 .map((e) => e.user.name[0])
                 .take(3)
                 .toList();
