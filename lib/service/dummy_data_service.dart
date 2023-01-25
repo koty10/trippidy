@@ -1,172 +1,172 @@
-import 'package:anti_forgetter/model/item_model.dart';
+import 'package:anti_forgetter/model/item.dart';
 import 'package:anti_forgetter/model/list_item_model.dart';
-import 'package:anti_forgetter/model/trip_model.dart';
-import 'package:anti_forgetter/model/trip_member_list_model.dart';
-import 'package:anti_forgetter/model/user_model.dart';
+import 'package:anti_forgetter/model/trip.dart';
+import 'package:anti_forgetter/model/member.dart';
+import 'package:anti_forgetter/model/user.dart';
 
 class DummyDataService {
-  List<TripModel> getTrips() {
+  List<Trip> getTrips() {
     return [
-      TripModel(
+      Trip(
         id: 1,
         name: "Lipno 2022",
         memberListCollection: [
-          TripMemberListModel(
-            user: UserModel(id: 1, name: "Pepa"),
+          Member(
+            user: User(id: 1, name: "Pepa"),
             listItemCollection: [
               ListItemModel(
                   amount: 1,
                   checked: false,
-                  item: ItemModel(name: "Sekera", category: "Vybavení"),
+                  item: Item(name: "Sekera", category: "Vybavení"),
                   private: false,
                   shared: false,
                   userId: 1),
               ListItemModel(
                   amount: 4,
                   checked: false,
-                  item: ItemModel(name: "Triko", category: "Oblečení"),
+                  item: Item(name: "Triko", category: "Oblečení"),
                   private: false,
                   shared: false,
                   userId: 1),
               ListItemModel(
                   amount: 10,
                   checked: true,
-                  item: ItemModel(name: "Ponožky", category: "Oblečení"),
+                  item: Item(name: "Ponožky", category: "Oblečení"),
                   private: false,
                   shared: false,
                   userId: 1),
             ],
           ),
-          TripMemberListModel(
-            user: UserModel(id: 2, name: "Michal"),
+          Member(
+            user: User(id: 2, name: "Michal"),
             listItemCollection: [
               ListItemModel(
                   amount: 1,
                   checked: false,
-                  item: ItemModel(name: "Ručník", category: "Koupání"),
+                  item: Item(name: "Ručník", category: "Koupání"),
                   private: false,
                   shared: false,
                   userId: 2),
               ListItemModel(
                   amount: 2,
                   checked: false,
-                  item: ItemModel(name: "Tepláky", category: "Oblečení"),
+                  item: Item(name: "Tepláky", category: "Oblečení"),
                   private: false,
                   shared: false,
                   userId: 2),
             ],
           ),
-          TripMemberListModel(
-            user: UserModel(id: 3, name: "Alex"),
+          Member(
+            user: User(id: 3, name: "Alex"),
             listItemCollection: [
               ListItemModel(
                   amount: 1,
                   checked: false,
-                  item: ItemModel(name: "Pyžamo", category: "Oblečení"),
+                  item: Item(name: "Pyžamo", category: "Oblečení"),
                   private: false,
                   shared: false,
                   userId: 3),
             ],
           ),
         ],
-        myListCollection: TripMemberListModel(
-          user: UserModel(id: 4, name: "Admin"),
+        myListCollection: Member(
+          user: User(id: 4, name: "Admin"),
           listItemCollection: [
             ListItemModel(
                 amount: 10,
                 checked: false,
-                item: ItemModel(name: "Rohlíky", category: "Jídlo"),
+                item: Item(name: "Rohlíky", category: "Jídlo"),
                 private: false,
                 shared: false,
                 userId: 4),
           ],
         ),
       ),
-      TripModel(
+      Trip(
         id: 2,
         name: "Itálie 2021",
         memberListCollection: [
-          TripMemberListModel(
-            user: UserModel(id: 5, name: "Daniel"),
+          Member(
+            user: User(id: 5, name: "Daniel"),
             listItemCollection: [
               ListItemModel(
                   amount: 1,
                   checked: false,
-                  item: ItemModel(name: "Vývrtka", category: "Vybavení"),
+                  item: Item(name: "Vývrtka", category: "Vybavení"),
                   private: false,
                   shared: true,
                   userId: 5),
               ListItemModel(
                   amount: 4,
                   checked: false,
-                  item: ItemModel(name: "Triko", category: "Oblečení"),
+                  item: Item(name: "Triko", category: "Oblečení"),
                   private: false,
                   shared: false,
                   userId: 5),
               ListItemModel(
                   amount: 2,
                   checked: true,
-                  item: ItemModel(name: "Kraťasy", category: "Oblečení"),
+                  item: Item(name: "Kraťasy", category: "Oblečení"),
                   private: false,
                   shared: true,
                   userId: 5),
             ],
           ),
-          TripMemberListModel(
-            user: UserModel(id: 6, name: "Monča"),
+          Member(
+            user: User(id: 6, name: "Monča"),
             listItemCollection: [
               ListItemModel(
                   amount: 2,
                   checked: false,
-                  item: ItemModel(name: "Ručník", category: "Jídlo"),
+                  item: Item(name: "Ručník", category: "Jídlo"),
                   private: false,
                   shared: false,
                   userId: 6),
               ListItemModel(
                   amount: 1,
                   checked: false,
-                  item: ItemModel(name: "Fén", category: "Vybavení"),
+                  item: Item(name: "Fén", category: "Vybavení"),
                   private: false,
                   shared: false,
                   userId: 6),
             ],
           ),
         ],
-        myListCollection: TripMemberListModel(
-          user: UserModel(id: 7, name: "Admin"),
+        myListCollection: Member(
+          user: User(id: 7, name: "Admin"),
           listItemCollection: [
             ListItemModel(
                 amount: 1,
                 checked: false,
-                item: ItemModel(name: "Chleba", category: "Jídlo"),
+                item: Item(name: "Chleba", category: "Jídlo"),
                 private: false,
                 shared: true,
                 userId: 7),
             ListItemModel(
                 amount: 1,
                 checked: false,
-                item: ItemModel(name: "Rohlíky", category: "Jídlo"),
+                item: Item(name: "Rohlíky", category: "Jídlo"),
                 private: false,
                 shared: false,
                 userId: 7),
             ListItemModel(
                 amount: 1,
                 checked: false,
-                item: ItemModel(name: "Salám", category: "Jídlo"),
+                item: Item(name: "Salám", category: "Jídlo"),
                 private: false,
                 shared: false,
                 userId: 7),
             ListItemModel(
                 amount: 1,
                 checked: true,
-                item: ItemModel(name: "Triko", category: "Oblečení"),
+                item: Item(name: "Triko", category: "Oblečení"),
                 private: false,
                 shared: true,
                 userId: 7),
             ListItemModel(
                 amount: 1,
                 checked: false,
-                item: ItemModel(name: "Kraťasy", category: "Oblečení"),
+                item: Item(name: "Kraťasy", category: "Oblečení"),
                 private: false,
                 shared: false,
                 userId: 7),
