@@ -1,41 +1,14 @@
-import 'package:anti_forgetter/model/trip_model.dart';
+import 'package:anti_forgetter/service/dummy_data_service.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 
 import 'components/trip_tile.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  bool isLoading = true;
-  IsarCollection<TripModel>? trips;
-
-  Future<void> loadDataFromLocalDb() async {
-    final isar = await Isar.open([TripModelSchema]);
-    trips = isar.tripModels;
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadDataFromLocalDb();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+    final trips = DummyDataService().getTrips();
 
     return Scaffold(
       appBar: AppBar(
@@ -60,9 +33,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: trips?.countSync() ?? 0,
+              itemCount: trips.length,
               itemBuilder: (BuildContext context, int index) {
-                return TripTile(trip: trips.getByIndexSync(key));
+                return TripTile(trip: trips[index]);
               },
               separatorBuilder: (BuildContext context, int index) =>
                   const SizedBox(height: 16),

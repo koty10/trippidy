@@ -44,7 +44,7 @@ class OurListScreen extends StatelessWidget {
                       children: e.value
                           .map(
                             (val) => ListTile(
-                              title: Text(val.item.value?.name ?? ""),
+                              title: Text(val.item.name),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

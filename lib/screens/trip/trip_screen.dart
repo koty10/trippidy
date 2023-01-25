@@ -93,18 +93,15 @@ class TripScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: currentTrip.members.length + 1,
+              itemCount: currentTrip.userItemsCollection.length + 1,
               itemBuilder: (BuildContext context, int index) {
-                if (index == currentTrip.members.length) {
+                if (index == currentTrip.userItemsCollection.length) {
                   return AddListTile(
                       label: 'Přidat dalšího uživatele', onTap: () {});
                 }
-                var member = currentTrip.members.elementAt(index).user.value;
-                if (member == null) return const SizedBox.shrink();
-
                 return InkWell(
                   child: MemberListTile(
-                    title: member.name,
+                    title: currentTrip.userItemsCollection[index].user.name,
                   ),
                   onTap: () {
                     Navigator.push(
@@ -112,7 +109,8 @@ class TripScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => MembersListScreen(
                           currentTrip: currentTrip,
-                          currentMember: member,
+                          currentMember:
+                              currentTrip.userItemsCollection[index].user,
                         ),
                       ),
                     );

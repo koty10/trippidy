@@ -48,7 +48,7 @@ class MembersListScreen extends StatelessWidget {
                       children: e.value
                           .map(
                             (val) => ListTile(
-                              title: Text(val.item.value?.name ?? ""),
+                              title: Text(val.item.name),
                               trailing:
                                   Checkbox(value: val.checked, onChanged: null),
                             ),
