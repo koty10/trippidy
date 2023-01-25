@@ -2,7 +2,7 @@ import 'package:anti_forgetter/model/item_model.dart';
 import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/model/user_model.dart';
 import 'package:isar/isar.dart';
-part 'trip_member_list_model.g.dart';
+part 'member_model.g.dart';
 
 @collection
 class MemberModel {

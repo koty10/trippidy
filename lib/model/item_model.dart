@@ -1,7 +1,7 @@
 import 'package:anti_forgetter/model/item_base_model.dart';
 import 'package:anti_forgetter/model/member_model.dart';
 import 'package:isar/isar.dart';
-part 'list_item_model.g.dart';
+part 'item_model.g.dart';
 
 @collection
 class ItemModel {
