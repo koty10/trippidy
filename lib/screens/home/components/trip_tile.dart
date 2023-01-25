@@ -1,4 +1,4 @@
-import 'package:anti_forgetter/model/trip_model.dart';
+import 'package:anti_forgetter/model/trip.dart';
 import 'package:anti_forgetter/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class TripTile extends StatelessWidget {
                 .take(3)
                 .toList();
 
-  final TripModel trip;
+  final Trip trip;
   final List<String> tripMembers;
 
   @override

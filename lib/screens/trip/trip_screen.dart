@@ -1,4 +1,4 @@
-import 'package:anti_forgetter/model/trip_model.dart';
+import 'package:anti_forgetter/model/trip.dart';
 import 'package:anti_forgetter/screens/members_list/members_list_screen.dart';
 import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
 import 'package:anti_forgetter/screens/our_list/our_list_screen.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class TripScreen extends StatelessWidget {
   const TripScreen({super.key, required this.currentTrip});
 
-  final TripModel currentTrip;
+  final Trip currentTrip;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:anti_forgetter/model/list_item_model.dart';
-import 'package:anti_forgetter/model/trip_model.dart';
-import 'package:anti_forgetter/model/user_model.dart';
+import 'package:anti_forgetter/model/trip.dart';
+import 'package:anti_forgetter/model/user.dart';
 import 'package:anti_forgetter/service/dummy_data_service.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +10,8 @@ class MembersListScreen extends StatelessWidget {
       : myListItems = DummyDataService().getListItemsForUser(
             tripId: currentTrip.id, userId: currentMember.id);
 
-  final TripModel currentTrip;
-  final UserModel currentMember;
+  final Trip currentTrip;
+  final User currentMember;
   final Map<String, List<ListItemModel>> myListItems;
 
   @override
