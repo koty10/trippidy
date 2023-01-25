@@ -1,7 +1,12 @@
-class Category {
-  String name;
+import 'package:hive/hive.dart';
+part 'category.g.dart';
 
-  Category({
-    required this.name,
-  });
+@HiveType(typeId: 4)
+class Category {
+  Category({required this.id, required this.name});
+
+  @HiveField(0)
+  int id;
+  @HiveField(1)
+  String name;
 }

@@ -1,14 +1,11 @@
 import 'package:anti_forgetter/model/category.dart';
+import 'package:hive/hive.dart';
+part 'item.g.dart';
 
+@HiveType(typeId: 3)
 class Item {
-  Category category;
-  String name;
-  bool checked;
-  int amount;
-  bool private;
-  bool shared;
-
   Item({
+    required this.id,
     required this.category,
     required this.name,
     required this.checked,
@@ -16,4 +13,19 @@ class Item {
     required this.private,
     required this.shared,
   });
+
+  @HiveField(0)
+  int id;
+  @HiveField(1)
+  Category category;
+  @HiveField(2)
+  String name;
+  @HiveField(3)
+  bool checked;
+  @HiveField(4)
+  int amount;
+  @HiveField(5)
+  bool private;
+  @HiveField(6)
+  bool shared;
 }
