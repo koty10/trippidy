@@ -1,6 +1,14 @@
-class UserModel {
-  UserModel({required this.name, required this.id});
+import 'package:anti_forgetter/model/member_model.dart';
+import 'package:isar/isar.dart';
+part 'user_model.g.dart';
 
-  int id;
+@collection
+class UserModel {
+  UserModel() : name = "";
+
+  Id id = Isar.autoIncrement;
   String name;
+
+  @Backlink(to: "user")
+  final members = IsarLinks<MemberModel>();
 }

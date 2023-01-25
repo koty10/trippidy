@@ -1,4 +1,4 @@
-import 'package:anti_forgetter/model/list_item_model.dart';
+import 'package:anti_forgetter/model/item_model.dart';
 import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/model/user_model.dart';
 import 'package:anti_forgetter/service/dummy_data_service.dart';
@@ -12,7 +12,7 @@ class MembersListScreen extends StatelessWidget {
 
   final TripModel currentTrip;
   final UserModel currentMember;
-  final Map<String, List<ListItemModel>> myListItems;
+  final Map<String, List<ItemModel>> myListItems;
 
   @override
   Widget build(BuildContext context) {

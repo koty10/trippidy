@@ -1,13 +1,12 @@
-import 'package:anti_forgetter/model/trip_member_list_model.dart';
+import 'package:anti_forgetter/model/member_model.dart';
+import 'package:isar/isar.dart';
+part 'trip_model.g.dart';
 
+@collection
 class TripModel {
-  TripModel(
-      {required this.name,
-      required this.memberListCollection,
-      required this.myListCollection,
-      required this.id});
-  int id;
+  TripModel() : name = "";
+
+  Id id = Isar.autoIncrement;
   String name;
-  List<TripMemberListModel> memberListCollection;
-  TripMemberListModel myListCollection;
+  final members = IsarLinks<MemberModel>();
 }

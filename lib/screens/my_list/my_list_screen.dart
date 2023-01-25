@@ -1,4 +1,4 @@
-import 'package:anti_forgetter/model/list_item_model.dart';
+import 'package:anti_forgetter/model/item_model.dart';
 import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/service/dummy_data_service.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ class MyListScreen extends StatelessWidget {
       : myListItems = DummyDataService().getMyListItems(tripId: currentTrip.id);
 
   final TripModel currentTrip;
-  final Map<String, List<ListItemModel>> myListItems;
+  final Map<String, List<ItemModel>> myListItems;
 
   @override
   Widget build(BuildContext context) {

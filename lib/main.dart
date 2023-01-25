@@ -1,7 +1,10 @@
+import 'package:anti_forgetter/model/trip_model.dart';
 import 'package:anti_forgetter/screens/skeleton/skeleton_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 
-void main() {
+void main() async {
+  final isar = await Isar.open([TripModelSchema]);
   runApp(const MyApp());
 }
 
