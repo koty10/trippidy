@@ -4,7 +4,12 @@ part 'trip.g.dart';
 
 @HiveType(typeId: 0)
 class Trip {
-  Trip({required this.name, required this.members, required this.id});
+  Trip({
+    required this.name,
+    required this.members,
+    required this.id,
+    required this.owner,
+  });
 
   @HiveField(0)
   int id;
@@ -12,4 +17,6 @@ class Trip {
   String name;
   @HiveField(2)
   List<Member> members;
+  @HiveField(3)
+  Member owner;
 }

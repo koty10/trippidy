@@ -6,6 +6,8 @@ import 'package:anti_forgetter/screens/trip/components/add_list_tile.dart';
 import 'package:anti_forgetter/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/item.dart';
+
 class TripScreen extends StatelessWidget {
   const TripScreen({super.key, required this.currentTrip});
 
@@ -49,6 +51,7 @@ class TripScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => MyListScreen(
                           currentTrip: currentTrip,
+                          myListItems: getMyListItems(tripId: currentTrip.id),
                         ),
                       ),
                     );
@@ -67,6 +70,9 @@ class TripScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => OurListScreen(
                           currentTrip: currentTrip,
+                          myListItems: getOurListItems(
+                            tripId: currentTrip.id,
+                          ),
                         ),
                       ),
                     );
@@ -93,15 +99,15 @@ class TripScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: currentTrip.memberListCollection.length + 1,
+              itemCount: currentTrip.members.length + 1,
               itemBuilder: (BuildContext context, int index) {
-                if (index == currentTrip.memberListCollection.length) {
+                if (index == currentTrip.members.length) {
                   return AddListTile(
                       label: 'Přidat dalšího uživatele', onTap: () {});
                 }
                 return InkWell(
                   child: MemberListTile(
-                    title: currentTrip.memberListCollection[index].user.name,
+                    title: currentTrip.members[index].user.name,
                   ),
                   onTap: () {
                     Navigator.push(
@@ -109,8 +115,10 @@ class TripScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => MembersListScreen(
                           currentTrip: currentTrip,
-                          currentMember:
-                              currentTrip.memberListCollection[index].user,
+                          currentMember: currentTrip.members.elementAt(index),
+                          myListItems: getListItemsForUser(
+                            userId: currentTrip.members.elementAt(index).id,
+                          ),
                         ),
                       ),
                     );
@@ -124,5 +132,47 @@ class TripScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Map<String, List<Item>> getListItemsForUser({required int userId}) {
+    var tmp = currentTrip.members
+        .where((element) => element.user.id == userId)
+        .expand((element2) => element2.items)
+        .toList();
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.category.name] != null
+          ? dict[element.category.name]?.add(element)
+          : dict.putIfAbsent(element.category.name, () => [element]);
+    }
+    return dict;
+  }
+
+  Map<String, List<Item>> getMyListItems({required int tripId}) {
+    var tmp = currentTrip.owner.items;
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.category.name] != null
+          ? dict[element.category.name]?.add(element)
+          : dict.putIfAbsent(element.category.name, () => [element]);
+    }
+    return dict;
+  }
+
+  Map<String, List<Item>> getOurListItems({required int tripId}) {
+    var tmp = (currentTrip.members + [currentTrip.owner])
+        .expand((element2) => element2.items)
+        .where((element3) => element3.shared)
+        .toList();
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.category.name] != null
+          ? dict[element.category.name]?.add(element)
+          : dict.putIfAbsent(element.category.name, () => [element]);
+    }
+    return dict;
   }
 }

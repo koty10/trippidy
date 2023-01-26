@@ -1,14 +1,16 @@
-import 'package:anti_forgetter/model/list_item_model.dart';
+import 'package:anti_forgetter/model/item.dart';
 import 'package:anti_forgetter/model/trip.dart';
-import 'package:anti_forgetter/service/dummy_data_service.dart';
 import 'package:flutter/material.dart';
 
 class MyListScreen extends StatelessWidget {
-  MyListScreen({super.key, required this.currentTrip})
-      : myListItems = DummyDataService().getMyListItems(tripId: currentTrip.id);
+  const MyListScreen({
+    super.key,
+    required this.currentTrip,
+    required this.myListItems,
+  });
 
   final Trip currentTrip;
-  final Map<String, List<ListItemModel>> myListItems;
+  final Map<String, List<Item>> myListItems;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class MyListScreen extends StatelessWidget {
                       children: e.value
                           .map(
                             (val) => ListTile(
-                              title: Text(val.item.name),
+                              title: Text(val.name),
                               trailing: Checkbox(
                                 value: val.checked,
                                 onChanged: (value) {}, // TODO save into DB

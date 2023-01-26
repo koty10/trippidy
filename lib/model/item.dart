@@ -12,6 +12,7 @@ class Item {
     required this.amount,
     required this.private,
     required this.shared,
+    required this.userId,
   });
 
   @HiveField(0)
@@ -28,4 +29,8 @@ class Item {
   bool private;
   @HiveField(6)
   bool shared;
+
+  // backlink
+  @HiveField(7)
+  int userId;
 }
