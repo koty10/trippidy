@@ -1,4 +1,4 @@
-# anti_forgetter
+# trippidy
 
 A new Flutter project.
 

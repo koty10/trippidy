@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.anti_forgetter">
+    package="com.example.trippidy">
    <application
-        android:label="anti_forgetter"
+        android:label="trippidy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

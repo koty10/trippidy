@@ -1,4 +1,4 @@
-package com.example.anti_forgetter
+package com.example.trippidy
 
 import io.flutter.embedding.android.FlutterActivity
 
