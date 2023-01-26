@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>193908568505-am1j56fp7sa7g7lqgrqr9aleqjbk67tn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.193908568505-am1j56fp7sa7g7lqgrqr9aleqjbk67tn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAqMqJvFWZufEWtfvl-tucdhKHMCPnvCkE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>193908568505</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.trippidy</string>
+	<key>PROJECT_ID</key>
+	<string>trippidy-ee0d4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>trippidy-ee0d4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:193908568505:ios:8f71a33f96b5b95f4b8668</string>
+</dict>
+</plist>
