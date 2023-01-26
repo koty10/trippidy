@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "193908568505",
+    "project_id": "trippidy-ee0d4",
+    "storage_bucket": "trippidy-ee0d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193908568505:android:896faf983c3cb2704b8668",
+        "android_client_info": {
+          "package_name": "com.example.anti_forgetter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193908568505-r78elfsbmtg8l390t6p7efqklm10bj2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0OimQZx9VlpHUTU4EWTZJfEh19gzFr6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193908568505-r78elfsbmtg8l390t6p7efqklm10bj2v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "193908568505-jl7nfblp740dr9jdi4u65ogs5hcf1uk3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.antiForgetter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193908568505:android:0650682df867c1894b8668",
+        "android_client_info": {
+          "package_name": "com.example.trippidy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193908568505-r78elfsbmtg8l390t6p7efqklm10bj2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0OimQZx9VlpHUTU4EWTZJfEh19gzFr6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193908568505-r78elfsbmtg8l390t6p7efqklm10bj2v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "193908568505-jl7nfblp740dr9jdi4u65ogs5hcf1uk3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.antiForgetter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
