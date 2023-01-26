@@ -10,6 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'model/category.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive
     ..registerAdapter(CategoryAdapter())
@@ -20,7 +21,24 @@ Future<void> main() async {
 
   await Hive.openBox<Trip>('trips');
 
-  //DummyDataService().initHiveDb();
+  // DummyDataService().initHiveDb();
+
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //var db = FirebaseFirestore.instance;
+
+  // Add a new document with a generated ID
+  // log(Hive.box<Trip>("trips").toString());
+  // for (var trip in Hive.box<Trip>("trips").values) {
+  //   log(trip.toString());
+  //   db
+  //       .collection("trips")
+  //       .add(trip.toMap())
+  //       .then((DocumentReference doc) =>
+  //           log('DocumentSnapshot added with ID: ${doc.id}'))
+  //       .catchError((err) {
+  //     log(err.toString());
+  //   });
+  // }
 
   runApp(const ProviderScope(child: MyApp()));
 }
