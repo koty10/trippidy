@@ -1,9 +1,9 @@
-import 'package:anti_forgetter/model/trip.dart';
-import 'package:anti_forgetter/screens/members_list/members_list_screen.dart';
-import 'package:anti_forgetter/screens/my_list/my_list_screen.dart';
-import 'package:anti_forgetter/screens/our_list/our_list_screen.dart';
-import 'package:anti_forgetter/screens/trip/components/add_list_tile.dart';
-import 'package:anti_forgetter/screens/trip/components/member_list_tile.dart';
+import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/screens/members_list/members_list_screen.dart';
+import 'package:trippidy/screens/my_list/my_list_screen.dart';
+import 'package:trippidy/screens/our_list/our_list_screen.dart';
+import 'package:trippidy/screens/trip/components/add_list_tile.dart';
+import 'package:trippidy/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/item.dart';

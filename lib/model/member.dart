@@ -1,5 +1,5 @@
-import 'package:anti_forgetter/model/item.dart';
-import 'package:anti_forgetter/model/user.dart';
+import 'package:trippidy/model/item.dart';
+import 'package:trippidy/model/user.dart';
 import 'package:hive/hive.dart';
 part 'member.g.dart';
 

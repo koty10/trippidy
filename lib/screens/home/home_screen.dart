@@ -1,5 +1,5 @@
-import 'package:anti_forgetter/model/trip.dart';
-import 'package:anti_forgetter/providers/trips_provider.dart';
+import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/providers/trips_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,4 +1,4 @@
-import 'package:anti_forgetter/model/member.dart';
+import 'package:trippidy/model/member.dart';
 import 'package:hive/hive.dart';
 part 'trip.g.dart';
 

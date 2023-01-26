@@ -1,5 +1,5 @@
-import 'package:anti_forgetter/model/trip.dart';
-import 'package:anti_forgetter/screens/trip/trip_screen.dart';
+import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
 
 class TripTile extends StatelessWidget {
