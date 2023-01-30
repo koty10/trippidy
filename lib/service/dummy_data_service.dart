@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:trippidy/model/enum/role.dart';
 
 import '../model/category.dart';
 import '../model/item.dart';
@@ -11,23 +12,24 @@ class DummyDataService {
     Hive.box<Trip>("trips").add(
       Trip(
         name: "Dovolena 2022",
-        owner: Member(
-          user: User(id: 1, name: "Daniel"),
-          items: [
-            Item(
-              id: 1,
-              category: Category(id: 1, name: "Obleceni"),
-              name: "Triko",
-              checked: false,
-              amount: 2,
-              private: true,
-              shared: false,
-              userId: 1,
-            ),
-          ],
-          id: 1,
-        ),
         members: [
+          Member(
+            user: User(id: 1, name: "Daniel"),
+            items: [
+              Item(
+                id: 1,
+                category: Category(id: 1, name: "Obleceni"),
+                name: "Triko",
+                checked: false,
+                amount: 2,
+                private: true,
+                shared: false,
+                userId: 1,
+              ),
+            ],
+            role: Role.admin,
+            id: 1,
+          ),
           Member(
             user: User(id: 2, name: "Pepa"),
             items: [
@@ -42,6 +44,7 @@ class DummyDataService {
                 userId: 2,
               ),
             ],
+            role: Role.member,
             id: 2,
           ),
         ],

@@ -150,7 +150,8 @@ class TripScreen extends StatelessWidget {
   }
 
   Map<String, List<Item>> getMyListItems({required int tripId}) {
-    var tmp = currentTrip.owner.items;
+    var tmp =
+        currentTrip.members.firstWhere((element) => element.id == 2).items;
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
@@ -162,7 +163,8 @@ class TripScreen extends StatelessWidget {
   }
 
   Map<String, List<Item>> getOurListItems({required int tripId}) {
-    var tmp = (currentTrip.members + [currentTrip.owner])
+    var tmp = (currentTrip.members +
+            [currentTrip.members.firstWhere((element) => element.id == 2)])
         .expand((element2) => element2.items)
         .where((element3) => element3.shared)
         .toList();

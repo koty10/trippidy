@@ -6,6 +6,8 @@ import 'package:hive/hive.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/user.dart';
 
+import 'enum/role.dart';
+
 part 'member.g.dart';
 
 @HiveType(typeId: 1)
@@ -16,10 +18,13 @@ class Member {
   User user;
   @HiveField(2)
   List<Item> items;
+  @HiveField(3)
+  Role role;
   Member({
     required this.id,
     required this.user,
     required this.items,
+    required this.role,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,6 +32,7 @@ class Member {
       'id': id,
       'user': user.toMap(),
       'items': items.map((x) => x.toMap()).toList(),
+      'role': role.name,
     };
   }
 
@@ -39,6 +45,7 @@ class Member {
           (x) => Item.fromMap(x as Map<String, dynamic>),
         ),
       ),
+      role: Role.values.byName(map['role']),
     );
   }
 

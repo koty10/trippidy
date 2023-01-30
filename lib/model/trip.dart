@@ -15,13 +15,10 @@ class Trip {
   String name;
   @HiveField(2)
   List<Member> members;
-  @HiveField(3)
-  Member owner;
   Trip({
     required this.id,
     required this.name,
     required this.members,
-    required this.owner,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,7 +26,6 @@ class Trip {
       'id': id,
       'name': name,
       'members': members.map((x) => x.toMap()).toList(),
-      'owner': owner.toMap(),
     };
   }
 
@@ -42,7 +38,6 @@ class Trip {
           (x) => Member.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      owner: Member.fromMap(map['owner'] as Map<String, dynamic>),
     );
   }
 
