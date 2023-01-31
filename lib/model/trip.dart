@@ -1,19 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
-
 import 'package:trippidy/model/member.dart';
 
-part 'trip.g.dart';
+import 'dto/trip_dto.dart';
 
-@HiveType(typeId: 0)
 class Trip {
-  @HiveField(0)
-  int id;
-  @HiveField(1)
+  String id;
   String name;
-  @HiveField(2)
   List<Member> members;
   Trip({
     required this.id,
@@ -31,7 +25,7 @@ class Trip {
 
   factory Trip.fromMap(Map<String, dynamic> map) {
     return Trip(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
       members: List<Member>.from(
         (map['members'] as List<int>).map<Member>(
@@ -45,4 +39,13 @@ class Trip {
 
   factory Trip.fromJson(String source) =>
       Trip.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory Trip.fromDto(TripDto tripDto, List<Member> members) {
+    var result = Trip(
+      id: tripDto.id,
+      name: tripDto.name,
+      members: members,
+    );
+    return result;
+  }
 }

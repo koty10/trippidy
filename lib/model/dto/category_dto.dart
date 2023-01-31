@@ -1,12 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:trippidy/model/dto/user_dto.dart';
-
-class User {
+class Category {
   String id;
   String name;
-  User({
+  Category({
     required this.id,
     required this.name,
   });
@@ -18,8 +16,8 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory Category.fromMap(Map<String, dynamic> map) {
+    return Category(
       id: map['id'] as String,
       name: map['name'] as String,
     );
@@ -27,10 +25,6 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  factory User.fromDto(UserDto userDto) {
-    return User(id: userDto.id, name: userDto.name);
-  }
+  factory Category.fromJson(String source) =>
+      Category.fromMap(json.decode(source) as Map<String, dynamic>);
 }

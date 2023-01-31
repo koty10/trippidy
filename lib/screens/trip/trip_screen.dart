@@ -134,7 +134,7 @@ class TripScreen extends StatelessWidget {
     );
   }
 
-  Map<String, List<Item>> getListItemsForUser({required int userId}) {
+  Map<String, List<Item>> getListItemsForUser({required String userId}) {
     var tmp = currentTrip.members
         .where((element) => element.user.id == userId)
         .expand((element2) => element2.items)
@@ -149,9 +149,9 @@ class TripScreen extends StatelessWidget {
     return dict;
   }
 
-  Map<String, List<Item>> getMyListItems({required int tripId}) {
+  Map<String, List<Item>> getMyListItems({required String tripId}) {
     var tmp =
-        currentTrip.members.firstWhere((element) => element.id == 2).items;
+        currentTrip.members.firstWhere((element) => element.id == "2").items;
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
@@ -162,9 +162,9 @@ class TripScreen extends StatelessWidget {
     return dict;
   }
 
-  Map<String, List<Item>> getOurListItems({required int tripId}) {
+  Map<String, List<Item>> getOurListItems({required String tripId}) {
     var tmp = (currentTrip.members +
-            [currentTrip.members.firstWhere((element) => element.id == 2)])
+            [currentTrip.members.firstWhere((element) => element.id == "2")])
         .expand((element2) => element2.items)
         .where((element3) => element3.shared)
         .toList();

@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:trippidy/model/category.dart';
-
-class Item {
-  Item({
+class ItemDto {
+  ItemDto({
     required this.id,
     required this.category,
     required this.name,
@@ -12,11 +10,11 @@ class Item {
     required this.amount,
     required this.private,
     required this.shared,
-    required this.userId,
+    required this.memberId,
   });
 
-  int id;
-  Category category;
+  String id;
+  String category;
   String name;
   bool checked;
   int amount;
@@ -24,36 +22,36 @@ class Item {
   bool shared;
 
   // backlink
-  String userId;
+  String memberId;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'category': category.toMap(),
+      'category': category,
       'name': name,
       'checked': checked,
       'amount': amount,
       'private': private,
       'shared': shared,
-      'userId': userId,
+      'userId': memberId,
     };
   }
 
-  factory Item.fromMap(Map<String, dynamic> map) {
-    return Item(
-      id: map['id'] as int,
-      category: Category.fromMap(map['category'] as Map<String, dynamic>),
+  factory ItemDto.fromMap(Map<String, dynamic> map) {
+    return ItemDto(
+      id: map['id'] as String,
+      category: map['category'] as String,
       name: map['name'] as String,
       checked: map['checked'] as bool,
       amount: map['amount'] as int,
       private: map['private'] as bool,
       shared: map['shared'] as bool,
-      userId: map['userId'] as String,
+      memberId: map['userId'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Item.fromJson(String source) =>
-      Item.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ItemDto.fromJson(String source) =>
+      ItemDto.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -49,18 +49,18 @@ class OurListScreen extends StatelessWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.userId != 1)
+                                  if (val.userId != "1")
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
                                         backgroundColor: Colors.deepOrange,
                                         radius: 12,
-                                        child: Text(val.userId.toString()),
+                                        child: Text(val.userId),
                                       ),
                                     ),
                                   Checkbox(
                                       value: val.checked,
-                                      onChanged: val.userId == 1
+                                      onChanged: val.userId == "1"
                                           ? ((value) {})
                                           : null),
                                 ],

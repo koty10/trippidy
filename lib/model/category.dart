@@ -1,15 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
-
-part 'category.g.dart';
-
-@HiveType(typeId: 4)
 class Category {
-  @HiveField(0)
   int id;
-  @HiveField(1)
   String name;
   Category({
     required this.id,
