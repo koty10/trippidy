@@ -26,7 +26,7 @@ class TripDto {
       id: map['id'] as String,
       name: map['name'] as String,
       members: List<MemberDto>.from(
-        (map['members'] as List<int>).map<MemberDto>(
+        (map['members'] as List<dynamic>).map<MemberDto>(
           (x) => MemberDto.fromMap(x as Map<String, dynamic>),
         ),
       ),

@@ -32,7 +32,7 @@ class MemberDto {
       id: map['id'] as String,
       user: map['user'] as String,
       items: List<Item>.from(
-        (map['items'] as List<int>).map<Item>(
+        (map['items'] as List<dynamic>).map<Item>(
           (x) => Item.fromMap(x as Map<String, dynamic>),
         ),
       ),
