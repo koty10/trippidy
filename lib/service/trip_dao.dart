@@ -8,12 +8,19 @@ class TripDao {
   Future<List<Trip>> getMyTrips() async {
     var db = FirebaseFirestore.instance;
     DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await db.collection("users").doc("1").get();
+        await db.collection("users").doc("FKhyGx4kkHQM2WjZ2EI2").get();
     var userDto = UserDto.fromMap(snapshot.data()!);
 
     List<TripDto> trips = [];
     for (var trip in userDto.trips) {
-      trips.add(db.collection("trips").where("id", isEqualTo: trip) as TripDto);
+      var f = db.collection("trips").where("id", isEqualTo: trip).snapshots();
+
+      print(f.toString());
+
+      //List<TripDto> tri =
+      //await f.map((event) => event.docs.first.data() as TripDto).toList();
+
+      //trips.add(f.docs.first.data() as TripDto);
     }
 
     // tripDto.members

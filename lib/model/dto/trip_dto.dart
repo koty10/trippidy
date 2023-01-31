@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'member_dto.dart';
+
 class TripDto {
   String id;
   String name;
-  List<String> members;
+  List<MemberDto> members;
   TripDto({
     required this.id,
     required this.name,
@@ -15,7 +17,7 @@ class TripDto {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'members': members,
+      'members': members.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -23,8 +25,10 @@ class TripDto {
     return TripDto(
       id: map['id'] as String,
       name: map['name'] as String,
-      members: List<String>.from(
-        (map['members'] as List<String>),
+      members: List<MemberDto>.from(
+        (map['members'] as List<int>).map<MemberDto>(
+          (x) => MemberDto.fromMap(x as Map<String, dynamic>),
+        ),
       ),
     );
   }

@@ -1,14 +1,48 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:trippidy/model/category.dart';
+import 'package:trippidy/model/dto/trip_dto.dart';
+import 'package:trippidy/model/dto/user_dto.dart';
+import 'package:trippidy/model/enum/role.dart';
+import 'package:trippidy/model/item.dart';
 import 'package:trippidy/screens/skeleton/skeleton_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
+import 'model/dto/member_dto.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  var db = FirebaseFirestore.instance;
+
+  var user1 = UserDto(id: "1", name: "Daniel", trips: []);
+
+  var trip1 = TripDto(id: "1", name: "Dansko", members: [
+    MemberDto(
+        id: "1",
+        user: user1.id,
+        items: [
+          Item(
+              id: "1",
+              category: Category(id: "1", name: "naradi"),
+              name: "triko",
+              checked: true,
+              amount: 1,
+              private: true,
+              shared: false,
+              userId: "1")
+        ],
+        role: Role.admin)
+  ]);
+
+  user1.trips.add(trip1.id);
+
+  db.collection("users").add(user1.toMap());
+  db.collection("trips").add(trip1.toMap());
 
   runApp(const ProviderScope(child: MyApp()));
 }

@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 class Category {
-  int id;
+  String id;
   String name;
   Category({
     required this.id,
@@ -18,7 +18,7 @@ class Category {
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
     );
   }

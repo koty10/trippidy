@@ -1,6 +1,6 @@
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:trippidy/service/trip_dao.dart';
 
 final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
   return TripsProvider([]);
@@ -12,11 +12,12 @@ final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
 // you have to assign a new adjusted list
 class TripsProvider extends StateNotifier<List<Trip>> {
   TripsProvider(super.state) {
-    initFromHive();
+    initFromFirebase();
   }
 
-  void initFromHive() {
-    var trips = Hive.box<Trip>('trips').values.toList();
-    state = trips;
+  Future<void> initFromFirebase() async {
+    var trips = TripDao().getMyTrips();
+    //var trips = Hive.box<Trip>('trips').values.toList();
+    state = await trips;
   }
 }

@@ -5,15 +5,11 @@ class UserDto {
   String id;
   String name;
 
-  // Backlink
-  List<String> members;
-
   // Helplink
   List<String> trips;
   UserDto({
     required this.id,
     required this.name,
-    required this.members,
     required this.trips,
   });
 
@@ -21,7 +17,6 @@ class UserDto {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'members': members,
       'trips': trips,
     };
   }
@@ -30,12 +25,7 @@ class UserDto {
     return UserDto(
       id: map['id'] as String,
       name: map['name'] as String,
-      members: List<String>.from(
-        (map['members'] as List<String>),
-      ),
-      trips: List<String>.from(
-        (map['trips'] as List<String>),
-      ),
+      trips: (map['trips'] as List).map((item) => item as String).toList(),
     );
   }
 

@@ -15,7 +15,7 @@ class Item {
     required this.userId,
   });
 
-  int id;
+  String id;
   Category category;
   String name;
   bool checked;
@@ -41,7 +41,7 @@ class Item {
 
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
-      id: map['id'] as int,
+      id: map['id'] as String,
       category: Category.fromMap(map['category'] as Map<String, dynamic>),
       name: map['name'] as String,
       checked: map['checked'] as bool,
