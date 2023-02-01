@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 class TripTile extends StatelessWidget {
   TripTile({super.key, required this.trip})
       : tripMembers = trip.members.length > 3
-            ? trip.members.map((e) => e.user.name[0]).take(2).toList() + ["..."]
-            : trip.members.map((e) => e.user.name[0]).take(3).toList();
+            ? trip.members.values.map((e) => e.userId[0]).take(2).toList() +
+                ["..."] //TODO get user from the root collection by this userId
+            : trip.members.values
+                .map((e) => e.userId[0])
+                .take(3)
+                .toList(); //TODO get user from the root collection by this userId
 
   final Trip trip;
   final List<String> tripMembers;

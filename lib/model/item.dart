@@ -1,11 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
-import 'package:trippidy/model/category.dart';
 
 class Item {
   Item({
-    required this.id,
+    required this.documentId,
     required this.category,
     required this.name,
     required this.checked,
@@ -15,8 +12,8 @@ class Item {
     required this.userId,
   });
 
-  String id;
-  Category category;
+  String documentId;
+  String category;
   String name;
   bool checked;
   int amount;
@@ -24,12 +21,12 @@ class Item {
   bool shared;
 
   // backlink
+  // TODO maybe make it differently
   String userId;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'category': category.toMap(),
+      'category': category,
       'name': name,
       'checked': checked,
       'amount': amount,
@@ -39,10 +36,10 @@ class Item {
     };
   }
 
-  factory Item.fromMap(Map<String, dynamic> map) {
+  factory Item.fromMap(String id, Map<String, dynamic> map) {
     return Item(
-      id: map['id'] as String,
-      category: Category.fromMap(map['category'] as Map<String, dynamic>),
+      documentId: id,
+      category: map['category'] as String,
       name: map['name'] as String,
       checked: map['checked'] as bool,
       amount: map['amount'] as int,
@@ -51,9 +48,4 @@ class Item {
       userId: map['userId'] as String,
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Item.fromJson(String source) =>
-      Item.fromMap(json.decode(source) as Map<String, dynamic>);
 }

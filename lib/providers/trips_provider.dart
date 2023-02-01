@@ -16,7 +16,7 @@ class TripsProvider extends StateNotifier<List<Trip>> {
   }
 
   Future<void> initFromFirebase() async {
-    var trips = TripDao().getMyTrips();
+    var trips = TripDao().fetchTripsForUser();
     //var trips = Hive.box<Trip>('trips').values.toList();
     state = await trips;
   }

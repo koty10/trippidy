@@ -105,9 +105,12 @@ class TripScreen extends StatelessWidget {
                   return AddListTile(
                       label: 'Přidat dalšího uživatele', onTap: () {});
                 }
+                var curMember = currentTrip.members[index];
+                if (curMember == null) return const SizedBox.shrink();
                 return InkWell(
                   child: MemberListTile(
-                    title: currentTrip.members[index].user.name,
+                    title: curMember
+                        .userId, //TODO get user from root collection by this id
                   ),
                   onTap: () {
                     Navigator.push(
@@ -115,9 +118,9 @@ class TripScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => MembersListScreen(
                           currentTrip: currentTrip,
-                          currentMember: currentTrip.members.elementAt(index),
+                          currentMember: curMember,
                           myListItems: getListItemsForUser(
-                            userId: currentTrip.members.elementAt(index).id,
+                            userId: curMember.userId,
                           ),
                         ),
                       ),
@@ -135,45 +138,46 @@ class TripScreen extends StatelessWidget {
   }
 
   Map<String, List<Item>> getListItemsForUser({required String userId}) {
-    var tmp = currentTrip.members
-        .where((element) => element.user.id == userId)
-        .expand((element2) => element2.items)
-        .toList();
+    var member = currentTrip.members[userId];
+    if (member == null) return {};
+    var tmp = member.items.values.toList();
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category.name] != null
-          ? dict[element.category.name]?.add(element)
-          : dict.putIfAbsent(element.category.name, () => [element]);
+      dict[element.category] != null
+          ? dict[element.category]?.add(element)
+          : dict.putIfAbsent(element.category, () => [element]);
     }
     return dict;
   }
 
   Map<String, List<Item>> getMyListItems({required String tripId}) {
-    var tmp =
-        currentTrip.members.firstWhere((element) => element.id == "2").items;
+    var member = currentTrip.members["id-membera"]; //TODO add
+    if (member == null) return {};
+    var tmp = member.items.values;
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category.name] != null
-          ? dict[element.category.name]?.add(element)
-          : dict.putIfAbsent(element.category.name, () => [element]);
+      dict[element.category] != null
+          ? dict[element.category]?.add(element)
+          : dict.putIfAbsent(element.category, () => [element]);
     }
     return dict;
   }
 
   Map<String, List<Item>> getOurListItems({required String tripId}) {
-    var tmp = (currentTrip.members +
-            [currentTrip.members.firstWhere((element) => element.id == "2")])
-        .expand((element2) => element2.items)
+    //var member = currentTrip.members["2"];
+    //if (member == null) return {};
+    var tmp = (currentTrip.members.values.toList()) // + [member])
+        .expand((element2) => element2.items.values)
         .where((element3) => element3.shared)
         .toList();
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category.name] != null
-          ? dict[element.category.name]?.add(element)
-          : dict.putIfAbsent(element.category.name, () => [element]);
+      dict[element.category] != null
+          ? dict[element.category]?.add(element)
+          : dict.putIfAbsent(element.category, () => [element]);
     }
     return dict;
   }
