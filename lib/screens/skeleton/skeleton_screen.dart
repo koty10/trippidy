@@ -1,6 +1,5 @@
 import 'package:trippidy/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 class SkeletonScreen extends StatefulWidget {
   const SkeletonScreen({super.key});
@@ -20,7 +19,6 @@ class _SkeletonScreenState extends State<SkeletonScreen> {
   @override
   void dispose() {
     // closes all opened boxes to avoid memory leaks
-    Hive.close();
     super.dispose();
   }
 }

@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
+import 'package:trippidy/contants.dart';
 import 'package:trippidy/screens/skeleton/skeleton_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +19,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseUIAuth.configureProviders([
+    GoogleProvider(clientId: GOOGLE_CLIENT_ID),
+  ]);
 
   var db = FirebaseFirestore.instance;
 
@@ -25,19 +32,21 @@ Future<void> main() async {
     name: "Dansko",
     members: {
       "id-membera": Member(
-          userId: "id-membera-vnitrni",
-          items: {
-            "id-itemy": Item(
-                documentId: "id-itemy-vnitrni",
-                category: "naradi",
-                name: "triko",
-                checked: true,
-                amount: 1,
-                private: true,
-                shared: true,
-                userId: "id-membera")
-          },
-          role: Role.admin)
+        userId: "id-membera-vnitrni",
+        items: {
+          "id-itemy": Item(
+              documentId: "id-itemy-vnitrni",
+              category: "naradi",
+              name: "triko",
+              checked: true,
+              amount: 1,
+              private: true,
+              shared: true,
+              userId: "id-membera")
+        },
+        role: Role.admin,
+        accepted: true,
+      ),
     },
     categories: ["naradi"],
   );
@@ -76,12 +85,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute:
+          fba.FirebaseAuth.instance.currentUser == null ? '/sign-in' : '/',
       title: 'Trippidy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const SkeletonScreen(),
+      routes: {
+        '/': (context) => const SkeletonScreen(),
+        '/sign-in': (context) => SignInScreen(
+              providers: [GoogleProvider(clientId: GOOGLE_CLIENT_ID)],
+              actions: [
+                AuthStateChangeAction<SignedIn>((context, state) {
+                  Navigator.pushReplacementNamed(context, '/');
+                }),
+              ],
+            ),
+      },
     );
   }
 }

@@ -7,7 +7,7 @@ class TripDao {
     var db = FirebaseFirestore.instance;
     var snapshots = await db
         .collection('trips')
-        .where('members.$userId', isNull: false)
+        .where('members.$userId.accepted', isEqualTo: true)
         .get();
 
     List<Trip> trips = [];

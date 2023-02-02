@@ -8,16 +8,19 @@ class Member {
   String userId;
   Map<String, Item> items;
   Role role;
+  bool accepted;
   Member({
     required this.userId,
     required this.items,
     required this.role,
+    required this.accepted,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'items': items.map((key, value) => MapEntry(key, value.toMap())),
       'role': role.name,
+      'accepted': accepted,
     };
   }
 
@@ -31,6 +34,7 @@ class Member {
       userId: userId,
       items: items,
       role: Role.values.byName(map['role']),
+      accepted: map['accepted'] as bool,
     );
   }
 }
