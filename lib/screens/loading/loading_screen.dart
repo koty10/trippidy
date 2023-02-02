@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/trips_provider.dart';
 import 'package:trippidy/screens/skeleton/skeleton_screen.dart';
 
-import '../model/user.dart';
+import '../../model/user.dart';
 
-class WrapperScreen extends ConsumerWidget {
-  const WrapperScreen({super.key});
+class LoadingScreen extends ConsumerWidget {
+  const LoadingScreen({super.key});
 
   @override
   Widget build(BuildContext context, ref) {

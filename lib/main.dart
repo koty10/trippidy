@@ -7,7 +7,7 @@ import 'package:trippidy/contants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/screens/login/login_screen.dart';
-import 'package:trippidy/screens/wrapper_screen.dart';
+import 'package:trippidy/screens/loading/loading_screen.dart';
 
 import 'firebase_options.dart';
 import 'model/enum/role.dart';
@@ -49,8 +49,32 @@ Future<void> main() async {
     },
     categories: ["naradi"],
   );
+  var trip2 = Trip(
+    id: "id-tripu-vnitrni2",
+    name: "Dansko 2",
+    members: {
+      "xUvFeVdl1PhNo2O6abK26tRUagB2": Member(
+        userId: "xUvFeVdl1PhNo2O6abK26tRUagB2",
+        items: {
+          "id-itemy 2": Item(
+              documentId: "id-itemy-vnitrni 2",
+              category: "naradi",
+              name: "triko",
+              checked: true,
+              amount: 1,
+              private: true,
+              shared: true,
+              userId: "xUvFeVdl1PhNo2O6abK26tRUagB2")
+        },
+        role: Role.admin,
+        accepted: true,
+      ),
+    },
+    categories: ["naradi"],
+  );
   db.collection("users").doc("id-membera").set(user1.toMap());
   db.collection("trips").doc("id-tripu").set(trip1.toMap());
+  db.collection("trips").doc("id-tripu-2").set(trip2.toMap());
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -69,8 +93,9 @@ class MyApp extends StatelessWidget {
       home: StreamBuilder<fba.User?>(
         stream: fba.FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
+          if (snapshot.hasError) return const LoginScreen();
           if (snapshot.hasData && snapshot.data != null) {
-            return const WrapperScreen();
+            return const LoadingScreen();
           }
           return const LoginScreen();
         },

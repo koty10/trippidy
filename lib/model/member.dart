@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trippidy/model/item.dart';
+import 'package:trippidy/model/user.dart';
 
 import 'enum/role.dart';
 
@@ -36,5 +38,12 @@ class Member {
       role: Role.values.byName(map['role']),
       accepted: map['accepted'] as bool,
     );
+  }
+
+  Future<User> fetchUser() async {
+    var db = FirebaseFirestore.instance;
+    var userData = (await db.collection('users').doc(userId).get()).data();
+    if (userData != null) return User.fromMap(userId, userData);
+    return User(documentId: " ", name: " ");
   }
 }

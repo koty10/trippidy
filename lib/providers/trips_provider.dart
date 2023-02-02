@@ -1,6 +1,6 @@
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/service/trip_dao.dart';
+import 'package:trippidy/service/trip_service.dart';
 
 final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
   return TripsProvider([]);
@@ -16,7 +16,7 @@ class TripsProvider extends StateNotifier<List<Trip>> {
   }
 
   Future<void> initFromFirebase() async {
-    var trips = TripDao().fetchTripsForUser();
+    var trips = TripService().fetchTripsForUser();
     //var trips = Hive.box<Trip>('trips').values.toList();
     state = await trips;
   }
