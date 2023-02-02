@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/trips_provider.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +23,28 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seznam cest'),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
+            child: ElevatedButton(
+              onPressed: (() {
+                FirebaseAuth.instance.signOut();
+                GoogleSignIn().disconnect();
+              }),
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                backgroundColor: Colors.brown, // <-- Button color
+              ),
+              child: const Icon(Icons.logout_rounded, color: Colors.white),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
             child: CircleAvatar(
               radius: 20,
               backgroundImage: NetworkImage(
-                'https://source.unsplash.com/50x50/?portrait',
+                FirebaseAuth.instance.currentUser!.photoURL ??
+                    'https://source.unsplash.com/50x50/?portrait',
               ),
             ),
           ),

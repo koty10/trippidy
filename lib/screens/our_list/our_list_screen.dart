@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,8 @@ class OurListScreen extends StatelessWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.userId != "id-membera")
+                                  if (val.userId !=
+                                      FirebaseAuth.instance.currentUser!.uid)
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
@@ -60,7 +62,9 @@ class OurListScreen extends StatelessWidget {
                                     ),
                                   Checkbox(
                                       value: val.checked,
-                                      onChanged: val.userId == "id-membera"
+                                      onChanged: val.userId ==
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid
                                           ? ((value) {})
                                           : null),
                                 ],

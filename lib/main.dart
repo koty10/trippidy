@@ -4,9 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:trippidy/contants.dart';
-import 'package:trippidy/screens/skeleton/skeleton_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/screens/login/login_screen.dart';
+import 'package:trippidy/screens/wrapper_screen.dart';
 
 import 'firebase_options.dart';
 import 'model/enum/role.dart';
@@ -17,7 +18,6 @@ import 'model/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseUIAuth.configureProviders([
     GoogleProvider(clientId: GOOGLE_CLIENT_ID),
@@ -26,7 +26,6 @@ Future<void> main() async {
   var db = FirebaseFirestore.instance;
 
   var user1 = User(documentId: "id-membera-vnitrni", name: "Daniel");
-
   var trip1 = Trip(
     id: "id-tripu-vnitrni",
     name: "Dansko",
@@ -50,29 +49,6 @@ Future<void> main() async {
     },
     categories: ["naradi"],
   );
-
-  // var trip1 = Trip(
-  //   id: "1",
-  //   name: "Dansko",
-  //   members: {},
-  //   categories: ["naradi"],
-  // );
-
-  // var member = Member(
-  //     userId: "1",
-  //     items: {
-  //       "1": Item(
-  //           documentId: "1",
-  //           category: "naradi",
-  //           name: "triko",
-  //           checked: true,
-  //           amount: 1,
-  //           private: true,
-  //           shared: false,
-  //           userId: "1")
-  //     },
-  //     role: Role.admin);
-
   db.collection("users").doc("id-membera").set(user1.toMap());
   db.collection("trips").doc("id-tripu").set(trip1.toMap());
 
@@ -85,24 +61,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute:
-          fba.FirebaseAuth.instance.currentUser == null ? '/sign-in' : '/',
       title: 'Trippidy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      routes: {
-        '/': (context) => const SkeletonScreen(),
-        '/sign-in': (context) => SignInScreen(
-              providers: [GoogleProvider(clientId: GOOGLE_CLIENT_ID)],
-              actions: [
-                AuthStateChangeAction<SignedIn>((context, state) {
-                  Navigator.pushReplacementNamed(context, '/');
-                }),
-              ],
-            ),
-      },
+      home: StreamBuilder<fba.User?>(
+        stream: fba.FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return const WrapperScreen();
+          }
+          return const LoginScreen();
+        },
+      ),
     );
   }
 }

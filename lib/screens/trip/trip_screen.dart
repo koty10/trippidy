@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/screens/members_list/members_list_screen.dart';
 import 'package:trippidy/screens/my_list/my_list_screen.dart';
@@ -152,7 +153,8 @@ class TripScreen extends StatelessWidget {
   }
 
   Map<String, List<Item>> getMyListItems({required String tripId}) {
-    var member = currentTrip.members["id-membera"]; //TODO add
+    var member =
+        currentTrip.members[FirebaseAuth.instance.currentUser!.uid]; //TODO add
     if (member == null) return {};
     var tmp = member.items.values;
 

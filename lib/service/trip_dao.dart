@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trippidy/model/trip.dart';
 
 class TripDao {
   Future<List<Trip>> fetchTripsForUser() async {
-    String userId = "id-membera"; // TODO add
+    String userId = FirebaseAuth.instance.currentUser!.uid; // TODO add
     var db = FirebaseFirestore.instance;
     var snapshots = await db
         .collection('trips')

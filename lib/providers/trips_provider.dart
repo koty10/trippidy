@@ -12,7 +12,7 @@ final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
 // you have to assign a new adjusted list
 class TripsProvider extends StateNotifier<List<Trip>> {
   TripsProvider(super.state) {
-    initFromFirebase();
+    //initFromFirebase();
   }
 
   Future<void> initFromFirebase() async {
