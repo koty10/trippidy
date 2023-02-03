@@ -16,7 +16,7 @@ class MyListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.white),
+        leading: const BackButton(),
         title: Text("${currentTrip.name} - Můj seznam"),
         actions: const [
           Padding(

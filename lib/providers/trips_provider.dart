@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:trippidy/service/trip_service.dart';
 
 final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
@@ -21,7 +23,17 @@ class TripsProvider extends StateNotifier<List<Trip>> {
     state = await trips;
   }
 
-  Future<void> addTripForUser() async {
-    state = state += [await TripService().addTripForUser()];
+  Future<void> addTripForUser(context, String name) async {
+    var newTrip = await TripService().addTripForUser(name);
+    state = state += [newTrip];
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TripScreen(
+          currentTrip: newTrip,
+        ),
+      ),
+    );
   }
 }

@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/trips_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/screens/home/components/logout_button.dart';
 
-import '../../components/add_list_tile.dart';
+import '../add_trip/add_trip_screen.dart';
 import 'components/profile_button.dart';
 import 'components/trip_tile.dart';
 
@@ -24,6 +22,19 @@ class HomeScreen extends ConsumerWidget {
     List<Trip> trips = ref.watch(tripsProvider);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          //ref.read(tripsProvider.notifier).addTripForUser();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddTripScreen(),
+            ),
+          );
+        },
+        label: const Text("Přidat výlet"),
+        icon: const Icon(Icons.add),
+      ),
       appBar: AppBar(
         title: const Text('Seznam cest'),
         actions: const [LogoutButton(), ProfileButton()],
@@ -36,16 +47,8 @@ class HomeScreen extends ConsumerWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: trips.length + 1,
+              itemCount: trips.length,
               itemBuilder: (BuildContext context, int index) {
-                if (index == trips.length) {
-                  return AddListTile(
-                      label: 'Přidat výlet',
-                      onTap: () {
-                        log("Add trip button clicked!");
-                        ref.read(tripsProvider.notifier).addTripForUser();
-                      });
-                }
                 return TripTile(trip: trips[index]);
               },
               separatorBuilder: (BuildContext context, int index) =>

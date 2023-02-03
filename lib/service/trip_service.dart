@@ -23,11 +23,11 @@ class TripService {
     return trips;
   }
 
-  Future<Trip> addTripForUser() async {
+  Future<Trip> addTripForUser(String name) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
     Trip newTrip = Trip(
-      name: "sample",
+      name: name,
       members: {
         userId:
             Member(userId: userId, items: {}, role: Role.admin, accepted: true),

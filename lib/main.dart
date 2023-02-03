@@ -89,7 +89,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
+        useMaterial3: true,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.green,
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.dark,
       home: StreamBuilder<fba.User?>(
         stream: fba.FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {

@@ -19,7 +19,7 @@ class MembersListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.white),
+        leading: const BackButton(),
         title: Text(
             "${currentTrip.name} - ${currentMember.userId}"), //TODO get user from the root collection by this userId
         actions: const [
