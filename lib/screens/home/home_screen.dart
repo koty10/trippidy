@@ -3,7 +3,6 @@ import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/trips_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/screens/home/components/logout_button.dart';
 
 import '../add_trip/add_trip_screen.dart';
 import 'components/trip_tile.dart';
@@ -37,7 +36,6 @@ class HomeScreen extends ConsumerWidget {
       ),
       appBar: AppBar(
         title: const Text('Seznam cest'),
-        actions: const [LogoutButton()],
       ),
       body: Column(
         children: [

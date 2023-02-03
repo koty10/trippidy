@@ -10,18 +10,31 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Přihlášení"),
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 250,
-          height: 80,
-          child: OAuthProviderButton(
-            provider: GoogleProvider(clientId: GOOGLE_CLIENT_ID),
-            action: AuthAction.signIn,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              "Přihlaste se prosím",
+              style: TextStyle(fontSize: 20),
+            ),
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 100,
+                height: 50,
+                child: OAuthProviderButton(
+                  provider: GoogleProvider(clientId: GOOGLE_CLIENT_ID),
+                  action: AuthAction.signIn,
+                  variant: OAuthButtonVariant.icon,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
