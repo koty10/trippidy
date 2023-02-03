@@ -3,7 +3,6 @@ import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/screens/members_list/members_list_screen.dart';
 import 'package:trippidy/screens/my_list/my_list_screen.dart';
 import 'package:trippidy/screens/our_list/our_list_screen.dart';
-import 'package:trippidy/components/add_list_tile.dart';
 import 'package:trippidy/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -17,20 +16,13 @@ class TripScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Přidat člena"),
+        onPressed: () {},
+      ),
       appBar: AppBar(
         leading: const BackButton(),
         title: Text(currentTrip.name),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                'https://source.unsplash.com/50x50/?portrait',
-              ),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -40,7 +32,7 @@ class TripScreen extends StatelessWidget {
           SizedBox(
             height: 200,
             child: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 //padding: const EdgeInsets.all(8),
                 children: [
@@ -88,7 +80,7 @@ class TripScreen extends StatelessWidget {
           Row(
             children: const [
               Padding(
-                padding: EdgeInsets.only(left: 8),
+                padding: EdgeInsets.only(left: 16),
                 child: Text(
                   'Seznamy ostatních členů',
                   textAlign: TextAlign.left,
@@ -103,13 +95,8 @@ class TripScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(8),
-              itemCount: currentTrip.members.length + 1,
+              itemCount: currentTrip.members.length,
               itemBuilder: (BuildContext context, int index) {
-                // Last tile is add tile
-                if (index == currentTrip.members.length) {
-                  return AddListTile(
-                      label: 'Přidat dalšího uživatele', onTap: () {});
-                }
                 var curMember = currentTrip.members[index];
                 if (curMember == null) return const SizedBox.shrink();
                 return InkWell(

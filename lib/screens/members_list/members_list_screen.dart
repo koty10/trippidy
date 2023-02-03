@@ -22,17 +22,6 @@ class MembersListScreen extends StatelessWidget {
         leading: const BackButton(),
         title: Text(
             "${currentTrip.name} - ${currentMember.userId}"), //TODO get user from the root collection by this userId
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                'https://source.unsplash.com/50x50/?portrait',
-              ),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [

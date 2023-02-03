@@ -1,3 +1,4 @@
+import 'package:trippidy/drawers/drawer_directory.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/trips_provider.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/screens/home/components/logout_button.dart';
 
 import '../add_trip/add_trip_screen.dart';
-import 'components/profile_button.dart';
 import 'components/trip_tile.dart';
 
 // Consumer widget and ConsumerStatefullWidget are providing widget reference which allows
@@ -22,9 +22,9 @@ class HomeScreen extends ConsumerWidget {
     List<Trip> trips = ref.watch(tripsProvider);
 
     return Scaffold(
+      drawer: const DrawerDirectory(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          //ref.read(tripsProvider.notifier).addTripForUser();
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -37,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       appBar: AppBar(
         title: const Text('Seznam cest'),
-        actions: const [LogoutButton(), ProfileButton()],
+        actions: const [LogoutButton()],
       ),
       body: Column(
         children: [
@@ -46,7 +46,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           Expanded(
             child: ListView.separated(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(16),
               itemCount: trips.length,
               itemBuilder: (BuildContext context, int index) {
                 return TripTile(trip: trips[index]);

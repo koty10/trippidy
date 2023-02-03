@@ -19,17 +19,6 @@ class OurListScreen extends StatelessWidget {
       appBar: AppBar(
         leading: const BackButton(),
         title: Text("${currentTrip.name} - Společný seznam"),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                'https://source.unsplash.com/50x50/?portrait',
-              ),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
