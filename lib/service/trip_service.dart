@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
+
+import '../model/enum/role.dart';
 
 class TripService {
   Future<List<Trip>> fetchTripsForUser() async {
@@ -18,5 +21,24 @@ class TripService {
     }
 
     return trips;
+  }
+
+  Future<Trip> addTripForUser() async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    Trip newTrip = Trip(
+      name: "sample",
+      members: {
+        userId:
+            Member(userId: userId, items: {}, role: Role.admin, accepted: true),
+      },
+      categories: [],
+    );
+
+    var db = FirebaseFirestore.instance;
+    var newTripDocument = await db.collection('trips').add(newTrip.toMap());
+    newTrip.id = newTripDocument.id;
+
+    return newTrip;
   }
 }

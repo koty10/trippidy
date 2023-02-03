@@ -26,7 +26,7 @@ class AddListTile extends StatelessWidget {
         Icons.add,
         color: Colors.lightGreen,
       ),
-      onTap: () => onTap,
+      onTap: () => onTap(),
     );
   }
 }

@@ -8,7 +8,7 @@ class Trip {
   Map<String, Member> members;
   List<String> categories;
   Trip({
-    required this.id,
+    this.id = "",
     required this.name,
     required this.members,
     required this.categories,

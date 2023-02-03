@@ -11,11 +11,11 @@ class TripTile extends StatelessWidget {
                 })
                 .take(2)
                 .toList()) +
-            ["..."] //TODO get user from the root collection by this userId
+            ["..."]
         : await Future.wait(trip.members.values
             .map((e) async => (await e.fetchUser()).name[0])
             .take(3)
-            .toList()); //TODO get user from the root collection by this userId
+            .toList());
   }
 
   const TripTile({super.key, required this.trip});

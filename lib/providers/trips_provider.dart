@@ -20,4 +20,8 @@ class TripsProvider extends StateNotifier<List<Trip>> {
     //var trips = Hive.box<Trip>('trips').values.toList();
     state = await trips;
   }
+
+  Future<void> addTripForUser() async {
+    state = state += [await TripService().addTripForUser()];
+  }
 }

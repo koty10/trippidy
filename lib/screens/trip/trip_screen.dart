@@ -3,7 +3,7 @@ import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/screens/members_list/members_list_screen.dart';
 import 'package:trippidy/screens/my_list/my_list_screen.dart';
 import 'package:trippidy/screens/our_list/our_list_screen.dart';
-import 'package:trippidy/screens/trip/components/add_list_tile.dart';
+import 'package:trippidy/components/add_list_tile.dart';
 import 'package:trippidy/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 
@@ -39,47 +39,50 @@ class TripScreen extends StatelessWidget {
           ),
           SizedBox(
             height: 200,
-            child: ListView(
+            child: Padding(
               padding: const EdgeInsets.all(8),
-              children: [
-                InkWell(
-                  child: const MemberListTile(
-                    title: "Můj seznam",
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyListScreen(
-                          currentTrip: currentTrip,
-                          myListItems: getMyListItems(tripId: currentTrip.id),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                InkWell(
-                  child: const MemberListTile(
-                    title: "Společný seznam",
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OurListScreen(
-                          currentTrip: currentTrip,
-                          myListItems: getOurListItems(
-                            tripId: currentTrip.id,
+              child: Column(
+                //padding: const EdgeInsets.all(8),
+                children: [
+                  InkWell(
+                    child: const MemberListTile(
+                      title: "Můj seznam",
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyListScreen(
+                            currentTrip: currentTrip,
+                            myListItems: getMyListItems(tripId: currentTrip.id),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  InkWell(
+                    child: const MemberListTile(
+                      title: "Společný seznam",
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OurListScreen(
+                            currentTrip: currentTrip,
+                            myListItems: getOurListItems(
+                              tripId: currentTrip.id,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           Row(
@@ -102,6 +105,7 @@ class TripScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               itemCount: currentTrip.members.length + 1,
               itemBuilder: (BuildContext context, int index) {
+                // Last tile is add tile
                 if (index == currentTrip.members.length) {
                   return AddListTile(
                       label: 'Přidat dalšího uživatele', onTap: () {});

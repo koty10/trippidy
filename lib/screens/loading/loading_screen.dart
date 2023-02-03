@@ -20,7 +20,7 @@ class LoadingScreen extends ConsumerWidget {
         } else {
           return Scaffold(
               appBar: AppBar(
-                title: const Text('Loading View'),
+                title: const Text('Načítání'),
               ),
               body: const Center(
                 child: CircularProgressIndicator(),
