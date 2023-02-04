@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -10,11 +9,6 @@ import 'package:trippidy/screens/login/login_screen.dart';
 import 'package:trippidy/screens/loading/loading_screen.dart';
 
 import 'firebase_options.dart';
-import 'model/enum/role.dart';
-import 'model/item.dart';
-import 'model/member.dart';
-import 'model/trip.dart';
-import 'model/user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,61 +16,6 @@ Future<void> main() async {
   FirebaseUIAuth.configureProviders([
     GoogleProvider(clientId: GOOGLE_CLIENT_ID),
   ]);
-
-  var db = FirebaseFirestore.instance;
-
-  var user1 = User(documentId: "id-membera-vnitrni", name: "Daniel");
-  var trip1 = Trip(
-    id: "id-tripu-vnitrni",
-    name: "Dansko",
-    members: {
-      "id-membera": Member(
-        userId: "id-membera-vnitrni",
-        items: {
-          "triko": Item(
-            category: "naradi",
-            name: "triko",
-            checked: true,
-            amount: 1,
-            private: true,
-            shared: true,
-            userId: "id-membera",
-            price: 0,
-          )
-        },
-        role: Role.admin,
-        accepted: true,
-      ),
-    },
-    categories: ["naradi"],
-  );
-  var trip2 = Trip(
-    id: "id-tripu-vnitrni2",
-    name: "Dansko 2",
-    members: {
-      "xUvFeVdl1PhNo2O6abK26tRUagB2": Member(
-        userId: "xUvFeVdl1PhNo2O6abK26tRUagB2",
-        items: {
-          "triko": Item(
-            category: "naradi",
-            name: "triko",
-            checked: true,
-            amount: 1,
-            private: true,
-            shared: true,
-            userId: "xUvFeVdl1PhNo2O6abK26tRUagB2",
-            price: 0,
-          )
-        },
-        role: Role.admin,
-        accepted: true,
-      ),
-    },
-    categories: ["naradi"],
-  );
-  db.collection("users").doc("id-membera").set(user1.toMap());
-  db.collection("trips").doc("id-tripu").set(trip1.toMap());
-  db.collection("trips").doc("id-tripu-2").set(trip2.toMap());
 
   runApp(const ProviderScope(child: MyApp()));
 }

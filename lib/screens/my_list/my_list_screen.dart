@@ -62,7 +62,7 @@ class MyListScreen extends ConsumerWidget {
                                   ref
                                       .read(memberProvider.notifier)
                                       .updateItem(context, currentTrip.id, val);
-                                }, // TODO save into DB
+                                },
                               ),
                             ),
                           )

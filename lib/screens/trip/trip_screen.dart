@@ -44,8 +44,7 @@ class TripScreen extends ConsumerWidget {
                       title: "Můj seznam",
                     ),
                     onTap: () {
-                      ref.read(memberProvider.notifier).setMember(currentTrip
-                          .members[FirebaseAuth.instance.currentUser!.uid]!);
+                      ref.read(memberProvider.notifier).setMember(currentTrip.members[FirebaseAuth.instance.currentUser!.uid]!);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -64,14 +63,12 @@ class TripScreen extends ConsumerWidget {
                       title: "Společný seznam",
                     ),
                     onTap: () {
+                      ref.read(memberProvider.notifier).setMember(currentTrip.members[FirebaseAuth.instance.currentUser!.uid]!);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => OurListScreen(
                             currentTrip: currentTrip,
-                            myListItems: getOurListItems(
-                              tripId: currentTrip.id,
-                            ),
                           ),
                         ),
                       );
@@ -105,8 +102,7 @@ class TripScreen extends ConsumerWidget {
                 if (curMember == null) return const SizedBox.shrink();
                 return InkWell(
                   child: MemberListTile(
-                    title: curMember
-                        .userId, //TODO get user from root collection by this id
+                    title: curMember.userId, //TODO get user from root collection by this id
                   ),
                   onTap: () {
                     Navigator.push(
@@ -124,8 +120,7 @@ class TripScreen extends ConsumerWidget {
                   },
                 );
               },
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(height: 16),
+              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
             ),
           ),
         ],
@@ -140,26 +135,7 @@ class TripScreen extends ConsumerWidget {
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category] != null
-          ? dict[element.category]?.add(element)
-          : dict.putIfAbsent(element.category, () => [element]);
-    }
-    return dict;
-  }
-
-  Map<String, List<Item>> getOurListItems({required String tripId}) {
-    //var member = currentTrip.members["2"];
-    //if (member == null) return {};
-    var tmp = (currentTrip.members.values.toList()) // + [member])
-        .expand((element2) => element2.items.values)
-        .where((element3) => element3.shared)
-        .toList();
-
-    var dict = <String, List<Item>>{};
-    for (var element in tmp) {
-      dict[element.category] != null
-          ? dict[element.category]?.add(element)
-          : dict.putIfAbsent(element.category, () => [element]);
+      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
     }
     return dict;
   }

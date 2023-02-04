@@ -1,20 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
 
-class OurListScreen extends StatelessWidget {
+import '../../model/member.dart';
+import '../../providers/member_provider.dart';
+
+class OurListScreen extends ConsumerWidget {
   const OurListScreen({
     super.key,
     required this.currentTrip,
-    required this.myListItems,
   });
 
   final Trip currentTrip;
-  final Map<String, List<Item>> myListItems;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    Member member = ref.watch(memberProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -27,7 +31,8 @@ class OurListScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: myListItems.entries
+              children: getOurListItems(member)
+                  .entries
                   .map(
                     (e) => ExpansionTile(
                       initiallyExpanded: true,
@@ -39,8 +44,7 @@ class OurListScreen extends StatelessWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.userId !=
-                                      FirebaseAuth.instance.currentUser!.uid)
+                                  if (val.userId != FirebaseAuth.instance.currentUser!.uid)
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
@@ -51,13 +55,14 @@ class OurListScreen extends StatelessWidget {
                                     ),
                                   Checkbox(
                                       value: val.checked,
-                                      onChanged: val.userId ==
-                                              FirebaseAuth
-                                                  .instance.currentUser!.uid
-                                          ? ((value) {})
+                                      onChanged: val.userId == FirebaseAuth.instance.currentUser!.uid
+                                          ? (value) {
+                                              val.checked = value ?? false;
+                                              ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val);
+                                            }
                                           : null),
                                 ],
-                              ), // TODO nekde musim mit ulozeny id prihlaseneho usera
+                              ),
                             ),
                           )
                           .toList(),
@@ -69,5 +74,18 @@ class OurListScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Map<String, List<Item>> getOurListItems(Member member) {
+    var tmp = ((currentTrip.members.values.toList()).where((element) => element.userId != FirebaseAuth.instance.currentUser!.uid).toList() + [member])
+        .expand((element2) => element2.items.values)
+        .where((element3) => element3.shared)
+        .toList();
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
+    }
+    return dict;
   }
 }
