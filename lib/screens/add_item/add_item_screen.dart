@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/member_provider.dart';
+import 'package:trippidy/screens/add_item/components/trippidy_text_form_field.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
   final String currentTrip;
@@ -20,12 +21,13 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   final _formKey = GlobalKey<FormState>();
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final textController = TextEditingController();
+  final nameTextController = TextEditingController();
+  final categoryTextController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    textController.dispose();
+    nameTextController.dispose();
     super.dispose();
   }
 
@@ -41,28 +43,15 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Název je povinný';
-                  }
-                  return null;
-                },
-                controller: textController,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                  hintText: 'Zadejte název položky',
-                ),
-              ),
+            TrippidyTextFormField(
+              controller: nameTextController,
+              placeholder: "Zadejte název položky",
+              requiredMessage: "Název je povinný",
+            ),
+            TrippidyTextFormField(
+              controller: categoryTextController,
+              placeholder: "Zadejte název kategorie",
+              requiredMessage: "Kategorie je povinná",
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -110,8 +99,9 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          ref.read(memberProvider.notifier).addItem(
-                              context, widget.currentTrip, textController.text);
+                          ref
+                              .read(memberProvider.notifier)
+                              .addItem(context, widget.currentTrip, nameTextController.text, category: categoryTextController.text);
                         }
                       },
                     ),

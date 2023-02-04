@@ -32,8 +32,8 @@ class MemberProvider extends StateNotifier<Member> {
     state = member;
   }
 
-  Future<void> addItem(context, String tripId, String name) async {
-    var newItem = MemberService().addItem(tripId, name);
+  Future<void> addItem(context, String tripId, String name, {String category = ''}) async {
+    var newItem = MemberService().addItem(tripId, name, category: category);
 
     // Create a new map of items with the new item added
     final updatedItems = state.items..[(newItem).name] = newItem;
@@ -49,7 +49,7 @@ class MemberProvider extends StateNotifier<Member> {
     Navigator.pop(context);
   }
 
-    Future<void> updateItem(context, String tripId, Item item) async {
+  Future<void> updateItem(context, String tripId, Item item) async {
     ItemService().updateItem(tripId, item);
 
     // Create a new map of items with the updated item
