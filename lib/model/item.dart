@@ -2,7 +2,6 @@
 
 class Item {
   Item({
-    required this.documentId,
     required this.category,
     required this.name,
     required this.checked,
@@ -10,15 +9,16 @@ class Item {
     required this.private,
     required this.shared,
     required this.userId,
+    required this.price,
   });
 
-  String documentId;
   String category;
   String name;
   bool checked;
   int amount;
   bool private;
   bool shared;
+  double price;
 
   // backlink
   // TODO maybe make it differently
@@ -27,25 +27,25 @@ class Item {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'category': category,
-      'name': name,
       'checked': checked,
       'amount': amount,
       'private': private,
       'shared': shared,
       'userId': userId,
+      'price': price,
     };
   }
 
-  factory Item.fromMap(String id, Map<String, dynamic> map) {
+  factory Item.fromMap(String name, Map<String, dynamic> map) {
     return Item(
-      documentId: id,
       category: map['category'] as String,
-      name: map['name'] as String,
+      name: name,
       checked: map['checked'] as bool,
       amount: map['amount'] as int,
       private: map['private'] as bool,
       shared: map['shared'] as bool,
       userId: map['userId'] as String,
+      price: map['price'] as double,
     );
   }
 }

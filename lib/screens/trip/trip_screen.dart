@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/providers/member_provider.dart';
 import 'package:trippidy/screens/members_list/members_list_screen.dart';
 import 'package:trippidy/screens/my_list/my_list_screen.dart';
 import 'package:trippidy/screens/our_list/our_list_screen.dart';
@@ -8,16 +10,17 @@ import 'package:flutter/material.dart';
 
 import '../../model/item.dart';
 
-class TripScreen extends StatelessWidget {
+class TripScreen extends ConsumerWidget {
   const TripScreen({super.key, required this.currentTrip});
 
   final Trip currentTrip;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Přidat člena"),
+        icon: const Icon(Icons.add),
         onPressed: () {},
       ),
       appBar: AppBar(
@@ -41,12 +44,13 @@ class TripScreen extends StatelessWidget {
                       title: "Můj seznam",
                     ),
                     onTap: () {
+                      ref.read(memberProvider.notifier).setMember(currentTrip
+                          .members[FirebaseAuth.instance.currentUser!.uid]!);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => MyListScreen(
                             currentTrip: currentTrip,
-                            myListItems: getMyListItems(tripId: currentTrip.id),
                           ),
                         ),
                       );
@@ -133,21 +137,6 @@ class TripScreen extends StatelessWidget {
     var member = currentTrip.members[userId];
     if (member == null) return {};
     var tmp = member.items.values.toList();
-
-    var dict = <String, List<Item>>{};
-    for (var element in tmp) {
-      dict[element.category] != null
-          ? dict[element.category]?.add(element)
-          : dict.putIfAbsent(element.category, () => [element]);
-    }
-    return dict;
-  }
-
-  Map<String, List<Item>> getMyListItems({required String tripId}) {
-    var member =
-        currentTrip.members[FirebaseAuth.instance.currentUser!.uid]; //TODO add
-    if (member == null) return {};
-    var tmp = member.items.values;
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {

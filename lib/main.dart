@@ -33,15 +33,16 @@ Future<void> main() async {
       "id-membera": Member(
         userId: "id-membera-vnitrni",
         items: {
-          "id-itemy": Item(
-              documentId: "id-itemy-vnitrni",
-              category: "naradi",
-              name: "triko",
-              checked: true,
-              amount: 1,
-              private: true,
-              shared: true,
-              userId: "id-membera")
+          "triko": Item(
+            category: "naradi",
+            name: "triko",
+            checked: true,
+            amount: 1,
+            private: true,
+            shared: true,
+            userId: "id-membera",
+            price: 0,
+          )
         },
         role: Role.admin,
         accepted: true,
@@ -56,15 +57,16 @@ Future<void> main() async {
       "xUvFeVdl1PhNo2O6abK26tRUagB2": Member(
         userId: "xUvFeVdl1PhNo2O6abK26tRUagB2",
         items: {
-          "id-itemy 2": Item(
-              documentId: "id-itemy-vnitrni 2",
-              category: "naradi",
-              name: "triko",
-              checked: true,
-              amount: 1,
-              private: true,
-              shared: true,
-              userId: "xUvFeVdl1PhNo2O6abK26tRUagB2")
+          "triko": Item(
+            category: "naradi",
+            name: "triko",
+            checked: true,
+            amount: 1,
+            private: true,
+            shared: true,
+            userId: "xUvFeVdl1PhNo2O6abK26tRUagB2",
+            price: 0,
+          )
         },
         role: Role.admin,
         accepted: true,
