@@ -20,7 +20,7 @@ class MemberListTile extends ConsumerWidget {
     return InkWell(
       child: ListTile(
         dense: true,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         tileColor: Colors.lightGreen[400],
         title: Text(
           title,

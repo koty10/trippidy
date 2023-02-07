@@ -25,6 +25,7 @@ class MyListScreen extends ConsumerWidget {
         title: Text("${currentTrip.name} - Můj seznam"),
       ),
       body: ListView(
+        //padding: const EdgeInsets.all(8),
         children: getMyListItems(member)
             .entries
             .map(
@@ -36,6 +37,7 @@ class MyListScreen extends ConsumerWidget {
                       (val) => ListTile(
                         title: Text(val.name),
                         trailing: Checkbox(
+                          fillColor: MaterialStateProperty.all(Colors.green),
                           value: val.checked,
                           onChanged: (value) {
                             val.checked = value ?? false;

@@ -25,26 +25,8 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('Seznam cest'),
       ),
       drawer: const DrawerDirectory(),
-      body:
-          //  Column(
-          //   children: [
-          //     const SizedBox(
-          //       height: 20,
-          //     ),
-          //     Expanded(
-          //       child: ListView.separated(
-          //         padding: const EdgeInsets.all(16),
-          //         itemCount: trips.length,
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return TripTile(trip: trips[index]);
-          //         },
-          //         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          ListView.separated(
-        padding: const EdgeInsets.all(16),
+      body: ListView.separated(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         itemCount: trips.length,
         itemBuilder: (BuildContext context, int index) {
           return TripTile(trip: trips[index]);

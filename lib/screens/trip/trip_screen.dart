@@ -23,9 +23,7 @@ class TripScreen extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

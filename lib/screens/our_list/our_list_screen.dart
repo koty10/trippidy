@@ -54,6 +54,7 @@ class OurListScreen extends ConsumerWidget {
                                       ),
                                     ),
                                   Checkbox(
+                                    fillColor: MaterialStateProperty.all(Colors.green),
                                     value: val.checked,
                                     onChanged: val.userId == FirebaseAuth.instance.currentUser!.uid
                                         ? (value) {
