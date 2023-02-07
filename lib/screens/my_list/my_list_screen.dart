@@ -20,6 +20,35 @@ class MyListScreen extends ConsumerWidget {
     Member member = ref.watch(memberProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        leading: const BackButton(),
+        title: Text("${currentTrip.name} - Můj seznam"),
+      ),
+      body: ListView(
+        children: getMyListItems(member)
+            .entries
+            .map(
+              (e) => ExpansionTile(
+                initiallyExpanded: true,
+                title: Text(e.key),
+                children: e.value
+                    .map(
+                      (val) => ListTile(
+                        title: Text(val.name),
+                        trailing: Checkbox(
+                          value: val.checked,
+                          onChanged: (value) {
+                            val.checked = value ?? false;
+                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val);
+                          },
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            )
+            .toList(),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Přidat položku"),
         icon: const Icon(Icons.add),
@@ -34,46 +63,6 @@ class MyListScreen extends ConsumerWidget {
           );
         },
       ),
-      appBar: AppBar(
-        leading: const BackButton(),
-        title: Text("${currentTrip.name} - Můj seznam"),
-      ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: ListView(
-              children: getMyListItems(member)
-                  .entries
-                  .map(
-                    (e) => ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(e.key),
-                      children: e.value
-                          .map(
-                            (val) => ListTile(
-                              title: Text(val.name),
-                              trailing: Checkbox(
-                                value: val.checked,
-                                onChanged: (value) {
-                                  val.checked = value ?? false;
-                                  ref
-                                      .read(memberProvider.notifier)
-                                      .updateItem(context, currentTrip.id, val);
-                                },
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  )
-                  .toList(),
-            ),
-          )
-        ],
-      ),
     );
   }
 
@@ -82,9 +71,7 @@ class MyListScreen extends ConsumerWidget {
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category] != null
-          ? dict[element.category]?.add(element)
-          : dict.putIfAbsent(element.category, () => [element]);
+      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
     }
     return dict;
   }

@@ -54,13 +54,14 @@ class OurListScreen extends ConsumerWidget {
                                       ),
                                     ),
                                   Checkbox(
-                                      value: val.checked,
-                                      onChanged: val.userId == FirebaseAuth.instance.currentUser!.uid
-                                          ? (value) {
-                                              val.checked = value ?? false;
-                                              ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val);
-                                            }
-                                          : null),
+                                    value: val.checked,
+                                    onChanged: val.userId == FirebaseAuth.instance.currentUser!.uid
+                                        ? (value) {
+                                            val.checked = value ?? false;
+                                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val);
+                                          }
+                                        : null,
+                                  ),
                                 ],
                               ),
                             ),

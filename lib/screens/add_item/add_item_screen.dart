@@ -25,13 +25,6 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   final categoryTextController = TextEditingController();
 
   @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    nameTextController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -93,17 +86,11 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                           ),
                         ),
                       ),
+                      onPressed: submit,
                       child: const Text(
                         "Přidat",
                         style: TextStyle(fontSize: 16),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ref
-                              .read(memberProvider.notifier)
-                              .addItem(context, widget.currentTrip, nameTextController.text, category: categoryTextController.text);
-                        }
-                      },
                     ),
                   ),
                 ],
@@ -113,5 +100,21 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> submit() async {
+    if (_formKey.currentState!.validate()) {
+      await ref.read(memberProvider.notifier).addItem(widget.currentTrip, nameTextController.text, category: categoryTextController.text);
+      if (!mounted) return; // This makes sure that you are not working with a widget after it has been disposed of
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    nameTextController.dispose();
+    categoryTextController.dispose();
+    super.dispose();
   }
 }

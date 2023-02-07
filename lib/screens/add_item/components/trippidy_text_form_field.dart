@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TrippidyTextFormField extends StatelessWidget {
-  const TrippidyTextFormField({super.key, required this.controller, this.requiredMessage = "Pole je povinné", this.placeholder = "Zadejte název"});
+  const TrippidyTextFormField({
+    super.key,
+    required this.controller,
+    this.requiredMessage = "Pole je povinné",
+    this.placeholder = "Zadejte název",
+  });
   final TextEditingController controller;
   final String requiredMessage;
   final String placeholder;
@@ -12,12 +17,7 @@ class TrippidyTextFormField extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: TextFormField(
         // The validator receives the text that the user has entered.
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return requiredMessage;
-          }
-          return null;
-        },
+
         controller: controller,
         autofocus: true,
         decoration: InputDecoration(
@@ -29,6 +29,12 @@ class TrippidyTextFormField extends StatelessWidget {
           ),
           hintText: placeholder,
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return requiredMessage;
+          }
+          return null;
+        },
       ),
     );
   }

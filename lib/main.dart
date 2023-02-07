@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:trippidy/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +13,8 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox("user");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseUIAuth.configureProviders([
     GoogleProvider(clientId: GOOGLE_CLIENT_ID),
@@ -49,6 +52,14 @@ class MyApp extends StatelessWidget {
           return const LoginScreen();
         },
       ),
+      // routes: {
+      //   LoginScreen.routName :(context) => LoginScreen(),
+      //   TripScreen.routeName:(context) => TripScreen(currentTrip: currentTrip),
+      // },
+
+      // onGenerateRoute: (settings) {
+      //   if (settings.name)
+      // },
     );
   }
 }

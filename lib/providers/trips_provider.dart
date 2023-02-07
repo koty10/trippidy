@@ -5,7 +5,8 @@ import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:trippidy/service/trip_service.dart';
 
 final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
-  return TripsProvider([]);
+  TripService service = TripService();
+  return TripsProvider([], service);
 });
 
 // StateNotifies always holds a state variable called "state"
@@ -13,19 +14,24 @@ final tripsProvider = StateNotifierProvider<TripsProvider, List<Trip>>((ref) {
 // The "state" variable is immutable - it is not possible to just remove from the list,
 // you have to assign a new adjusted list
 class TripsProvider extends StateNotifier<List<Trip>> {
-  TripsProvider(super.state) {
+  TripsProvider(super.state, this._service) {
     //initFromFirebase();
   }
 
+  final TripService _service;
+
   Future<void> initFromFirebase() async {
-    var trips = TripService().fetchTripsForUser();
+    var trips = await _service.fetchTripsForUser();
+    // var trips = TripService().fetchTripsForUser();
     //var trips = Hive.box<Trip>('trips').values.toList();
-    state = await trips;
+    state = trips;
   }
 
   Future<void> addTripForUser(context, String name) async {
-    var newTrip = await TripService().addTripForUser(name);
+    var newTrip = await _service.addTripForUser(name);
+    // var newTrip = await TripService().addTripForUser(name);
     state = state += [newTrip];
+
     Navigator.pop(context);
     Navigator.push(
       context,

@@ -3,21 +3,6 @@ import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
 
 class TripTile extends StatelessWidget {
-  Future<List<String>> getUsers() async {
-    return trip.members.length > 3
-        ? await Future.wait(trip.members.values
-                .map((e) async {
-                  return (await e.fetchUser()).name[0];
-                })
-                .take(2)
-                .toList()) +
-            ["..."]
-        : await Future.wait(trip.members.values
-            .map((e) async => (await e.fetchUser()).name[0])
-            .take(3)
-            .toList());
-  }
-
   const TripTile({super.key, required this.trip});
 
   final Trip trip;
@@ -90,5 +75,17 @@ class TripTile extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<List<String>> getUsers() async {
+    return trip.members.length > 3
+        ? await Future.wait(trip.members.values
+                .map((e) async {
+                  return (await e.fetchUser()).name[0];
+                })
+                .take(2)
+                .toList()) +
+            ["..."]
+        : await Future.wait(trip.members.values.map((e) async => (await e.fetchUser()).name[0]).take(3).toList());
   }
 }

@@ -1,27 +1,25 @@
 import 'package:trippidy/model/item.dart';
-import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/user.dart';
 
 class MembersListScreen extends StatelessWidget {
   const MembersListScreen({
     super.key,
     required this.currentTrip,
-    required this.currentMember,
-    required this.myListItems,
+    required this.currentUser,
   });
 
   final Trip currentTrip;
-  final Member currentMember;
-  final Map<String, List<Item>> myListItems;
+  final User currentUser;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text(
-            "${currentTrip.name} - ${currentMember.userId}"), //TODO get user from the root collection by this userId
+        title: Text("${currentTrip.name} - ${currentUser.name}"),
       ),
       body: Column(
         children: [
@@ -30,7 +28,8 @@ class MembersListScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: myListItems.entries
+              children: getListItemsForUser(userId: currentUser.documentId)
+                  .entries
                   .map(
                     (e) => ExpansionTile(
                       initiallyExpanded: true,
@@ -39,8 +38,7 @@ class MembersListScreen extends StatelessWidget {
                           .map(
                             (val) => ListTile(
                               title: Text(val.name),
-                              trailing:
-                                  Checkbox(value: val.checked, onChanged: null),
+                              trailing: Checkbox(value: val.checked, onChanged: null),
                             ),
                           )
                           .toList(),
@@ -52,5 +50,17 @@ class MembersListScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Map<String, List<Item>> getListItemsForUser({required String userId}) {
+    var member = currentTrip.members[userId];
+    if (member == null) return {};
+    var tmp = member.items.values.toList();
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
+    }
+    return dict;
   }
 }

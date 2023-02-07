@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:trippidy/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _SkeletonScreenState extends State<SkeletonScreen> {
   @override
   void dispose() {
     // closes all opened boxes to avoid memory leaks
+    Hive.close();
     super.dispose();
   }
 }

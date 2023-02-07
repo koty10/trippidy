@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:trippidy/model/enum/role.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +31,7 @@ class MemberProvider extends StateNotifier<Member> {
     state = member;
   }
 
-  Future<void> addItem(context, String tripId, String name, {String category = ''}) async {
+  Future<void> addItem(String tripId, String name, {String category = ''}) async {
     var newItem = MemberService().addItem(tripId, name, category: category);
 
     // Create a new map of items with the new item added
@@ -46,7 +45,7 @@ class MemberProvider extends StateNotifier<Member> {
       userId: state.userId,
     );
     state = updatedMember;
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   Future<void> updateItem(context, String tripId, Item item) async {

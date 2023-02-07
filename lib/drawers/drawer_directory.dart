@@ -7,17 +7,16 @@ class DrawerDirectory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName:
-                Text("${FirebaseAuth.instance.currentUser!.displayName}"),
-            accountEmail: Text("${FirebaseAuth.instance.currentUser!.email}"),
+            accountName: Text(user.displayName ?? 'Chybí jméno'),
+            accountEmail: Text(user.email ?? 'Chybí email'),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "${FirebaseAuth.instance.currentUser!.photoURL}"),
+              backgroundImage: user.photoURL == null ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.photoURL!),
             ),
             decoration: const BoxDecoration(
               color: Colors.black12,
