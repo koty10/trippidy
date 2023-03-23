@@ -51,6 +51,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders += [auth0Domain: "trippidy.eu.auth0.com", auth0Scheme: "com.example.trippidy"]
     }
 
     buildTypes {

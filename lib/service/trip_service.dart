@@ -9,10 +9,7 @@ class TripService {
   Future<List<Trip>> fetchTripsForUser() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     var db = FirebaseFirestore.instance;
-    var snapshots = await db
-        .collection('trips')
-        .where('members.$userId.accepted', isEqualTo: true)
-        .get();
+    var snapshots = await db.collection('trips').where('members.$userId.accepted', isEqualTo: true).get();
 
     List<Trip> trips = [];
     for (var snapshot in snapshots.docs) {
@@ -29,8 +26,7 @@ class TripService {
     Trip newTrip = Trip(
       name: name,
       members: {
-        userId:
-            Member(userId: userId, items: {}, role: Role.admin, accepted: true),
+        userId: Member(userId: userId, items: {}, role: Role.admin, accepted: true),
       },
       categories: [],
     );
