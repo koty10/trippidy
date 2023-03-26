@@ -38,10 +38,10 @@ class MyListScreen extends ConsumerWidget {
                         title: Text(val.name),
                         trailing: Checkbox(
                           fillColor: MaterialStateProperty.all(Colors.green),
-                          value: val.checked,
+                          value: val.isChecked,
                           onChanged: (value) {
-                            val.checked = value ?? false;
-                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val);
+                            val.isChecked = value ?? false;
+                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id!, val); //FIXME - null
                           },
                         ),
                       ),
@@ -59,7 +59,7 @@ class MyListScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: currentTrip.id,
+                currentTrip: currentTrip.id!, //FIXME - null
               ),
             ),
           );
@@ -69,11 +69,11 @@ class MyListScreen extends ConsumerWidget {
   }
 
   Map<String, List<Item>> getMyListItems(Member member) {
-    var tmp = member.items.values;
+    var tmp = member.items;
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
+      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
     }
     return dict;
   }

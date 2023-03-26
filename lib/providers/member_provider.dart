@@ -9,7 +9,15 @@ import '../model/item.dart';
 final memberProvider = StateNotifierProvider<MemberProvider, Member>(
   (ref) {
     return MemberProvider(
-      Member(accepted: false, items: {}, role: Role.member, userId: ''),
+      Member(
+        accepted: false,
+        items: List.empty(),
+        role: Role.member.name,
+        userProfileId: '',
+        tripId: 0,
+        userProfileFirstname: "",
+        userProfileImage: "",
+      ),
     );
   },
 );
@@ -31,35 +39,34 @@ class MemberProvider extends StateNotifier<Member> {
     state = member;
   }
 
-  Future<void> addItem(String tripId, String name, {String category = ''}) async {
-    var newItem = MemberService().addItem(tripId, name, category: category);
+  Future<void> addItem(int tripId, String name, {String category = ''}) async {
+    var newItem = await MemberService().addItem(state.id!, name, category: category); //FIXME - id null
 
     // Create a new map of items with the new item added
-    final updatedItems = state.items..[(newItem).name] = newItem;
+    final updatedItems = state.items + [newItem];
 
     // Create a new Member object with the updated map of items
     final updatedMember = Member(
       accepted: state.accepted,
       items: updatedItems,
       role: state.role,
-      userId: state.userId,
+      userProfileId: state.userProfileId,
     );
     state = updatedMember;
     // Navigator.pop(context);
   }
 
-  Future<void> updateItem(context, String tripId, Item item) async {
+  Future<void> updateItem(context, int tripId, Item item) async {
     ItemService().updateItem(tripId, item);
 
     // Create a new map of items with the updated item
-    final updatedItems = state.items..[item.name] = item;
+    final updatedItems = state.items + [item];
 
     // Create a new Member object with the updated map of items
     final updatedMember = Member(
       accepted: state.accepted,
       items: updatedItems,
       role: state.role,
-      userId: state.userId,
     );
     state = updatedMember;
     //Navigator.pop(context);

@@ -1,49 +1,49 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:trippidy/model/item.dart';
-import 'package:trippidy/model/user.dart';
-
-import 'enum/role.dart';
+import 'item.dart';
 
 class Member {
-  String userId;
-  Map<String, Item> items;
-  Role role;
-  bool accepted;
   Member({
-    required this.userId,
+    required this.accepted,
+    this.id,
     required this.items,
     required this.role,
-    required this.accepted,
+    this.tripId,
+    this.userProfileFirstname,
+    this.userProfileLastname,
+    this.userProfileId,
+    this.userProfileImage,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'items': items.map((key, value) => MapEntry(key, value.toMap())),
-      'role': role.name,
-      'accepted': accepted,
-    };
-  }
+  bool accepted;
+  int? id;
+  List<Item> items;
+  String role;
+  int? tripId;
+  String? userProfileFirstname;
+  String? userProfileLastname;
+  String? userProfileId;
+  String? userProfileImage;
 
-  factory Member.fromMap(String userId, Map<String, dynamic> map) {
-    Map<String, Item> items = {};
-    map['items'].forEach((documentId, itemsDynamic) {
-      items[documentId] = Item.fromMap(documentId, itemsDynamic);
-    });
+  factory Member.fromJson(Map<String, dynamic> json) => Member(
+        accepted: json["accepted"],
+        id: json["id"],
+        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+        role: json["role"],
+        tripId: json["tripId"],
+        userProfileFirstname: json["userProfileFirstname"],
+        userProfileLastname: json["userProfileLastname"],
+        userProfileId: json["userProfileId"],
+        userProfileImage: json["userProfileImage"],
+      );
 
-    return Member(
-      userId: userId,
-      items: items,
-      role: Role.values.byName(map['role']),
-      accepted: map['accepted'] as bool,
-    );
-  }
-
-  Future<User> fetchUser() async {
-    var db = FirebaseFirestore.instance;
-    var userData = (await db.collection('users').doc(userId).get()).data();
-    if (userData != null) return User.fromMap(userId, userData);
-    return User(documentId: " ", name: " ");
-  }
+  Map<String, dynamic> toJson() => {
+        "accepted": accepted,
+        "id": id,
+        "items": List<dynamic>.from(items.map((x) => x.toJson())),
+        "role": role,
+        "tripId": tripId,
+        "userProfileFirstname": userProfileFirstname,
+        "userProfileLastname": userProfileLastname,
+        "userProfileId": userProfileId,
+        "userProfileImage": userProfileImage,
+      };
 }

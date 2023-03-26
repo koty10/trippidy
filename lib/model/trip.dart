@@ -1,50 +1,47 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// To parse this JSON data, do
+//
+//     final trip = tripFromJson(jsonString);
 
-import 'package:trippidy/model/member.dart';
+import 'dart:convert';
+
+import 'member.dart';
+
+Trip tripFromJson(String str) => json.decode(str);
+
+String tripToJson(Trip data) => json.encode(data.toJson());
+
+List<Trip> tripCollectionFromJson(String str) => List<Trip>.from(json.decode(str).map((x) => Trip.fromJson(x)));
+
+String tripCollectionToJson(List<Trip> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Trip {
-  String id;
-  String name;
-  Map<String, Member> members;
-  List<String> categories;
   Trip({
-    this.id = "",
-    required this.name,
+    required this.dateFrom,
+    required this.dateTo,
+    this.id,
     required this.members,
-    required this.categories,
+    required this.name,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'members': members.map((key, value) => MapEntry(key, value.toMap())),
-      'categories': categories
-    };
-  }
+  DateTime dateFrom;
+  DateTime dateTo;
+  int? id;
+  List<Member> members;
+  String name;
 
-  // factory Trip.fromMap(Map<String, dynamic> map) {
-  //   return Trip(
-  //     id: map['id'] as String,
-  //     name: map['name'] as String,
-  //     members: List<Member>.from(
-  //       (map['members'] as List<int>).map<Member>(
-  //         (x) => Member.fromMap(x as Map<String, dynamic>),
-  //       ),
-  //     ),
-  //   );
-  // }
+  factory Trip.fromJson(Map<String, dynamic> json) => Trip(
+        dateFrom: DateTime.parse(json["dateFrom"]),
+        dateTo: DateTime.parse(json["dateTo"]),
+        id: json["id"],
+        members: List<Member>.from(json["members"].map((x) => Member.fromJson(x))),
+        name: json["name"],
+      );
 
-  factory Trip.fromMap(String documentId, Map<String, dynamic> data) {
-    Map<String, Member> members = {};
-    data['members'].forEach((userId, membersDynamic) {
-      members[userId] = Member.fromMap(userId, membersDynamic);
-    });
-
-    return Trip(
-      id: documentId,
-      name: data['name'],
-      members: members,
-      categories: List<String>.from(data['categories']),
-    );
-  }
+  Map<String, dynamic> toJson() => {
+        "dateFrom": dateFrom.toIso8601String(),
+        "dateTo": dateTo.toIso8601String(),
+        "id": id,
+        "members": List<dynamic>.from(members.map((x) => x.toJson())),
+        "name": name,
+      };
 }

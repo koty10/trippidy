@@ -19,22 +19,13 @@ class MembersListView extends StatelessWidget {
           var curMember = currentTrip.members[index];
           if (curMember == null) return const SizedBox.shrink();
           //var curUser = curMember.fetchUser();
-          return FutureBuilder(
-            future: curMember.fetchUser(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return MemberListTile(
-                  title: snapshot.data!.name,
-                  currentTrip: currentTrip,
-                  target: MembersListScreen(
-                    currentTrip: currentTrip,
-                    currentUser: snapshot.data!,
-                  ),
-                );
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
+          return MemberListTile(
+            title: curMember.userProfileFirstname ?? "",
+            currentTrip: currentTrip,
+            target: MembersListScreen(
+              currentTrip: currentTrip,
+              currentMember: curMember,
+            ),
           );
         },
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),

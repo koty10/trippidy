@@ -1,23 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/providers/auth_provider.dart';
+import 'package:http/http.dart' as http;
 
+import '../constants.dart';
 import '../model/enum/role.dart';
 
 class TripService {
   Future<List<Trip>> fetchTripsForUser() async {
-    String userId = FirebaseAuth.instance.currentUser!.uid;
-    var db = FirebaseFirestore.instance;
-    var snapshots = await db.collection('trips').where('members.$userId.accepted', isEqualTo: true).get();
+    String? token = await HiveAuthStorage.getIdToken();
 
-    List<Trip> trips = [];
-    for (var snapshot in snapshots.docs) {
-      Map<String, dynamic> data = snapshot.data();
-      trips.add(Trip.fromMap(snapshot.id, data));
+    var url = Uri.parse(baseUrl + tripsEndpoint);
+    var response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      return tripCollectionFromJson(response.body);
     }
-
-    return trips;
+    return [];
   }
 
   Future<Trip> addTripForUser(String name) async {
@@ -25,16 +29,31 @@ class TripService {
 
     Trip newTrip = Trip(
       name: name,
-      members: {
-        userId: Member(userId: userId, items: {}, role: Role.admin, accepted: true),
-      },
-      categories: [],
+      dateFrom: DateTime.now(),
+      dateTo: DateTime.now(),
+      members: [
+        Member(
+          userProfileId: userId,
+          items: [],
+          role: Role.admin.name,
+          accepted: true,
+        ),
+      ],
     );
 
-    var db = FirebaseFirestore.instance;
-    var newTripDocument = await db.collection('trips').add(newTrip.toMap());
-    newTrip.id = newTripDocument.id;
+    String? token = await HiveAuthStorage.getIdToken();
 
-    return newTrip;
+    var url = Uri.parse(baseUrl + tripsEndpoint);
+    var response = await http.post(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      body: newTrip.toJson(),
+    );
+    if (response.statusCode == 200) {
+      return tripFromJson(response.body);
+    }
+    throw Exception("can not create a trip");
   }
 }

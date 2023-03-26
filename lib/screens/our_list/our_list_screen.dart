@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/trip.dart';
@@ -44,22 +43,22 @@ class OurListScreen extends ConsumerWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.userId != FirebaseAuth.instance.currentUser!.uid)
+                                  if (val.memberId != 1) // FIXME i have to get memberId somehow
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
                                         backgroundColor: Colors.deepOrange,
                                         radius: 12,
-                                        child: Text(val.userId),
+                                        child: Text(val.memberId.toString()),
                                       ),
                                     ),
                                   Checkbox(
                                     fillColor: MaterialStateProperty.all(Colors.green),
-                                    value: val.checked,
-                                    onChanged: val.userId == FirebaseAuth.instance.currentUser!.uid
+                                    value: val.isChecked,
+                                    onChanged: val.memberId == 1 // FIXME i have to get memberId somehow
                                         ? (value) {
-                                            val.checked = value ?? false;
-                                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val);
+                                            val.isChecked = value ?? false;
+                                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id!, val); // FIXME - null
                                           }
                                         : null,
                                   ),
@@ -79,14 +78,14 @@ class OurListScreen extends ConsumerWidget {
   }
 
   Map<String, List<Item>> getOurListItems(Member member) {
-    var tmp = ((currentTrip.members.values.toList()).where((element) => element.userId != FirebaseAuth.instance.currentUser!.uid).toList() + [member])
-        .expand((element2) => element2.items.values)
-        .where((element3) => element3.shared)
+    var tmp = ((currentTrip.members).where((element) => element.userProfileId != 1).toList() + [member]) // FIXME i have to get userId somehow
+        .expand((element2) => element2.items)
+        .where((element3) => element3.isShared)
         .toList();
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
+      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
     }
     return dict;
   }

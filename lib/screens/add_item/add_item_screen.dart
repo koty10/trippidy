@@ -4,7 +4,7 @@ import 'package:trippidy/providers/member_provider.dart';
 import 'package:trippidy/screens/add_item/components/trippidy_text_form_field.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
-  final String currentTrip;
+  final int currentTrip;
 
   const AddItemScreen({super.key, required this.currentTrip});
 

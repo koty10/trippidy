@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:jwt_decode/jwt_decode.dart'; //TODO use diferent package or approach
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   //final auth0 = ref.watch(auth0Provider(ref.watch(auth0ConfigProvider)));
@@ -18,11 +19,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final Auth0 _auth0;
 
   Future<void> _init() async {
-    final token = await HiveAuthStorage.getToken();
+    final idToken = await HiveAuthStorage.getIdToken();
+    final accessToken = await HiveAuthStorage.getAccessToken();
+    final refreshToken = await HiveAuthStorage.getRefreshToken();
     //final user = await HiveAuthStorage.getUser();
-    if (token != null) {
+
+    if (idToken != null || refreshToken != null || accessToken != null) {
       // && user != null) {
-      state = AuthState.authenticated(token);
+      state = AuthState.authenticated(idToken!, accessToken!, refreshToken!);
     } else {
       login();
     }
@@ -33,26 +37,71 @@ class AuthNotifier extends StateNotifier<AuthState> {
     log(credentials.toString());
     //final userInfo = credentials.idToken; // .userInfo({'access_token': credentials['access_token']});
     //final user = User.fromJson(credentials.user);
-    await HiveAuthStorage.storeToken(credentials.idToken);
+    await HiveAuthStorage.storeIdToken(credentials.idToken);
+    await HiveAuthStorage.storeAccessToken(credentials.accessToken);
+    await HiveAuthStorage.storeRefreshToken(credentials.refreshToken!);
     //await HiveAuthStorage.storeUser(user);
-    state = AuthState.authenticated(credentials.idToken);
+    state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!);
   }
 
   Future<void> logout() async {
-    await HiveAuthStorage.deleteToken();
+    await HiveAuthStorage.deleteIdToken();
     //await HiveAuthStorage.deleteUser();
     state = AuthState.unauthenticated();
+  }
+
+  Future<String?> getIdToken() async {
+    // TODO: FIX
+    //return state.idToken;
+    // if (idToken == null) return;
+
+    if (isTokenExpired(state.idToken!)) {
+      log("token needs to be refreshed");
+      //FIXME - null
+      var credentials = await _auth0.api.renewCredentials(refreshToken: (await HiveAuthStorage.getRefreshToken())!); //FIXME - null
+      await HiveAuthStorage.storeIdToken(credentials.idToken);
+      await HiveAuthStorage.storeAccessToken(credentials.accessToken);
+      await HiveAuthStorage.storeRefreshToken(credentials.refreshToken!);
+      //await HiveAuthStorage.storeUser(user);
+      state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!);
+    } else {
+      // The token is still valid
+      log("Token is valid.");
+    }
+    return state.idToken;
+  }
+
+  static bool isTokenExpired(String token) {
+    try {
+      log("checking token expiration...");
+      // Get the token payload
+      Map<String, dynamic> payload = Jwt.parseJwt(token);
+      log(token);
+
+      // Check if the token is expired
+      if (DateTime.fromMillisecondsSinceEpoch(payload['exp'] * 1000).isBefore(DateTime.now())) {
+        log("token is expired");
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log("Error while checking if token is expired: $e");
+      return true;
+    }
   }
 }
 
 class AuthState {
-  AuthState._(this.idToken);
+  AuthState._(this.idToken, this.accessToken, this.refreshToken);
 
-  factory AuthState.unauthenticated() => AuthState._(null);
+  factory AuthState.unauthenticated() => AuthState._(null, null, null);
 
-  factory AuthState.authenticated(String idToken) => AuthState._(idToken);
+  factory AuthState.authenticated(String idToken, String accessToken, String refreshToken) => AuthState._(idToken, accessToken, refreshToken);
 
   final String? idToken;
+  final String? accessToken;
+  final String? refreshToken;
 
   bool get isAuthenticated => idToken != null;
 }
@@ -61,22 +110,70 @@ class HiveAuthStorage {
   static const String _tokenBox = 'tokenBox';
   // static const String _userBox = 'userBox';
 
-  static Future<void> storeToken(String token) async {
+  static Future<void> storeIdToken(String token) async {
     final box = await Hive.openBox<String>(_tokenBox);
-    await box.put('token', token);
+    await box.put('idToken', token);
     await box.close();
   }
 
-  static Future<String?> getToken() async {
+  static Future<void> storeAccessToken(String token) async {
     final box = await Hive.openBox<String>(_tokenBox);
-    final token = box.get('token');
+    await box.put('accessToken', token);
     await box.close();
+  }
+
+  static Future<void> storeRefreshToken(String token) async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    await box.put('refreshToken', token);
+    await box.close();
+  }
+
+  static Future<String?> getIdToken() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    final token = box.get('idToken');
+
+    await box.close();
+    return token; //FIXME null
+  }
+
+  static Future<String?> getAccessToken() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    final token = box.get('accessToken');
+
+    await box.close();
+    return token; //FIXME null
+  }
+
+  static Future<String?> getRefreshToken() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    final token = box.get('refreshToken');
+
     return token;
   }
 
-  static Future<void> deleteToken() async {
+  // static Future<String> parseUserIdFromIdToken() async {
+  //   final parts = await getIdToken();
+  //   if (parts == null) return "";
+  //   parts.split('.');
+  //   if (parts.length != 3) {
+  //     throw const FormatException('Invalid token');
+  //   }
+
+  //   final payload = parts[1];
+  //   final normalizedPayload = base64Url.normalize(payload);
+  //   final decodedPayload = base64Url.decode(normalizedPayload);
+
+  //   final payloadMap = json.decode(utf8.decode(decodedPayload)) as Map<String, dynamic>;
+  //   if (payloadMap.containsKey('sub')) {
+  //     return payloadMap['sub'] as String;
+  //   } else {
+  //     throw Exception('User ID not found in token');
+  //   }
+  // }
+
+  static Future<void> deleteIdToken() async {
     final box = await Hive.openBox<String>(_tokenBox);
-    await box.delete('token');
+    await box.delete('idToken');
     await box.close();
   }
 

@@ -5,10 +5,10 @@ final tripDetailProvider = StateNotifierProvider<TripDetailProvider, Trip>(
   (ref) {
     return TripDetailProvider(
       Trip(
-        id: '',
+        dateFrom: DateTime.now(),
+        dateTo: DateTime.now(),
         name: '',
-        members: {},
-        categories: [],
+        members: [],
       ),
     );
   },

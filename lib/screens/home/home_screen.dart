@@ -1,9 +1,9 @@
 import 'package:trippidy/drawers/drawer_directory.dart';
-import 'package:trippidy/model/trip.dart';
-import 'package:trippidy/providers/trips_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../model/trip.dart';
+import '../../providers/trips_provider.dart';
 import '../add_trip/add_trip_screen.dart';
 import 'components/trip_tile.dart';
 
@@ -18,7 +18,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Trip> trips = ref.watch(tripsProvider);
+    List<Trip> trips = ref.watch(tripsProvider).value!; //FIXME maybe check null
 
     return Scaffold(
       appBar: AppBar(

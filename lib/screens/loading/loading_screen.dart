@@ -3,32 +3,62 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/trips_provider.dart';
 import 'package:trippidy/screens/skeleton/skeleton_screen.dart';
 
-class LoadingScreen extends ConsumerWidget {
+// Maybe remove loading screen and load data directly on homepage
+class LoadingScreen extends ConsumerStatefulWidget {
   const LoadingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
-    return FutureBuilder<void>(
-      future: init(ref),
-      builder: (context, AsyncSnapshot<void> snapshot) {
-        // TODO: Consider checking for errors and displaying an error screen
-        if (snapshot.connectionState == ConnectionState.done) {
-          return const SkeletonScreen(); // snapshot.data!;
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Načítání'),
-            ),
-            body: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
+  ConsumerState<LoadingScreen> createState() => _LoadingScreenState();
+}
+
+class _LoadingScreenState extends ConsumerState<LoadingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(tripsProvider.notifier).initFromFirebase();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ref.watch(tripsProvider).when(
+      data: (data) {
+        return const SkeletonScreen();
+      },
+      error: (err, stack) {
+        return const Center(
+          child: Text('error'),
+        );
+      },
+      loading: () {
+        return const Center(child: CircularProgressIndicator.adaptive());
       },
     );
   }
 
   Future<void> init(WidgetRef ref) async {
-    ref.read(tripsProvider.notifier).initFromFirebase();
+    // AsyncValue result = await ref.read(tripsProvider.notifier).initFromFirebase();
+
+    // result.when(
+    //   data: (data) {
+    //     //ref.watch(provider).data;
+    //     //return MyUiForData(data);
+    //   },
+    //   error: (err, stack) {
+    //     return Row(
+    //       children: [
+    //         Text('Error: $err'),
+    //         TextButton(
+    //           onPressed: () {
+    //             // opravny api call
+    //           },
+    //           child: const Text('Zkusit znovu'),
+    //         ),
+    //       ],
+    //     );
+    //   },
+    //   loading: () {
+    //     return const Center(child: CircularProgressIndicator());
+    //   },
+    // );
   }
 }

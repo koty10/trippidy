@@ -1,51 +1,57 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
+Item itemFromJson(String str) => json.decode(str);
+
+String itemToJson(Item data) => json.encode(data);
 
 class Item {
   Item({
-    required this.category,
+    this.amount = 1,
+    this.categoryId,
+    required this.categoryName,
+    this.id,
+    required this.isChecked,
+    required this.isPrivate,
+    required this.isShared,
+    required this.memberId,
     required this.name,
-    required this.checked,
-    required this.amount,
-    required this.private,
-    required this.shared,
-    required this.userId,
     required this.price,
   });
 
-  String category;
-  String name;
-  bool checked;
   int amount;
-  bool private;
-  bool shared;
-  double price;
+  int? categoryId;
+  String categoryName;
+  int? id;
+  bool isChecked;
+  bool isPrivate;
+  bool isShared;
+  int memberId;
+  String name;
+  int price;
 
-  // backlink
-  // TODO maybe make it differently
-  String userId;
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
+        amount: json["amount"],
+        categoryId: json["categoryId"],
+        categoryName: json["categoryName"],
+        id: json["id"],
+        isChecked: json["isChecked"],
+        isPrivate: json["isPrivate"],
+        isShared: json["isShared"],
+        memberId: json["memberId"],
+        name: json["name"],
+        price: json["price"],
+      );
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'category': category,
-      'checked': checked,
-      'amount': amount,
-      'private': private,
-      'shared': shared,
-      'userId': userId,
-      'price': price,
-    };
-  }
-
-  factory Item.fromMap(String name, Map<String, dynamic> map) {
-    return Item(
-      category: map['category'] as String,
-      name: name,
-      checked: map['checked'] as bool,
-      amount: map['amount'] as int,
-      private: map['private'] as bool,
-      shared: map['shared'] as bool,
-      userId: map['userId'] as String,
-      price: map['price'] as double,
-    );
-  }
+  Map<String, dynamic> toJson() => {
+        "amount": amount,
+        "categoryId": categoryId,
+        "categoryName": categoryName,
+        "id": id,
+        "isChecked": isChecked,
+        "isPrivate": isPrivate,
+        "isShared": isShared,
+        "memberId": memberId,
+        "name": name,
+        "price": price,
+      };
 }

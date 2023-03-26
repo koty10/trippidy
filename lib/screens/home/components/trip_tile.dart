@@ -1,6 +1,7 @@
-import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../model/trip.dart';
 
 class TripTile extends StatelessWidget {
   const TripTile({super.key, required this.trip});
@@ -27,41 +28,34 @@ class TripTile extends StatelessWidget {
           ],
         ),
       ),
-      trailing: FutureBuilder<List<String>>(
-        future: getUsers(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: snapshot.data!
-                  .map(
-                    (member) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3),
-                      child: CircleAvatar(
-                        radius: 12,
-                        backgroundColor: Colors.deepOrange,
-                        child: Text(
-                          member,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            shadows: [
-                              Shadow(
-                                color: Colors.grey,
-                                offset: Offset(2, 2),
-                                blurRadius: 3,
-                              ),
-                            ],
-                          ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: trip.members
+            .take(3)
+            .toList()
+            .map(
+              (member) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3),
+                child: CircleAvatar(
+                  radius: 12,
+                  backgroundColor: Colors.deepOrange,
+                  child: Text(
+                    member.userProfileLastname ?? "/",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                          color: Colors.grey,
+                          offset: Offset(2, 2),
+                          blurRadius: 3,
                         ),
-                      ),
+                      ],
                     ),
-                  )
-                  .toList(),
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       onTap: () {
@@ -75,17 +69,5 @@ class TripTile extends StatelessWidget {
         );
       },
     );
-  }
-
-  Future<List<String>> getUsers() async {
-    return trip.members.length > 3
-        ? await Future.wait(trip.members.values
-                .map((e) async {
-                  return (await e.fetchUser()).name[0];
-                })
-                .take(2)
-                .toList()) +
-            ["..."]
-        : await Future.wait(trip.members.values.map((e) async => (await e.fetchUser()).name[0]).take(3).toList());
   }
 }

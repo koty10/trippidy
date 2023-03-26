@@ -1,25 +1,24 @@
 import 'package:trippidy/model/item.dart';
+import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
-
-import '../../model/user.dart';
 
 class MembersListScreen extends StatelessWidget {
   const MembersListScreen({
     super.key,
     required this.currentTrip,
-    required this.currentUser,
+    required this.currentMember,
   });
 
   final Trip currentTrip;
-  final User currentUser;
+  final Member currentMember;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - ${currentUser.name}"),
+        title: Text("${currentTrip.name} - ${currentMember.userProfileLastname}"),
       ),
       body: Column(
         children: [
@@ -28,7 +27,7 @@ class MembersListScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: getListItemsForUser(userId: currentUser.documentId)
+              children: getListItemsForUser(userId: currentMember.id!) //FIXME - null
                   .entries
                   .map(
                     (e) => ExpansionTile(
@@ -38,7 +37,7 @@ class MembersListScreen extends StatelessWidget {
                           .map(
                             (val) => ListTile(
                               title: Text(val.name),
-                              trailing: Checkbox(value: val.checked, onChanged: null),
+                              trailing: Checkbox(value: val.isChecked, onChanged: null),
                             ),
                           )
                           .toList(),
@@ -52,14 +51,14 @@ class MembersListScreen extends StatelessWidget {
     );
   }
 
-  Map<String, List<Item>> getListItemsForUser({required String userId}) {
+  Map<String, List<Item>> getListItemsForUser({required int userId}) {
     var member = currentTrip.members[userId];
     if (member == null) return {};
-    var tmp = member.items.values.toList();
+    var tmp = member.items;
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
-      dict[element.category] != null ? dict[element.category]?.add(element) : dict.putIfAbsent(element.category, () => [element]);
+      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
     }
     return dict;
   }

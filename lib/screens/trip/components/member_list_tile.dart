@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,7 +39,7 @@ class MemberListTile extends ConsumerWidget {
         mouseCursor: SystemMouseCursors.click,
       ),
       onTap: () {
-        if (setCurrentMember) ref.read(memberProvider.notifier).setMember(currentTrip.members[FirebaseAuth.instance.currentUser!.uid]!);
+        if (setCurrentMember) ref.read(memberProvider.notifier).setMember(currentTrip.members[1]); // FIXME i have to get memberId somehow
         Navigator.push(
           context,
           MaterialPageRoute(
