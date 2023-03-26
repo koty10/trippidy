@@ -1,4 +1,4 @@
-# trippidy
+# Trippidy
 
 A new Flutter project.
 
