@@ -1,7 +1,7 @@
+import 'package:trippidy/api/api_caller.dart';
 import 'package:trippidy/model/enum/role.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/service/item_service.dart';
 import 'package:trippidy/service/member_service.dart';
 
 import '../model/item.dart';
@@ -18,6 +18,7 @@ final memberProvider = StateNotifierProvider<MemberProvider, Member>(
         userProfileFirstname: "",
         userProfileImage: "",
       ),
+      ref.watch(apiCallerProvider),
     );
   },
 );
@@ -27,7 +28,8 @@ final memberProvider = StateNotifierProvider<MemberProvider, Member>(
 // The "state" variable is immutable - it is not possible to just remove from the list,
 // you have to assign a new adjusted list
 class MemberProvider extends StateNotifier<Member> {
-  MemberProvider(super.state);
+  final ApiCaller apiCaller;
+  MemberProvider(super.state, this.apiCaller);
 
   // void setTrip(Trip trip) {
   //   state = trip;
@@ -57,10 +59,10 @@ class MemberProvider extends StateNotifier<Member> {
   }
 
   Future<void> updateItem(context, int tripId, Item item) async {
-    ItemService().updateItem(tripId, item);
+    apiCaller.updateItem(item);
 
     // Create a new map of items with the updated item
-    final updatedItems = state.items + [item];
+    final updatedItems = state.items.map((e) => e.id == item.id ? item : e).toList();
 
     // Create a new Member object with the updated map of items
     final updatedMember = Member(

@@ -39,7 +39,7 @@ class MemberListTile extends ConsumerWidget {
         mouseCursor: SystemMouseCursors.click,
       ),
       onTap: () {
-        if (setCurrentMember) ref.read(memberProvider.notifier).setMember(currentTrip.members[1]); // FIXME i have to get memberId somehow
+        if (setCurrentMember) ref.read(memberProvider.notifier).setMember(currentTrip.members[0]); // FIXME i have to get memberId somehow
         Navigator.push(
           context,
           MaterialPageRoute(

@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'item.g.dart';
 
 Item itemFromJson(String str) => json.decode(str);
 
 String itemToJson(Item data) => json.encode(data);
 
+@JsonSerializable()
 class Item {
   Item({
     this.amount = 1,

@@ -43,7 +43,7 @@ class OurListScreen extends ConsumerWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.memberId != 1) // FIXME i have to get memberId somehow
+                                  if (val.memberId != ref.read(memberProvider).id) // FIXME i have to get memberId somehow
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
@@ -55,7 +55,7 @@ class OurListScreen extends ConsumerWidget {
                                   Checkbox(
                                     fillColor: MaterialStateProperty.all(Colors.green),
                                     value: val.isChecked,
-                                    onChanged: val.memberId == 1 // FIXME i have to get memberId somehow
+                                    onChanged: val.memberId == ref.read(memberProvider).id // FIXME i have to get memberId somehow
                                         ? (value) {
                                             val.isChecked = value ?? false;
                                             ref.read(memberProvider.notifier).updateItem(context, currentTrip.id!, val); // FIXME - null
@@ -78,10 +78,11 @@ class OurListScreen extends ConsumerWidget {
   }
 
   Map<String, List<Item>> getOurListItems(Member member) {
-    var tmp = ((currentTrip.members).where((element) => element.userProfileId != 1).toList() + [member]) // FIXME i have to get userId somehow
-        .expand((element2) => element2.items)
-        .where((element3) => element3.isShared)
-        .toList();
+    var tmp =
+        ((currentTrip.members).where((element) => element.userProfileId != member.userProfileId).toList() + [member]) // FIXME i have to get userId somehow
+            .expand((element2) => element2.items)
+            .where((element3) => element3.isShared)
+            .toList();
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {

@@ -50,24 +50,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = AuthState.unauthenticated();
   }
 
-  Future<String?> getIdToken() async {
-    // TODO: FIX
-    //return state.idToken;
-    // if (idToken == null) return;
+  Future<void> refresh() async {
+    var credentials = await _auth0.api.renewCredentials(refreshToken: (await HiveAuthStorage.getRefreshToken())!); //FIXME - null
+    log(credentials.toString());
+    //final userInfo = credentials.idToken; // .userInfo({'access_token': credentials['access_token']});
+    //final user = User.fromJson(credentials.user);
+    await HiveAuthStorage.storeIdToken(credentials.idToken);
+    await HiveAuthStorage.storeAccessToken(credentials.accessToken);
+    await HiveAuthStorage.storeRefreshToken(credentials.refreshToken!);
+    //await HiveAuthStorage.storeUser(user);
+    state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!);
+  }
 
-    if (isTokenExpired(state.idToken!)) {
-      log("token needs to be refreshed");
-      //FIXME - null
-      var credentials = await _auth0.api.renewCredentials(refreshToken: (await HiveAuthStorage.getRefreshToken())!); //FIXME - null
-      await HiveAuthStorage.storeIdToken(credentials.idToken);
-      await HiveAuthStorage.storeAccessToken(credentials.accessToken);
-      await HiveAuthStorage.storeRefreshToken(credentials.refreshToken!);
-      //await HiveAuthStorage.storeUser(user);
-      state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!);
-    } else {
-      // The token is still valid
-      log("Token is valid.");
-    }
+  String? getIdToken() {
     return state.idToken;
   }
 

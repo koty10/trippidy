@@ -5,6 +5,7 @@ import 'package:trippidy/constants.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/auth_provider.dart';
 
+import '../model/item.dart';
 import 'auth_interceptor.dart';
 
 part 'rest_client.g.dart';
@@ -24,4 +25,7 @@ abstract class RestClient {
 
   @GET(tripsEndpoint)
   Future<HttpResponse<List<Trip>>> getTrips();
+
+  @POST(itemsEndpoint)
+  Future<HttpResponse<Item>> updateItem(@Body() Item item);
 }
