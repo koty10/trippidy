@@ -26,6 +26,12 @@ abstract class RestClient {
   @GET(tripsEndpoint)
   Future<HttpResponse<List<Trip>>> getTrips();
 
-  @POST(itemsEndpoint)
+  @POST(tripsEndpoint)
+  Future<HttpResponse<Trip>> createTrip(@Body() Trip item);
+
+  @PUT(itemsEndpoint)
   Future<HttpResponse<Item>> updateItem(@Body() Item item);
+
+  @POST(itemsEndpoint)
+  Future<HttpResponse<Item>> createItem(@Body() Item item);
 }

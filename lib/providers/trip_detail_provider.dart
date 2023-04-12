@@ -9,6 +9,7 @@ final tripDetailProvider = StateNotifierProvider<TripDetailProvider, Trip>(
         dateTo: DateTime.now(),
         name: '',
         members: [],
+        id: "",
       ),
     );
   },

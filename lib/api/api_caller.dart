@@ -39,4 +39,29 @@ class ApiCaller {
     return item;
     //TODO: check for errors;
   }
+
+  Future<Item> createItem(Item item) async {
+    log("create item");
+    try {
+      log(itemToJson(item));
+      final result = await _restClient.createItem(item);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+    }
+    return item;
+    //TODO: check for errors;
+  }
+
+  Future<Trip> createTrip(Trip item) async {
+    log("create trip");
+    try {
+      final result = await _restClient.createTrip(item);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+    }
+    return item;
+    //TODO: check for errors;
+  }
 }

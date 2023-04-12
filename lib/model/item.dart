@@ -7,9 +7,9 @@ String itemToJson(Item data) => json.encode(data);
 class Item {
   Item({
     this.amount = 1,
-    this.categoryId,
+    required this.categoryId,
     required this.categoryName,
-    this.id,
+    required this.id,
     required this.isChecked,
     required this.isPrivate,
     required this.isShared,
@@ -19,13 +19,13 @@ class Item {
   });
 
   int amount;
-  int? categoryId;
+  String categoryId;
   String categoryName;
-  int? id;
+  String id;
   bool isChecked;
   bool isPrivate;
   bool isShared;
-  int memberId;
+  String memberId;
   String name;
   int price;
 

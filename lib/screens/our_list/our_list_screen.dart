@@ -58,7 +58,7 @@ class OurListScreen extends ConsumerWidget {
                                     onChanged: val.memberId == ref.read(memberProvider).id // FIXME i have to get memberId somehow
                                         ? (value) {
                                             val.isChecked = value ?? false;
-                                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id!, val); // FIXME - null
+                                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
                                           }
                                         : null,
                                   ),

@@ -27,7 +27,7 @@ class MembersListScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: getListItemsForUser(userId: currentMember.id!) //FIXME - null
+              children: getListItemsForUser(userId: currentMember.id) //FIXME - null
                   .entries
                   .map(
                     (e) => ExpansionTile(
@@ -51,9 +51,9 @@ class MembersListScreen extends StatelessWidget {
     );
   }
 
-  Map<String, List<Item>> getListItemsForUser({required int userId}) {
-    var member = currentTrip.members[userId];
-    if (member == null) return {};
+  Map<String, List<Item>> getListItemsForUser({required String userId}) {
+    var member = currentTrip.members.firstWhere((element) => element.id == userId);
+    //if (member == null) return {};
     var tmp = member.items;
 
     var dict = <String, List<Item>>{};

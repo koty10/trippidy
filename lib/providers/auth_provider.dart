@@ -22,11 +22,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final idToken = await HiveAuthStorage.getIdToken();
     final accessToken = await HiveAuthStorage.getAccessToken();
     final refreshToken = await HiveAuthStorage.getRefreshToken();
+    final userId = await HiveAuthStorage.getUserId();
     //final user = await HiveAuthStorage.getUser();
 
     if (idToken != null || refreshToken != null || accessToken != null) {
       // && user != null) {
-      state = AuthState.authenticated(idToken!, accessToken!, refreshToken!);
+      state = AuthState.authenticated(idToken!, accessToken!, refreshToken!, userId ?? ""); //FIXME userId null
     } else {
       login();
     }
@@ -40,8 +41,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     await HiveAuthStorage.storeIdToken(credentials.idToken);
     await HiveAuthStorage.storeAccessToken(credentials.accessToken);
     await HiveAuthStorage.storeRefreshToken(credentials.refreshToken!);
+    await HiveAuthStorage.storeUserId(credentials.user.sub);
     //await HiveAuthStorage.storeUser(user);
-    state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!);
+    state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!, credentials.user.sub);
   }
 
   Future<void> logout() async {
@@ -58,8 +60,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     await HiveAuthStorage.storeIdToken(credentials.idToken);
     await HiveAuthStorage.storeAccessToken(credentials.accessToken);
     await HiveAuthStorage.storeRefreshToken(credentials.refreshToken!);
+    await HiveAuthStorage.storeUserId(credentials.user.sub);
     //await HiveAuthStorage.storeUser(user);
-    state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!);
+    state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!, credentials.user.sub);
   }
 
   String? getIdToken() {
@@ -88,15 +91,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
 }
 
 class AuthState {
-  AuthState._(this.idToken, this.accessToken, this.refreshToken);
+  AuthState._(this.idToken, this.accessToken, this.refreshToken, this.userId);
 
-  factory AuthState.unauthenticated() => AuthState._(null, null, null);
+  factory AuthState.unauthenticated() => AuthState._(null, null, null, null);
 
-  factory AuthState.authenticated(String idToken, String accessToken, String refreshToken) => AuthState._(idToken, accessToken, refreshToken);
+  factory AuthState.authenticated(String idToken, String accessToken, String refreshToken, String userId) =>
+      AuthState._(idToken, accessToken, refreshToken, userId);
 
   final String? idToken;
   final String? accessToken;
   final String? refreshToken;
+  final String? userId; // TODO maybe i won't need this
 
   bool get isAuthenticated => idToken != null;
 }
@@ -123,6 +128,12 @@ class HiveAuthStorage {
     await box.close();
   }
 
+  static Future<void> storeUserId(String token) async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    await box.put('userId', token);
+    await box.close();
+  }
+
   static Future<String?> getIdToken() async {
     final box = await Hive.openBox<String>(_tokenBox);
     final token = box.get('idToken');
@@ -142,6 +153,13 @@ class HiveAuthStorage {
   static Future<String?> getRefreshToken() async {
     final box = await Hive.openBox<String>(_tokenBox);
     final token = box.get('refreshToken');
+
+    return token;
+  }
+
+  static Future<String?> getUserId() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    final token = box.get('userId');
 
     return token;
   }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/api/api_caller.dart';
-import 'package:trippidy/service/trip_service.dart';
+import 'package:uuid/uuid.dart';
 
+import '../model/enum/role.dart';
+import '../model/member.dart';
 import '../model/trip.dart';
 import '../screens/trip/trip_screen.dart';
 
 final tripsProvider = StateNotifierProvider<TripsProvider, AsyncValue<List<Trip>>>((ref) {
-  TripService service = TripService();
-  return TripsProvider(const AsyncValue.loading(), service, ref.watch(apiCallerProvider));
+  return TripsProvider(const AsyncValue.loading(), ref.watch(apiCallerProvider));
 });
 
 // StateNotifies always holds a state variable called "state"
@@ -16,11 +17,10 @@ final tripsProvider = StateNotifierProvider<TripsProvider, AsyncValue<List<Trip>
 // The "state" variable is immutable - it is not possible to just remove from the list,
 // you have to assign a new adjusted list
 class TripsProvider extends StateNotifier<AsyncValue<List<Trip>>> {
-  TripsProvider(super.state, this._service, this.apiCaller) {
+  TripsProvider(super.state, this.apiCaller) {
     //initFromFirebase();
   }
 
-  final TripService _service;
   final ApiCaller apiCaller;
 
   Future<void> initFromFirebase() async {
@@ -34,15 +34,27 @@ class TripsProvider extends StateNotifier<AsyncValue<List<Trip>>> {
     });
   }
 
-  Future<void> addTripForUser(context, String name) async {
-    var newTrip = await _service.addTripForUser(name);
-    // var newTrip = await TripService().addTripForUser(name);
-    if (state.isLoading || state.hasError) {
-      // TODO: this should not happen but i should act somehow here
-      return;
-    }
-    state = state..value!.add(newTrip);
-    // state = state += [newTrip];
+  Future<void> addTripForUser(context, String name, String userId) async {
+    var tripId = const Uuid().v4();
+    Trip newTrip = Trip(
+      id: tripId,
+      name: name,
+      dateFrom: DateTime.now(),
+      dateTo: DateTime.now(),
+      members: [
+        Member(
+          id: const Uuid().v4(),
+          tripId: tripId,
+          userProfileId: userId,
+          items: [],
+          role: Role.admin.name,
+          accepted: true,
+        ),
+      ],
+    );
+
+    newTrip = await apiCaller.createTrip(newTrip);
+    state = AsyncValue.data([newTrip, ...state.value!]);
 
     Navigator.pop(context);
     Navigator.push(

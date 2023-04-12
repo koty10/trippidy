@@ -3,24 +3,24 @@ import 'item.dart';
 class Member {
   Member({
     required this.accepted,
-    this.id,
+    required this.id,
     required this.items,
     required this.role,
-    this.tripId,
+    required this.tripId,
     this.userProfileFirstname,
     this.userProfileLastname,
-    this.userProfileId,
+    required this.userProfileId,
     this.userProfileImage,
   });
 
   bool accepted;
-  int? id;
+  String id;
   List<Item> items;
   String role;
-  int? tripId;
+  String tripId;
   String? userProfileFirstname;
   String? userProfileLastname;
-  String? userProfileId;
+  String userProfileId;
   String? userProfileImage;
 
   factory Member.fromJson(Map<String, dynamic> json) => Member(

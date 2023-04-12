@@ -49,6 +49,7 @@ dependencies:
   jwt_decode: ^0.3.1
   retrofit: ^4.0.1
   dio: ^5.0.3
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

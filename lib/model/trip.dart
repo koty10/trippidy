@@ -18,14 +18,14 @@ class Trip {
   Trip({
     required this.dateFrom,
     required this.dateTo,
-    this.id,
+    required this.id,
     required this.members,
     required this.name,
   });
 
   DateTime dateFrom;
   DateTime dateTo;
-  int? id;
+  String id;
   List<Member> members;
   String name;
 

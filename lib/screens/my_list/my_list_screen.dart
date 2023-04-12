@@ -41,7 +41,7 @@ class MyListScreen extends ConsumerWidget {
                           value: val.isChecked,
                           onChanged: (value) {
                             val.isChecked = value ?? false;
-                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id!, val); //FIXME - null
+                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val); //FIXME - null
                           },
                         ),
                       ),
@@ -59,7 +59,7 @@ class MyListScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: currentTrip.id!, //FIXME - null
+                currentTrip: currentTrip.id, //FIXME - null
               ),
             ),
           );
