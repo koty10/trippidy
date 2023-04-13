@@ -49,6 +49,8 @@ class TripsProvider extends StateNotifier<AsyncValue<List<Trip>>> {
           items: [],
           role: Role.admin.name,
           accepted: true,
+          userProfileFirstname: "",
+          userProfileLastname: "",
         ),
       ],
     );

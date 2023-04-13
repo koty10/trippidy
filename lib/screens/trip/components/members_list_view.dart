@@ -13,14 +13,12 @@ class MembersListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.separated(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16),
         itemCount: currentTrip.members.length,
         itemBuilder: (BuildContext context, int index) {
           var curMember = currentTrip.members[index];
-          if (curMember == null) return const SizedBox.shrink();
-          //var curUser = curMember.fetchUser();
           return MemberListTile(
-            title: curMember.userProfileFirstname ?? "",
+            title: "${curMember.userProfileFirstname} ${curMember.userProfileLastname}",
             currentTrip: currentTrip,
             target: MembersListScreen(
               currentTrip: currentTrip,

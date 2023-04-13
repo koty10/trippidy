@@ -39,19 +39,21 @@ class TripTile extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 12,
                   backgroundColor: Colors.deepOrange,
-                  child: Text(
-                    member.userProfileLastname ?? "/",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          color: Colors.grey,
-                          offset: Offset(2, 2),
-                          blurRadius: 3,
+                  child: member.userProfileImage != null
+                      ? ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(member.userProfileImage!))
+                      : Text(
+                          member.userProfileLastname[0],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                color: Colors.grey,
+                                offset: Offset(2, 2),
+                                blurRadius: 3,
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
             )

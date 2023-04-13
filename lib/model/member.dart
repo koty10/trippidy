@@ -7,8 +7,8 @@ class Member {
     required this.items,
     required this.role,
     required this.tripId,
-    this.userProfileFirstname,
-    this.userProfileLastname,
+    required this.userProfileFirstname,
+    required this.userProfileLastname,
     required this.userProfileId,
     this.userProfileImage,
   });
@@ -18,8 +18,8 @@ class Member {
   List<Item> items;
   String role;
   String tripId;
-  String? userProfileFirstname;
-  String? userProfileLastname;
+  String userProfileFirstname;
+  String userProfileLastname;
   String userProfileId;
   String? userProfileImage;
 
