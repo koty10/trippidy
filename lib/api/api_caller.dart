@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/api/rest_client.dart';
 import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/user_profile.dart';
 
 import '../model/item.dart';
 
@@ -62,6 +63,13 @@ class ApiCaller {
       log(e.toString());
     }
     return item;
+    //TODO: check for errors;
+  }
+
+  Future<UserProfile> getUserProfile() async {
+    log("get userProfile");
+    final result = await _restClient.getUserProfile();
+    return result.data;
     //TODO: check for errors;
   }
 }
