@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:trippidy/providers/auth_provider.dart';
 
 class AuthInterceptor extends Interceptor {
-  AuthNotifier ref;
+  AuthController ref;
   AuthInterceptor(this.ref);
 
   @override

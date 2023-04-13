@@ -1,22 +1,22 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/providers/auth_provider.dart';
 
-class DrawerDirectory extends StatelessWidget {
+class DrawerDirectory extends ConsumerWidget {
   const DrawerDirectory({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authControllerProvider).userProfile!;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text(user.displayName ?? 'Chybí jméno'),
-            accountEmail: Text(user.email ?? 'Chybí email'),
+            accountName: Text(user.firstname),
+            accountEmail: Text(user.lastname),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: user.photoURL == null ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.photoURL!),
+              backgroundImage: user.image == null ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image),
             ),
             decoration: const BoxDecoration(
               color: Colors.black12,
@@ -36,9 +36,9 @@ class DrawerDirectory extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Odhlásit'),
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              GoogleSignIn().disconnect();
+            onTap: () async {
+              await ref.read(authControllerProvider.notifier).logout();
+              ref.read(authControllerProvider.notifier).login();
             },
           ),
         ],

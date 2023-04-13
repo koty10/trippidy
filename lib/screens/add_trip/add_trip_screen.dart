@@ -112,7 +112,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
                         if (_formKey.currentState!.validate()) {
                           ref
                               .read(tripsProvider.notifier)
-                              .addTripForUser(context, textController.text, ref.read(authNotifierProvider).userId!); //FIXME userId null
+                              .addTripForUser(context, textController.text, ref.read(authControllerProvider).userId!); //FIXME userId null
                         }
                       },
                     ),

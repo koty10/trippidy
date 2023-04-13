@@ -25,6 +25,16 @@ class UserProfile {
   String lastname;
   List<Member> members;
 
+  factory UserProfile.initial() {
+    return UserProfile(
+      firstname: '',
+      id: '',
+      image: '',
+      lastname: '',
+      members: [],
+    );
+  }
+
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstname: json["firstname"],
         id: json["id"],
@@ -40,4 +50,9 @@ class UserProfile {
         "lastname": lastname,
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
       };
+
+  @override
+  String toString() {
+    return "$id, $firstname, $lastname, $image";
+  }
 }

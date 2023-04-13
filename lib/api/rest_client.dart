@@ -14,7 +14,7 @@ part 'rest_client.g.dart';
 final restClientProvider = Provider((ref) {
   Dio dio = Dio();
   dio.interceptors.addAll([
-    AuthInterceptor(ref.read(authNotifierProvider.notifier)),
+    AuthInterceptor(ref.read(authControllerProvider.notifier)),
   ]);
 
   return RestClient(dio);
