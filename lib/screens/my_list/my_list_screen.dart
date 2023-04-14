@@ -7,6 +7,7 @@ import 'package:trippidy/screens/add_item/add_item_screen.dart';
 
 import '../../model/item.dart';
 
+//TODO after add item it is not returned from the server for some reason (but items for DTU trip are ok)
 class MyListScreen extends ConsumerWidget {
   const MyListScreen({
     super.key,

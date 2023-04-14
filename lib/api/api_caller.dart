@@ -19,9 +19,16 @@ class ApiCaller {
   Future<List<Trip>> getTrips() async {
     log("get trips");
     try {
+      log("get trips try");
       final result = await _restClient.getTrips();
+      log("get trips try done");
+      log(result.data.toString());
+      for (var t in result.data) {
+        log("${t.id} ${t.name}");
+      }
       return result.data;
     } catch (e) {
+      log("problem");
       log(e.toString());
     }
     return [];

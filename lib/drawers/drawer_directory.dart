@@ -38,7 +38,13 @@ class DrawerDirectory extends ConsumerWidget {
             title: const Text('Odhlásit'),
             onTap: () async {
               await ref.read(authControllerProvider.notifier).logout();
-              ref.read(authControllerProvider.notifier).login();
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const LoginScreen(),
+              //   ),
+              // );
+              //ref.read(authControllerProvider.notifier).login();
             },
           ),
         ],

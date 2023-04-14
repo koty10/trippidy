@@ -34,13 +34,12 @@ class AuthController extends _$AuthController {
     if (idToken != null && refreshToken != null && accessToken != null) {
       // && user != null) {
       state = AuthState.authenticated(idToken, accessToken, refreshToken, userId ?? ""); //FIXME userId null
-    } else {
-      await login();
+      await _setUserProfile();
     }
-    await _setUserProfile();
   }
 
   Future<void> login() async {
+    log("login started");
     final Auth0 auth = ref.read(auth0providerProvider);
 
     final credentials = await auth.webAuthentication(scheme: "com.example.trippidy").login();
@@ -53,12 +52,18 @@ class AuthController extends _$AuthController {
     await HiveAuthStorage.storeUserId(credentials.user.sub);
     //await HiveAuthStorage.storeUser(user);
     state = AuthState.authenticated(credentials.idToken, credentials.accessToken, credentials.refreshToken!, credentials.user.sub);
+    await _setUserProfile();
+    log("login finished");
+    log(state.isAuthenticated.toString());
   }
 
   // TODO for some reason the credential are not beeing deleted
   Future<void> logout() async {
     await HiveAuthStorage.deleteIdToken();
-    await ref.read(auth0providerProvider).credentialsManager.clearCredentials();
+    await HiveAuthStorage.deleteAccessToken();
+    await HiveAuthStorage.deleteRefreshToken();
+    await HiveAuthStorage.deleteUserId();
+    await ref.read(auth0providerProvider).webAuthentication(scheme: "com.example.trippidy").logout();
 
     //await HiveAuthStorage.deleteUser();
     state = AuthState.unauthenticated();

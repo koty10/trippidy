@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/credentials_wrapper.dart';
 import 'package:trippidy/providers/auth_provider.dart';
 import 'package:trippidy/screens/loading/loading_screen.dart';
+import 'package:trippidy/screens/login/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,13 +51,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,
-      home: authState.isAuthenticated
-          ? const LoadingScreen()
-          : const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
+      home: authState.isAuthenticated ? const LoadingScreen() : const LoginScreen(),
       // routes: {
       //   LoginScreen.routName :(context) => LoginScreen(),
       //   TripScreen.routeName:(context) => TripScreen(currentTrip: currentTrip),

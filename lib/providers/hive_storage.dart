@@ -84,6 +84,24 @@ class HiveAuthStorage {
     await box.close();
   }
 
+  static Future<void> deleteAccessToken() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    await box.delete('accessToken');
+    await box.close();
+  }
+
+  static Future<void> deleteRefreshToken() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    await box.delete('refreshToken');
+    await box.close();
+  }
+
+  static Future<void> deleteUserId() async {
+    final box = await Hive.openBox<String>(_tokenBox);
+    await box.delete('userId');
+    await box.close();
+  }
+
   // static Future<void> storeUser(User user) async {
   //   final box = await Hive.openBox<User>(_userBox);
   //   await box.put('user', user);

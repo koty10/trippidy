@@ -1,16 +1,14 @@
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
-import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/providers/auth_provider.dart';
 
-import '../../constants.dart';
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   static const routName = '/login';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -18,7 +16,7 @@ class LoginScreen extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              "Přihlaste se prosím",
+              "Vítejte!",
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -26,12 +24,11 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 100,
+                width: 150,
                 height: 50,
-                child: OAuthProviderButton(
-                  provider: GoogleProvider(clientId: GOOGLE_CLIENT_ID),
-                  action: AuthAction.signIn,
-                  variant: OAuthButtonVariant.icon,
+                child: ElevatedButton(
+                  onPressed: () => ref.read(authControllerProvider.notifier).login(),
+                  child: const Text("Přihlásit se"),
                 ),
               ),
             ],
