@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:trippidy/providers/auth_provider.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthController ref;
@@ -19,7 +19,6 @@ class AuthInterceptor extends Interceptor {
     log("onRequest finished...");
   }
 
-  //TODO Does not work properly - "onError refreshed" is not printed
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     log("onError started...");

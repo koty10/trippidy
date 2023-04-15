@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:trippidy/constants.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/model/user_profile.dart';
-import 'package:trippidy/providers/auth_provider.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 
 import '../model/item.dart';
 import 'auth_interceptor.dart';

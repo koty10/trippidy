@@ -22,11 +22,7 @@ class TripsController extends _$TripsController {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      //return await _service.fetchTripsForUser();
       return await apiCaller.getTrips();
-
-      // var trips = TripService().fetchTripsForUser();
-      //var trips = Hive.box<Trip>('trips').values.toList();
     });
   }
 

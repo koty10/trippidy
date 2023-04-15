@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/auth_provider.dart';
+import '../../providers/auth_controller.dart';
 import '../../providers/trips_controller.dart';
 
 class AddTripScreen extends ConsumerStatefulWidget {
@@ -110,9 +110,11 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          ref
-                              .read(tripsControllerProvider.notifier)
-                              .addTripForUser(context, textController.text, ref.read(authControllerProvider).userId!); //FIXME userId null
+                          ref.read(tripsControllerProvider.notifier).addTripForUser(
+                                context,
+                                textController.text,
+                                ref.read(authControllerProvider.notifier).getUserId()!,
+                              ); //FIXME userId null
                         }
                       },
                     ),

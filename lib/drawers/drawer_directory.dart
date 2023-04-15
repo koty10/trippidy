@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/providers/auth_provider.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 
 class DrawerDirectory extends ConsumerWidget {
   const DrawerDirectory({super.key});
@@ -16,7 +16,7 @@ class DrawerDirectory extends ConsumerWidget {
             accountName: Text(user.firstname),
             accountEmail: Text(user.lastname),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: user.image == null ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image),
+              backgroundImage: user.image == "" ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image),
             ),
             decoration: const BoxDecoration(
               color: Colors.black12,
@@ -38,13 +38,6 @@ class DrawerDirectory extends ConsumerWidget {
             title: const Text('Odhlásit'),
             onTap: () async {
               await ref.read(authControllerProvider.notifier).logout();
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const LoginScreen(),
-              //   ),
-              // );
-              //ref.read(authControllerProvider.notifier).login();
             },
           ),
         ],
