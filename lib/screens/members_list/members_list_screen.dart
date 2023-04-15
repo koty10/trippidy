@@ -17,7 +17,7 @@ class MembersListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - ${currentMember.userProfileLastname}"),
+        title: Text("${currentTrip.name} - ${currentMember.userProfileFirstname} ${currentMember.userProfileLastname}"),
       ),
       body: Column(
         children: [

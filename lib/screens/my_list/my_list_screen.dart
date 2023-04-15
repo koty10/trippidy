@@ -23,7 +23,7 @@ class MyListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - Můj seznam"),
+        title: Text("${currentTrip.name} - můj seznam"),
       ),
       body: ListView(
         //padding: const EdgeInsets.all(8),

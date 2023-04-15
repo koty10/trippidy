@@ -21,7 +21,7 @@ class OurListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - Společný seznam"),
+        title: Text("${currentTrip.name} - společný seznam"),
       ),
       body: Column(
         children: [
@@ -78,11 +78,10 @@ class OurListScreen extends ConsumerWidget {
   }
 
   Map<String, List<Item>> getOurListItems(Member member) {
-    var tmp =
-        ((currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member]) // FIXME i have to get userId somehow
-            .expand((element2) => element2.items)
-            .where((element3) => element3.isShared)
-            .toList();
+    var tmp = ((currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member]) // FIXME i have to get userId somehow
+        .expand((element2) => element2.items)
+        .where((element3) => element3.isShared)
+        .toList();
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
