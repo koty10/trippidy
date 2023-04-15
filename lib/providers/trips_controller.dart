@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
+import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/enum/role.dart';
@@ -8,22 +9,17 @@ import '../model/member.dart';
 import '../model/trip.dart';
 import '../screens/trip/trip_screen.dart';
 
-final tripsProvider = StateNotifierProvider<TripsProvider, AsyncValue<List<Trip>>>((ref) {
-  return TripsProvider(const AsyncValue.loading(), ref.watch(apiCallerProvider));
-});
+part 'trips_controller.g.dart';
 
-// StateNotifies always holds a state variable called "state"
-// Whenever state is changed, every part of UI that is using this state gets notified
-// The "state" variable is immutable - it is not possible to just remove from the list,
-// you have to assign a new adjusted list
-class TripsProvider extends StateNotifier<AsyncValue<List<Trip>>> {
-  TripsProvider(super.state, this.apiCaller) {
-    //initFromFirebase();
+@Riverpod(keepAlive: true)
+class TripsController extends _$TripsController {
+  @override
+  AsyncValue<List<Trip>> build() {
+    return const AsyncValue.loading();
   }
 
-  final ApiCaller apiCaller;
-
   Future<void> initFromFirebase() async {
+    final ApiCaller apiCaller = ref.read(apiCallerProvider);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       //return await _service.fetchTripsForUser();
@@ -35,6 +31,7 @@ class TripsProvider extends StateNotifier<AsyncValue<List<Trip>>> {
   }
 
   Future<void> addTripForUser(context, String name, String userId) async {
+    final ApiCaller apiCaller = ref.read(apiCallerProvider);
     var tripId = const Uuid().v4();
     Trip newTrip = Trip(
       id: tripId,
@@ -58,14 +55,19 @@ class TripsProvider extends StateNotifier<AsyncValue<List<Trip>>> {
     newTrip = await apiCaller.createTrip(newTrip);
     state = AsyncValue.data([newTrip, ...state.value!]);
 
+    ref.read(tripDetailControllerProvider.notifier).setTrip(newTrip);
+
     Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TripScreen(
-          currentTrip: newTrip,
-        ),
+        builder: (context) => const TripScreen(),
       ),
     );
+  }
+
+  void updateTrip(Trip trip) {
+    var updatedTrips = state.value!.map((e) => e.id == trip.id ? trip : e).toList();
+    state = AsyncValue.data(updatedTrips);
   }
 }

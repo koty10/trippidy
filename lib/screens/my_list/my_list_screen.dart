@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
-import 'package:trippidy/providers/member_provider.dart';
+import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/screens/add_item/add_item_screen.dart';
 
 import '../../model/item.dart';
@@ -18,7 +18,7 @@ class MyListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    Member member = ref.watch(memberProvider);
+    Member member = ref.watch(memberControllerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +42,7 @@ class MyListScreen extends ConsumerWidget {
                           value: val.isChecked,
                           onChanged: (value) {
                             val.isChecked = value ?? false;
-                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val); //FIXME - null
+                            ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); //FIXME - null
                           },
                         ),
                       ),

@@ -46,4 +46,28 @@ class Member {
         "userProfileId": userProfileId,
         "userProfileImage": userProfileImage,
       };
+
+  Member copyWith({
+    bool? accepted,
+    String? id,
+    List<Item>? items,
+    String? role,
+    String? tripId,
+    String? userProfileFirstname,
+    String? userProfileLastname,
+    String? userProfileId,
+    String? userProfileImage,
+  }) {
+    return Member(
+      accepted: accepted ?? this.accepted,
+      id: id ?? this.id,
+      items: items ?? this.items,
+      role: role ?? this.role,
+      tripId: tripId ?? this.tripId,
+      userProfileFirstname: userProfileFirstname ?? this.userProfileFirstname,
+      userProfileLastname: userProfileLastname ?? this.userProfileLastname,
+      userProfileId: userProfileId ?? this.userProfileId,
+      userProfileImage: userProfileImage ?? this.userProfileImage,
+    );
+  }
 }

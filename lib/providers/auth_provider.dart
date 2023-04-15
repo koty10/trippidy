@@ -16,7 +16,7 @@ Auth0 auth0provider(Auth0providerRef ref) {
   return Auth0('trippidy.eu.auth0.com', '2CGBd2OORWRiGpjvx7PQYUeLeEjuLGDj');
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
   @override
   AuthState build() {
@@ -57,7 +57,6 @@ class AuthController extends _$AuthController {
     log(state.isAuthenticated.toString());
   }
 
-  // TODO for some reason the credential are not beeing deleted
   Future<void> logout() async {
     await HiveAuthStorage.deleteIdToken();
     await HiveAuthStorage.deleteAccessToken();

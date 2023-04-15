@@ -1,15 +1,17 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/trip.dart';
 
-class TripTile extends StatelessWidget {
+class TripTile extends ConsumerWidget {
   const TripTile({super.key, required this.trip});
 
   final Trip trip;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -61,12 +63,11 @@ class TripTile extends StatelessWidget {
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       onTap: () {
+        ref.read(tripDetailControllerProvider.notifier).setTrip(trip);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TripScreen(
-              currentTrip: trip,
-            ),
+            builder: (context) => const TripScreen(),
           ),
         );
       },

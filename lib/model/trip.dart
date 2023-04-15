@@ -44,4 +44,20 @@ class Trip {
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
         "name": name,
       };
+
+  Trip copyWith({
+    DateTime? dateFrom,
+    DateTime? dateTo,
+    String? id,
+    List<Member>? members,
+    String? name,
+  }) {
+    return Trip(
+      dateFrom: dateFrom ?? this.dateFrom,
+      dateTo: dateTo ?? this.dateTo,
+      id: id ?? this.id,
+      members: members ?? this.members,
+      name: name ?? this.name,
+    );
+  }
 }

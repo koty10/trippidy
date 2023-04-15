@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/providers/member_provider.dart';
+import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/screens/add_item/components/trippidy_text_form_field.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
@@ -104,7 +104,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
 
   Future<void> submit() async {
     if (_formKey.currentState!.validate()) {
-      await ref.read(memberProvider.notifier).addItem(widget.currentTrip, nameTextController.text, category: categoryTextController.text);
+      await ref.read(memberControllerProvider.notifier).addItem(widget.currentTrip, nameTextController.text, category: categoryTextController.text);
       if (!mounted) return; // This makes sure that you are not working with a widget after it has been disposed of
       Navigator.pop(context);
     }

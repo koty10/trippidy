@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
+import 'package:trippidy/providers/member_controller.dart';
 
 import '../../model/member.dart';
-import '../../providers/member_provider.dart';
 
 class OurListScreen extends ConsumerWidget {
   const OurListScreen({
@@ -16,7 +16,7 @@ class OurListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    Member member = ref.watch(memberProvider);
+    Member member = ref.watch(memberControllerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,7 +43,7 @@ class OurListScreen extends ConsumerWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.memberId != ref.read(memberProvider).id) // FIXME i have to get memberId somehow
+                                  if (val.memberId != ref.read(memberControllerProvider).id) // FIXME i have to get memberId somehow
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
@@ -55,10 +55,10 @@ class OurListScreen extends ConsumerWidget {
                                   Checkbox(
                                     fillColor: MaterialStateProperty.all(Colors.green),
                                     value: val.isChecked,
-                                    onChanged: val.memberId == ref.read(memberProvider).id // FIXME i have to get memberId somehow
+                                    onChanged: val.memberId == ref.read(memberControllerProvider).id // FIXME i have to get memberId somehow
                                         ? (value) {
                                             val.isChecked = value ?? false;
-                                            ref.read(memberProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
+                                            ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
                                           }
                                         : null,
                                   ),

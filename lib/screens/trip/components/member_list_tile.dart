@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/providers/member_controller.dart';
 
 import '../../../model/trip.dart';
-import '../../../providers/member_provider.dart';
 
 class MemberListTile extends ConsumerWidget {
   const MemberListTile({super.key, required this.title, required this.currentTrip, required this.target, this.setCurrentMember = false});
@@ -39,7 +39,7 @@ class MemberListTile extends ConsumerWidget {
         mouseCursor: SystemMouseCursors.click,
       ),
       onTap: () {
-        if (setCurrentMember) ref.read(memberProvider.notifier).setMember(currentTrip.members[0]); // FIXME i have to get memberId somehow
+        if (setCurrentMember) ref.read(memberControllerProvider.notifier).setMember(currentTrip.members[0]); // FIXME i have to get memberId somehow
         Navigator.push(
           context,
           MaterialPageRoute(
