@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/providers/trip_detail_controller.dart';
-import 'package:trippidy/screens/trip/trip_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:trippidy/providers/trip_offer_detail_controller.dart';
+import 'package:trippidy/screens/notifications/trip_offer_detail/trip_offer_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../model/trip.dart';
@@ -12,6 +13,8 @@ class TripOfferTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var format = DateFormat("dd.MM.yyyy");
+
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -30,6 +33,9 @@ class TripOfferTile extends ConsumerWidget {
           ],
         ),
       ),
+      subtitle:
+          Text("Majitel: ${trip.getOwner().userProfileFirstname} ${trip.getOwner().userProfileLastname}\nTermín: ${format.format(trip.dateFrom)} - ${format.format(trip.dateTo)}"),
+      isThreeLine: true,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: trip.members
@@ -63,11 +69,11 @@ class TripOfferTile extends ConsumerWidget {
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       onTap: () {
-        ref.read(tripDetailControllerProvider.notifier).setTrip(trip);
+        ref.read(tripOfferDetailControllerProvider.notifier).setTrip(trip);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const TripScreen(),
+            builder: (context) => const TripOfferDetailScreen(),
           ),
         );
       },

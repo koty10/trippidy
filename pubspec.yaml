@@ -38,10 +38,6 @@ dependencies:
 
   firebase_core: ^2.4.1
   cloud_firestore: ^4.3.1
-  firebase_ui_auth: ^1.1.9
-  firebase_auth: ^4.2.5
-  google_sign_in: ^5.4.4
-  firebase_ui_oauth_google: ^1.0.16
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   auth0_flutter: ^1.1.0
@@ -50,6 +46,7 @@ dependencies:
   retrofit: ^4.0.1
   dio: ^5.0.3
   uuid: ^3.0.7
+  intl: ^0.18.0
 
   # State management
   flutter_riverpod: ^2.3.4

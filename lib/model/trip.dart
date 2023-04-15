@@ -23,6 +23,10 @@ class Trip {
     required this.name,
   });
 
+  factory Trip.empty() {
+    return Trip(dateFrom: DateTime.now(), dateTo: DateTime.now(), id: "", members: [], name: "");
+  }
+
   DateTime dateFrom;
   DateTime dateTo;
   String id;
@@ -59,5 +63,9 @@ class Trip {
       members: members ?? this.members,
       name: name ?? this.name,
     );
+  }
+
+  Member getOwner() {
+    return members.firstWhere((element) => element.role == "admin");
   }
 }

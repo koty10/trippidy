@@ -10,13 +10,7 @@ part 'trip_detail_controller.g.dart';
 class TripDetailController extends _$TripDetailController {
   @override
   Trip build() {
-    return Trip(
-      dateFrom: DateTime.now(),
-      dateTo: DateTime.now(),
-      name: '',
-      members: [],
-      id: "",
-    );
+    return Trip.empty();
   }
 
   void setTrip(Trip trip) {
