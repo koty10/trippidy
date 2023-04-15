@@ -1,11 +1,13 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/model/member.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 
 import '../api/api_caller.dart';
 import '../model/enum/role.dart';
 import '../model/item.dart';
+import '../model/trip.dart';
 
 part 'member_controller.g.dart';
 
@@ -28,6 +30,11 @@ class MemberController extends _$MemberController {
 
   void setMember(Member member) {
     state = member;
+  }
+
+  void setCurrentMember(Trip trip) {
+    var loggedInUserId = ref.read(authControllerProvider).userProfile!.id;
+    state = trip.members.firstWhere((element) => element.userProfileId == loggedInUserId);
   }
 
   Future<void> addItem(String tripId, String name, {String category = ''}) async {

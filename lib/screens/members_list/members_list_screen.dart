@@ -1,20 +1,19 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/item.dart';
-import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
+import 'package:trippidy/providers/member_controller.dart';
+import 'package:trippidy/providers/trip_detail_controller.dart';
 
-class MembersListScreen extends StatelessWidget {
+class MembersListScreen extends ConsumerWidget {
   const MembersListScreen({
     super.key,
-    required this.currentTrip,
-    required this.currentMember,
   });
 
-  final Trip currentTrip;
-  final Member currentMember;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentMember = ref.watch(memberControllerProvider);
+    final currentTrip = ref.watch(tripDetailControllerProvider);
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -27,7 +26,7 @@ class MembersListScreen extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: getListItemsForUser(userId: currentMember.id) //FIXME - null
+              children: getListItemsForUser(userId: currentMember.id, currentTrip: currentTrip) //FIXME - null
                   .entries
                   .map(
                     (e) => ExpansionTile(
@@ -51,7 +50,7 @@ class MembersListScreen extends StatelessWidget {
     );
   }
 
-  Map<String, List<Item>> getListItemsForUser({required String userId}) {
+  Map<String, List<Item>> getListItemsForUser({required String userId, required Trip currentTrip}) {
     var member = currentTrip.members.firstWhere((element) => element.id == userId);
     //if (member == null) return {};
     var tmp = member.items;

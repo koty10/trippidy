@@ -30,7 +30,6 @@ class TripScreen extends ConsumerWidget {
             child: Column(
               children: [
                 MemberListTile(
-                  setCurrentMember: true,
                   title: "Můj seznam",
                   currentTrip: currentTrip,
                   target: MyListScreen(
@@ -39,7 +38,6 @@ class TripScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 MemberListTile(
-                  setCurrentMember: true,
                   title: "Společný seznam",
                   currentTrip: currentTrip,
                   target: OurListScreen(

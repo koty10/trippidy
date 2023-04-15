@@ -43,7 +43,7 @@ class OurListScreen extends ConsumerWidget {
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  if (val.memberId != ref.read(memberControllerProvider).id) // FIXME i have to get memberId somehow
+                                  if (val.memberId != ref.read(memberControllerProvider).id)
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
@@ -55,7 +55,7 @@ class OurListScreen extends ConsumerWidget {
                                   Checkbox(
                                     fillColor: MaterialStateProperty.all(Colors.green),
                                     value: val.isChecked,
-                                    onChanged: val.memberId == ref.read(memberControllerProvider).id // FIXME i have to get memberId somehow
+                                    onChanged: val.memberId == ref.read(memberControllerProvider).id
                                         ? (value) {
                                             val.isChecked = value ?? false;
                                             ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
@@ -79,7 +79,7 @@ class OurListScreen extends ConsumerWidget {
 
   Map<String, List<Item>> getOurListItems(Member member) {
     var tmp =
-        ((currentTrip.members).where((element) => element.userProfileId != member.userProfileId).toList() + [member]) // FIXME i have to get userId somehow
+        ((currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member]) // FIXME i have to get userId somehow
             .expand((element2) => element2.items)
             .where((element3) => element3.isShared)
             .toList();

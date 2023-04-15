@@ -18,12 +18,10 @@ class MembersListView extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           var curMember = currentTrip.members[index];
           return MemberListTile(
+            member: curMember,
             title: "${curMember.userProfileFirstname} ${curMember.userProfileLastname}",
             currentTrip: currentTrip,
-            target: MembersListScreen(
-              currentTrip: currentTrip,
-              currentMember: curMember,
-            ),
+            target: const MembersListScreen(),
           );
         },
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
