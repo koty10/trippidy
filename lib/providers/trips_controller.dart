@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 
@@ -15,10 +16,11 @@ part 'trips_controller.g.dart';
 class TripsController extends _$TripsController {
   @override
   AsyncValue<List<Trip>> build() {
+    if (ref.watch(authControllerProvider).isAuthenticated) loadTrips();
     return const AsyncValue.loading();
   }
 
-  Future<void> initFromFirebase() async {
+  Future<void> loadTrips() async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {

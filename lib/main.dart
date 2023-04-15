@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/hive/credentials_wrapper.dart';
 import 'package:trippidy/providers/auth_controller.dart';
-import 'package:trippidy/providers/trips_controller.dart';
 import 'package:trippidy/screens/loading/loading_screen.dart';
 import 'package:trippidy/screens/login/login_screen.dart';
 
@@ -36,11 +35,6 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
-    if (authState.isAuthenticated) {
-      Future.delayed(const Duration(milliseconds: 100)).then((_) {
-        ref.read(tripsControllerProvider.notifier).initFromFirebase();
-      });
-    }
 
     return MaterialApp(
       title: 'Trippidy',
