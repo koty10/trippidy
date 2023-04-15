@@ -68,4 +68,9 @@ class TripsController extends _$TripsController {
     var updatedTrips = state.value!.map((e) => e.id == trip.id ? trip : e).toList();
     state = AsyncValue.data(updatedTrips);
   }
+
+  List<Trip> getTrips({bool accepted = true}) {
+    var loggedInUser = ref.watch(authControllerProvider).userProfile!;
+    return state.value!.where((t) => t.members.any((m) => m.userProfileId == loggedInUser.id && m.accepted == accepted)).toList();
+  }
 }

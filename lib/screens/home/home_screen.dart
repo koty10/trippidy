@@ -1,6 +1,7 @@
 import 'package:trippidy/drawers/drawer_directory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/screens/home/components/notification_button.dart';
 
 import '../../model/trip.dart';
 import '../../providers/trips_controller.dart';
@@ -18,11 +19,12 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Trip> trips = ref.watch(tripsControllerProvider).value!; //FIXME maybe check null
+    List<Trip> trips = ref.watch(tripsControllerProvider.notifier).getTrips();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seznam cest'),
+        actions: const [NotificationButton()],
       ),
       drawer: const DrawerDirectory(),
       body: ListView.separated(
