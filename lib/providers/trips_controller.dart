@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
@@ -65,12 +67,15 @@ class TripsController extends _$TripsController {
   }
 
   void updateTrip(Trip trip) {
+    log("tripsController - update trip");
     var updatedTrips = state.value!.map((e) => e.id == trip.id ? trip : e).toList();
+    log(updatedTrips.where((element) => element.members.any((element2) => !element2.accepted)).length.toString());
     state = AsyncValue.data(updatedTrips);
   }
 
   List<Trip> getTrips({bool accepted = true}) {
-    var loggedInUser = ref.watch(authControllerProvider).userProfile!;
+    log("tripsController - get trips");
+    var loggedInUser = ref.read(authControllerProvider).userProfile!;
     return state.value!.where((t) => t.members.any((m) => m.userProfileId == loggedInUser.id && m.accepted == accepted)).toList();
   }
 }

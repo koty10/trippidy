@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:trippidy/constants.dart';
+import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/model/user_profile.dart';
 import 'package:trippidy/providers/auth_controller.dart';
@@ -38,4 +39,7 @@ abstract class RestClient {
 
   @GET(userProfileEndpoint)
   Future<HttpResponse<UserProfile>> getUserProfile();
+
+  @PUT(membersEndpoint)
+  Future<HttpResponse<Member>> updateMember(@Body() Member item);
 }

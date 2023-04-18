@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'item.dart';
+
+Member memberFromJson(String str) => json.decode(str);
+
+String memberToJson(Member data) => json.encode(data);
 
 class Member {
   Member({
