@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/trip_list_extension.dart';
 import 'package:trippidy/screens/home/components/notification_button.dart';
 
 import '../../drawers/home_screen_drawer.dart';
 import '../../model/trip.dart';
+import '../../providers/auth_controller.dart';
 import '../../providers/trips_controller.dart';
 import '../add_trip/add_trip_screen.dart';
 import 'components/trip_tile.dart';
@@ -19,7 +21,11 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Trip> trips = ref.watch(tripsControllerProvider.notifier).getTrips();
+    //List<Trip> trips = ref.watch(tripsControllerProvider.notifier).getTrips();
+
+    var tripsProvider = ref.watch(tripsControllerProvider);
+    var loggedInUser = ref.read(authControllerProvider).userProfile!;
+    List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.id, accepted: true);
 
     return Scaffold(
       appBar: AppBar(

@@ -72,10 +72,4 @@ class TripsController extends _$TripsController {
     log(updatedTrips.where((element) => element.members.any((element2) => !element2.accepted)).length.toString());
     state = AsyncValue.data(updatedTrips);
   }
-
-  List<Trip> getTrips({bool accepted = true}) {
-    log("tripsController - get trips");
-    var loggedInUser = ref.read(authControllerProvider).userProfile!;
-    return state.value!.where((t) => t.members.any((m) => m.userProfileId == loggedInUser.id && m.accepted == accepted)).toList();
-  }
 }
