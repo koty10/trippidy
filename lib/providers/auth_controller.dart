@@ -62,7 +62,12 @@ class AuthController extends _$AuthController {
 
   Future<void> refresh() async {
     final Auth0 auth = ref.read(auth0providerProvider);
-    var credentials = await auth.api.renewCredentials(refreshToken: (await HiveAuthStorage.getCredentials())!.refreshToken!); //FIXME - null
+    final oldCredentials = await HiveAuthStorage.getCredentials();
+    if (oldCredentials == null || oldCredentials.refreshToken == null) {
+      state = AuthState.unauthenticated();
+      return;
+    }
+    var credentials = await auth.api.renewCredentials(refreshToken: (oldCredentials.refreshToken!));
     log(credentials.toString());
     await HiveAuthStorage.storeCredentials(credentials);
     state = AuthState.authenticated(
