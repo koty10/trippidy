@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 
-class DrawerDirectory extends ConsumerWidget {
-  const DrawerDirectory({super.key});
+class HomeScreenDrawer extends ConsumerWidget {
+  const HomeScreenDrawer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

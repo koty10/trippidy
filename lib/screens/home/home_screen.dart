@@ -1,8 +1,8 @@
-import 'package:trippidy/drawers/drawer_directory.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/screens/home/components/notification_button.dart';
 
+import '../../drawers/home_screen_drawer.dart';
 import '../../model/trip.dart';
 import '../../providers/trips_controller.dart';
 import '../add_trip/add_trip_screen.dart';
@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('Seznam cest'),
         actions: const [NotificationButton()],
       ),
-      drawer: const DrawerDirectory(),
+      drawer: const HomeScreenDrawer(),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         itemCount: trips.length,
