@@ -18,10 +18,24 @@ class MemberListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return InkWell(
+      onTap: member != null && !member!.accepted
+          ? null
+          : () {
+              member == null
+                  ? ref.read(memberControllerProvider.notifier).setCurrentMember(currentTrip)
+                  : ref.read(memberControllerProvider.notifier).setMember(member!);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => target,
+                ),
+              );
+            },
       child: ListTile(
         dense: true,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        tileColor: Colors.lightGreen[400],
+        tileColor: member != null && !member!.accepted ? Colors.grey[600] : Colors.lightGreen[400],
+        subtitle: member != null && !member!.accepted ? const Text("Pozvánka odeslána") : null,
         title: Text(
           title,
           style: const TextStyle(
@@ -39,17 +53,6 @@ class MemberListTile extends ConsumerWidget {
         contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
         mouseCursor: SystemMouseCursors.click,
       ),
-      onTap: () {
-        member == null
-            ? ref.read(memberControllerProvider.notifier).setCurrentMember(currentTrip)
-            : ref.read(memberControllerProvider.notifier).setMember(member!);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => target,
-          ),
-        );
-      },
     );
   }
 }

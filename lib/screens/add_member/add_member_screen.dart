@@ -42,11 +42,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
     super.dispose();
   }
 
-  static String _displayStringForOption(UserProfile option) => option.firstname;
-
-  static final List<UserProfile> _userOptions = <UserProfile>[
-    UserProfile(firstname: "aaa", id: "", image: "", lastname: "bbb", members: []),
-  ];
+  static String _displayStringForOption(UserProfile option) => "${option.firstname} ${option.lastname}";
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +140,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                           : () async {
                               if (_formKey.currentState!.validate()) {
                                 await ref.read(tripDetailControllerProvider.notifier).addMember(
-                                      textController.text, // TODO pass userId
+                                      ref.read(selectedQueriedUserProfileProvider)?.id ?? "",
                                     );
                                 if (context.mounted) {
                                   Navigator.pop(context);
