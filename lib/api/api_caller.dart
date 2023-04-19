@@ -31,9 +31,8 @@ class ApiCaller {
     } catch (e) {
       log("problem");
       log(e.toString());
+      rethrow;
     }
-    return [];
-    //TODO: check for errors;
   }
 
   Future<Item> updateItem(Item item) async {
@@ -44,9 +43,8 @@ class ApiCaller {
       return result.data;
     } catch (e) {
       log(e.toString());
+      rethrow;
     }
-    return item;
-    //TODO: check for errors;
   }
 
   Future<Item> createItem(Item item) async {
@@ -57,9 +55,8 @@ class ApiCaller {
       return result.data;
     } catch (e) {
       log(e.toString());
+      rethrow;
     }
-    return item;
-    //TODO: check for errors;
   }
 
   Future<Trip> createTrip(Trip item) async {
@@ -69,16 +66,19 @@ class ApiCaller {
       return result.data;
     } catch (e) {
       log(e.toString());
+      rethrow;
     }
-    return item;
-    //TODO: check for errors;
   }
 
   Future<UserProfile> getUserProfile() async {
     log("get userProfile");
-    final result = await _restClient.getUserProfile();
-    return result.data;
-    //TODO: check for errors;
+    try {
+      final result = await _restClient.getUserProfile();
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 
   Future<Member> updateMember(Member item) async {
@@ -86,6 +86,18 @@ class ApiCaller {
     log(memberToJson(item));
     try {
       final result = await _restClient.updateMember(item);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Member> createMember(Member item) async {
+    log("create member");
+    log(memberToJson(item));
+    try {
+      final result = await _restClient.createMember(item);
       return result.data;
     } catch (e) {
       log(e.toString());

@@ -67,7 +67,7 @@ class MemberController extends _$MemberController {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     apiCaller.updateItem(item);
 
-    // Create a new map of items with the updated item
+    // Create a new list of items with the updated item
     final updatedItems = state.items.map((e) => e.id == item.id ? item : e).toList();
 
     // Create a new Member object with the updated map of items

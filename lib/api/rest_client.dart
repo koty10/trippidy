@@ -42,4 +42,7 @@ abstract class RestClient {
 
   @PUT(membersEndpoint)
   Future<HttpResponse<Member>> updateMember(@Body() Member item);
+
+  @POST(membersEndpoint)
+  Future<HttpResponse<Member>> createMember(@Body() Member item);
 }
