@@ -7,5 +7,10 @@ part 'queried_user_profiles_provider.g.dart';
 
 @riverpod
 Future<List<UserProfile>> queriedUserProfilesProvider(QueriedUserProfilesProviderRef ref, String query) async {
+  // return Future.delayed(const Duration(milliseconds: 2000), () {
+  //   return [
+  //     UserProfile(firstname: "aaa", id: "", image: "", lastname: "bbb", members: []),
+  //   ];
+  // });
   return await ref.read(apiCallerProvider).getUserProfilesByQuery(query);
 }

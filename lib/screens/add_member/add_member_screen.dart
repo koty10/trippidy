@@ -66,14 +66,16 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
               padding: const EdgeInsets.all(20),
               child: Autocomplete<UserProfile>(
                 displayStringForOption: _displayStringForOption,
-                optionsBuilder: (TextEditingValue textEditingValue) {
-                  
+                optionsBuilder: (TextEditingValue textEditingValue) async {
                   if (textEditingValue.text == '') {
                     return const Iterable<UserProfile>.empty();
                   }
-                  return _userOptions.where((UserProfile option) {
-                    return option.toString().contains(textEditingValue.text.toLowerCase());
-                  });
+                  final result = await ref.watch(queriedUserProfilesProviderProvider(textEditingValue.text).future);
+                  return result;
+
+                  // return _userOptions.where((UserProfile option) {
+                  //   return option.toString().contains(textEditingValue.text.toLowerCase());
+                  // });
                 },
                 onSelected: (UserProfile selection) {
                   ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => selection);
