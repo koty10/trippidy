@@ -7,6 +7,8 @@ import 'package:trippidy/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/screens/trip/components/members_list_view.dart';
 
+import '../add_member/add_member_screen.dart';
+
 class TripScreen extends ConsumerWidget {
   const TripScreen({super.key});
 
@@ -64,7 +66,14 @@ class TripScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Přidat člena"),
         icon: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddMemberScreen(),
+            ),
+          );
+        },
       ),
     );
   }
