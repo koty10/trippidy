@@ -1,6 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/model/user_profile.dart';
+import 'package:trippidy/providers/queried_user_profiles_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
+
+import '../../providers/selected_queried_user_profile_provider.dart';
 
 class AddMemberScreen extends ConsumerStatefulWidget {
   const AddMemberScreen({super.key});
@@ -18,7 +24,16 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
   final _formKey = GlobalKey<FormState>();
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
-  final textController = TextEditingController();
+  late final TextEditingController textController;
+
+  @override
+  void initState() {
+    super.initState();
+    textController = TextEditingController();
+    textController.addListener(() {
+      ref.read(queriedUserProfilesProviderProvider(textController.text));
+    });
+  }
 
   @override
   void dispose() {
@@ -27,8 +42,16 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
     super.dispose();
   }
 
+  static String _displayStringForOption(UserProfile option) => option.firstname;
+
+  static final List<UserProfile> _userOptions = <UserProfile>[
+    UserProfile(firstname: "aaa", id: "", image: "", lastname: "bbb", members: []),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    var selectedUserProfile = ref.watch(selectedQueriedUserProfileProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -41,25 +64,37 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(20),
-              child: TextFormField(
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Pole je povinné';
+              child: Autocomplete<UserProfile>(
+                displayStringForOption: _displayStringForOption,
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  
+                  if (textEditingValue.text == '') {
+                    return const Iterable<UserProfile>.empty();
                   }
-                  return null;
+                  return _userOptions.where((UserProfile option) {
+                    return option.toString().contains(textEditingValue.text.toLowerCase());
+                  });
                 },
-                controller: textController,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                  ),
-                  hintText: 'Zadejte id uživatele',
-                ),
+                onSelected: (UserProfile selection) {
+                  ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => selection);
+                  log('You just selected ${_displayStringForOption(selection)}');
+                },
+                fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                  // create your custom text field here
+                  return TextField(
+                    onChanged: (text) {
+                      // call your method here, passing in the new text value
+                      // set null while typing
+                      ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => null);
+                    },
+                    controller: textEditingController,
+                    focusNode: focusNode,
+                    onSubmitted: (value) {
+                      // handle the submitted value here
+                      null;
+                    },
+                  );
+                },
               ),
             ),
             Padding(
@@ -102,20 +137,22 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                           ),
                         ),
                       ),
+                      onPressed: selectedUserProfile == null
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                await ref.read(tripDetailControllerProvider.notifier).addMember(
+                                      textController.text, // TODO pass userId
+                                    );
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              }
+                            },
                       child: const Text(
                         "Přidat",
                         style: TextStyle(fontSize: 16),
                       ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await ref.read(tripDetailControllerProvider.notifier).addMember(
-                                textController.text, // TODO pass userId
-                              );
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
-                        }
-                      },
                     ),
                   ),
                 ],

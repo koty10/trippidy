@@ -81,6 +81,17 @@ class ApiCaller {
     }
   }
 
+  Future<List<UserProfile>> getUserProfilesByQuery(String query) async {
+    log("get userProfiles by query");
+    try {
+      final result = await _restClient.getUserProfilesByQuery(query);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<Member> updateMember(Member item) async {
     log("update member");
     log(memberToJson(item));

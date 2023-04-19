@@ -40,6 +40,9 @@ abstract class RestClient {
   @GET(userProfileEndpoint)
   Future<HttpResponse<UserProfile>> getUserProfile();
 
+  @GET(userProfileEndpoint)
+  Future<HttpResponse<List<UserProfile>>> getUserProfilesByQuery(@Path("query") String query);
+
   @PUT(membersEndpoint)
   Future<HttpResponse<Member>> updateMember(@Body() Member item);
 
