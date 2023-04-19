@@ -22,16 +22,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
-  //     if (!ref.read(authNotifierProvider).isAuthenticated) {
-  //       await ref.read(authNotifierProvider.notifier).login();
-  //     }
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
