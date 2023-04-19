@@ -47,13 +47,16 @@ class OurListScreen extends ConsumerWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: CircleAvatar(
-                                        backgroundColor: Colors.deepOrange,
                                         radius: 12,
-                                        child: Text(val.memberId.toString()),
+                                        backgroundColor: Colors.deepOrange,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(12),
+                                          child: Image.network(currentTrip.members.firstWhere((element) => element.id == val.memberId).userProfileImage!),
+                                        ),
                                       ),
                                     ),
                                   Checkbox(
-                                    fillColor: MaterialStateProperty.all(Colors.green),
+                                    fillColor: val.memberId == ref.read(memberControllerProvider).id ? MaterialStateProperty.all(Colors.green) : null,
                                     value: val.isChecked,
                                     onChanged: val.memberId == ref.read(memberControllerProvider).id
                                         ? (value) {
