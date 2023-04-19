@@ -24,8 +24,8 @@ class HomeScreen extends ConsumerWidget {
     //List<Trip> trips = ref.watch(tripsControllerProvider.notifier).getTrips();
 
     var tripsProvider = ref.watch(tripsControllerProvider);
-    var loggedInUser = ref.read(authControllerProvider).userProfile!;
-    List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.id, accepted: true);
+    var loggedInUser = ref.watch(authControllerProvider);
+    List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: true);
 
     return Scaffold(
       appBar: AppBar(

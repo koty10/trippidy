@@ -15,8 +15,8 @@ class TripOfferScreen extends ConsumerWidget {
     //List<Trip> trips = ref.watch(tripsControllerProvider.notifier).getTrips(accepted: false);
 
     var tripsProvider = ref.watch(tripsControllerProvider);
-    var loggedInUser = ref.read(authControllerProvider).userProfile!;
-    List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.id, accepted: false);
+    var loggedInUser = ref.watch(authControllerProvider);
+    List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: false);
 
     return Scaffold(
       appBar: AppBar(
