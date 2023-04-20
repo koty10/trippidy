@@ -81,10 +81,10 @@ class ApiCaller {
     }
   }
 
-  Future<List<UserProfile>> getUserProfilesByQuery(String query) async {
+  Future<List<UserProfile>> getUserProfilesByQuery(String query, String tripId) async {
     log("get userProfiles by query");
     try {
-      final result = await _restClient.getUserProfilesByQuery(query);
+      final result = await _restClient.getUserProfilesByQuery(query, tripId);
       return result.data;
     } catch (e) {
       log(e.toString());

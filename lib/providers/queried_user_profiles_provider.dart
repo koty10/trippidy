@@ -6,11 +6,11 @@ import '../model/user_profile.dart';
 part 'queried_user_profiles_provider.g.dart';
 
 @riverpod
-Future<List<UserProfile>> queriedUserProfilesProvider(QueriedUserProfilesProviderRef ref, String query) async {
+Future<List<UserProfile>> queriedUserProfilesProvider(QueriedUserProfilesProviderRef ref, String query, String tripId) async {
   // return Future.delayed(const Duration(milliseconds: 2000), () {
   //   return [
   //     UserProfile(firstname: "aaa", id: "", image: "", lastname: "bbb", members: []),
   //   ];
   // });
-  return await ref.read(apiCallerProvider).getUserProfilesByQuery(query);
+  return await ref.read(apiCallerProvider).getUserProfilesByQuery(query, tripId);
 }

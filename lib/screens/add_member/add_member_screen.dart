@@ -31,7 +31,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
     super.initState();
     textController = TextEditingController();
     textController.addListener(() {
-      ref.read(queriedUserProfilesProviderProvider(textController.text));
+      ref.read(queriedUserProfilesProviderProvider(textController.text, ref.read(tripDetailControllerProvider).id));
     });
   }
 
@@ -66,7 +66,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                   if (textEditingValue.text == '') {
                     return const Iterable<UserProfile>.empty();
                   }
-                  final result = await ref.watch(queriedUserProfilesProviderProvider(textEditingValue.text).future);
+                  final result = await ref.watch(queriedUserProfilesProviderProvider(textEditingValue.text, ref.read(tripDetailControllerProvider).id).future);
                   return result;
 
                   // return _userOptions.where((UserProfile option) {
