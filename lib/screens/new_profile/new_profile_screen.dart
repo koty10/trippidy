@@ -38,11 +38,13 @@ class _NewProfileScreenState extends ConsumerState<NewProfileScreen> {
               controller: firstnameTextController,
               placeholder: "Zadejte jméno",
               requiredMessage: "Jméno je povinné",
+              padding: 20,
             ),
             TrippidyTextFormField(
               controller: lastnameTextController,
               placeholder: "Zadejte příjmení",
               requiredMessage: "Příjmení je povinné",
+              padding: 20,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),

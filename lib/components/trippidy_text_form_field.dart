@@ -6,18 +6,22 @@ class TrippidyTextFormField extends StatelessWidget {
     required this.controller,
     this.requiredMessage = "Pole je povinné",
     this.placeholder = "Zadejte název",
+    this.focusNode,
+    this.padding = 0,
   });
   final TextEditingController controller;
   final String requiredMessage;
   final String placeholder;
+  final FocusNode? focusNode;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(padding),
       child: TextFormField(
         // The validator receives the text that the user has entered.
-
+        focusNode: focusNode,
         controller: controller,
         autofocus: true,
         decoration: InputDecoration(

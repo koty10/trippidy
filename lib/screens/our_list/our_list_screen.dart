@@ -99,7 +99,7 @@ class OurListScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: currentTrip.id, //FIXME - null
+                currentTrip: currentTrip, //FIXME - null
               ),
             ),
           );

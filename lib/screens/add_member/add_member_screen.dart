@@ -29,7 +29,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController = TextEditingController(); // TODO do i still need this?
     textController.addListener(() {
       ref.read(queriedUserProfilesProviderProvider(textController.text, ref.read(tripDetailControllerProvider).id));
     });

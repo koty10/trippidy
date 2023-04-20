@@ -1,10 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
+import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/components/trippidy_text_form_field.dart';
+import 'package:trippidy/providers/trip_detail_controller.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
-  final String currentTrip;
+  final Trip currentTrip;
 
   const AddItemScreen({super.key, required this.currentTrip});
 
@@ -26,6 +32,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loggedInUser = ref.watch(authControllerProvider).userProfile;
+    final result = ref.watch(tripDetailControllerProvider).getCategoriesFromTrip(userProfileId: loggedInUser!.id);
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -40,11 +48,65 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
               controller: nameTextController,
               placeholder: "Zadejte název položky",
               requiredMessage: "Název je povinný",
+              padding: 20,
             ),
-            TrippidyTextFormField(
-              controller: categoryTextController,
-              placeholder: "Zadejte název kategorie",
-              requiredMessage: "Kategorie je povinná",
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) async {
+                  log(textEditingValue.text);
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  log(result.where((String option) => option.contains(textEditingValue.text.toLowerCase())).toString());
+                  return result.where((String option) => option.contains(textEditingValue.text.toLowerCase()));
+                },
+                fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                  // create your custom text field here
+                  log("message");
+
+                  return TrippidyTextFormField(
+                    controller: textEditingController,
+                    placeholder: "Zadejte název kategorie",
+                    requiredMessage: "Kategorie je povinná",
+                    focusNode: focusNode,
+                  );
+                },
+                optionsViewBuilder: (context, onSelected, options) {
+                  log("option");
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
+                      ),
+                      elevation: 4.0,
+                      child: SizedBox(
+                        height: 54.0 * options.length,
+                        width: MediaQuery.of(context).size.width - 40,
+                        child: ListView.separated(
+                          padding: EdgeInsets.zero,
+                          itemCount: options.length,
+                          shrinkWrap: false,
+                          separatorBuilder: (context, i) {
+                            return const Divider();
+                          },
+                          itemBuilder: (BuildContext context, int index) {
+                            final String option = options.elementAt(index);
+                            return InkWell(
+                              onTap: () => onSelected(option),
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(option),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -104,7 +166,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
 
   Future<void> submit() async {
     if (_formKey.currentState!.validate()) {
-      await ref.read(memberControllerProvider.notifier).addItem(widget.currentTrip, nameTextController.text, category: categoryTextController.text);
+      await ref.read(memberControllerProvider.notifier).addItem(widget.currentTrip.id, nameTextController.text, category: categoryTextController.text);
       if (!mounted) return; // This makes sure that you are not working with a widget after it has been disposed of
       Navigator.pop(context);
     }
