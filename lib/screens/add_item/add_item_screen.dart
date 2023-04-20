@@ -29,6 +29,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   // of the TextField.
   final nameTextController = TextEditingController();
   final categoryTextController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final GlobalKey _autocompleteKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +51,14 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
               placeholder: "Zadejte název položky",
               requiredMessage: "Název je povinný",
               padding: 20,
+              onFieldSubmitted: submit,
             ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Autocomplete<String>(
+              child: RawAutocomplete<String>(
+                textEditingController: categoryTextController,
+                focusNode: _focusNode,
+                key: _autocompleteKey,
                 optionsBuilder: (TextEditingValue textEditingValue) async {
                   log(textEditingValue.text);
                   if (textEditingValue.text == '') {
@@ -70,6 +76,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                     placeholder: "Zadejte název kategorie",
                     requiredMessage: "Kategorie je povinná",
                     focusNode: focusNode,
+                    onFieldSubmitted: submit,
                   );
                 },
                 optionsViewBuilder: (context, onSelected, options) {
@@ -165,6 +172,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   }
 
   Future<void> submit() async {
+    log("submit debug");
+    log(categoryTextController.text);
     if (_formKey.currentState!.validate()) {
       await ref.read(memberControllerProvider.notifier).addItem(widget.currentTrip.id, nameTextController.text, category: categoryTextController.text);
       if (!mounted) return; // This makes sure that you are not working with a widget after it has been disposed of

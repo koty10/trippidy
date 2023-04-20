@@ -173,19 +173,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                           ),
                         ),
                       ),
-                      onPressed: selectedUserProfile == null
-                          ? null
-                          : () async {
-                              if (_formKey.currentState!.validate()) {
-                                await ref.read(tripDetailControllerProvider.notifier).addMember(
-                                      ref.read(selectedQueriedUserProfileProvider)?.id ?? "",
-                                    );
-                                ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => null);
-                                if (context.mounted) {
-                                  Navigator.pop(context);
-                                }
-                              }
-                            },
+                      onPressed: selectedUserProfile == null ? null : submit,
                       child: const Text(
                         "Přidat",
                         style: TextStyle(fontSize: 16),
@@ -199,5 +187,17 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> submit() async {
+    if (_formKey.currentState!.validate()) {
+      await ref.read(tripDetailControllerProvider.notifier).addMember(
+            ref.read(selectedQueriedUserProfileProvider)?.id ?? "",
+          );
+      ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => null);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+    }
   }
 }
