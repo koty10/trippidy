@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/member_controller.dart';
-import 'package:trippidy/screens/add_item/components/trippidy_text_form_field.dart';
+import 'package:trippidy/components/trippidy_text_form_field.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
   final String currentTrip;
