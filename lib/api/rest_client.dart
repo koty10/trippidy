@@ -40,6 +40,9 @@ abstract class RestClient {
   @GET(userProfileEndpoint)
   Future<HttpResponse<UserProfile>> getUserProfile();
 
+  @PUT(userProfileEndpoint)
+  Future<HttpResponse<UserProfile>> updateUserProfile(@Body() UserProfile item);
+
   @GET("$userProfileEndpoint/{query}")
   Future<HttpResponse<List<UserProfile>>> getUserProfilesByQuery(@Path("query") String query, @Query("tripId") String tripId);
 

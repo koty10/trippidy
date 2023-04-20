@@ -55,4 +55,20 @@ class UserProfile {
   String toString() {
     return "$id, $firstname, $lastname, $image";
   }
+
+  UserProfile copyWith({
+    String? id,
+    List<Member>? members,
+    String? firstname,
+    String? lastname,
+    String? image,
+  }) {
+    return UserProfile(
+      id: id ?? this.id,
+      members: members ?? this.members,
+      firstname: firstname ?? this.firstname,
+      lastname: lastname ?? this.lastname,
+      image: image ?? this.image,
+    );
+  }
 }

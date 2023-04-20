@@ -5,6 +5,7 @@ import 'package:trippidy/model/hive/credentials_wrapper.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/screens/loading/loading_screen.dart';
 import 'package:trippidy/screens/login/login_screen.dart';
+import 'package:trippidy/screens/new_profile/new_profile_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +41,11 @@ class _MyAppState extends ConsumerState<MyApp> {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.dark,
-      home: authState.isAuthenticated ? const LoadingScreen() : const LoginScreen(),
+      home: authState.isAuthenticated
+          ? authState.userProfile!.firstname.isNotEmpty && authState.userProfile!.lastname.isNotEmpty
+              ? const LoadingScreen()
+              : const NewProfileScreen()
+          : const LoginScreen(),
       // routes: {
       //   LoginScreen.routName :(context) => LoginScreen(),
       //   TripScreen.routeName:(context) => TripScreen(currentTrip: currentTrip),

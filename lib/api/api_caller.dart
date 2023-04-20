@@ -81,6 +81,18 @@ class ApiCaller {
     }
   }
 
+  Future<UserProfile> updateUserProfile(UserProfile item) async {
+    log("update userProfile");
+    log(userProfileToJson(item));
+    try {
+      final result = await _restClient.updateUserProfile(item);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<List<UserProfile>> getUserProfilesByQuery(String query, String tripId) async {
     log("get userProfiles by query");
     try {

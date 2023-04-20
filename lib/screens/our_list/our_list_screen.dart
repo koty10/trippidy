@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class OurListScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     Member member = ref.watch(memberControllerProvider);
+    var items = getOurListItems(member).entries;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,51 +31,62 @@ class OurListScreen extends ConsumerWidget {
             height: 20,
           ),
           Expanded(
-            child: ListView(
-              children: getOurListItems(member)
-                  .entries
-                  .map(
-                    (e) => ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(e.key),
-                      children: e.value
-                          .map(
-                            (val) => ListTile(
-                              title: Text(val.name),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (val.memberId != ref.read(memberControllerProvider).id)
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: CircleAvatar(
-                                        radius: 12,
-                                        backgroundColor: Colors.deepOrange,
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(12),
-                                          child: Image.network(currentTrip.members.firstWhere((element) => element.id == val.memberId).userProfileImage!),
-                                        ),
-                                      ),
-                                    ),
-                                  Checkbox(
-                                    fillColor: val.memberId == ref.read(memberControllerProvider).id ? MaterialStateProperty.all(Colors.green) : null,
-                                    value: val.isChecked,
-                                    onChanged: val.memberId == ref.read(memberControllerProvider).id
-                                        ? (value) {
-                                            val.isChecked = value ?? false;
-                                            ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
-                                          }
-                                        : null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
+            child: items.isEmpty
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LottieBuilder.asset(
+                        'assets/lotties/empty_box.json',
+                        height: 200,
+                      ),
+                      const SizedBox(height: 20),
+                      const Center(child: Text('Nemáte žádné společné položky.')),
+                    ],
                   )
-                  .toList(),
-            ),
+                : ListView(
+                    children: items
+                        .map(
+                          (e) => ExpansionTile(
+                            initiallyExpanded: true,
+                            title: Text(e.key),
+                            children: e.value
+                                .map(
+                                  (val) => ListTile(
+                                    title: Text(val.name),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        if (val.memberId != ref.read(memberControllerProvider).id)
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 8),
+                                            child: CircleAvatar(
+                                              radius: 12,
+                                              backgroundColor: Colors.deepOrange,
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(12),
+                                                child: Image.network(currentTrip.members.firstWhere((element) => element.id == val.memberId).userProfileImage!),
+                                              ),
+                                            ),
+                                          ),
+                                        Checkbox(
+                                          fillColor: val.memberId == ref.read(memberControllerProvider).id ? MaterialStateProperty.all(Colors.green) : null,
+                                          value: val.isChecked,
+                                          onChanged: val.memberId == ref.read(memberControllerProvider).id
+                                              ? (value) {
+                                                  val.isChecked = value ?? false;
+                                                  ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
+                                                }
+                                              : null,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        )
+                        .toList(),
+                  ),
           )
         ],
       ),
