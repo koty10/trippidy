@@ -79,7 +79,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
                   // create your custom text field here
-                  return TextField(
+                  return TextFormField(
                     onChanged: (text) {
                       // call your method here, passing in the new text value
                       // set null while typing
@@ -87,12 +87,49 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                     },
                     controller: textEditingController,
                     focusNode: focusNode,
-                    onSubmitted: (value) {
-                      // handle the submitted value here
-                      null;
-                    },
+                    autofocus: true,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(20),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      hintText: "Zadejte jméno uživatele",
+                    ),
                   );
                 },
+                optionsViewBuilder: (context, onSelected, options) => Align(
+                  alignment: Alignment.topLeft,
+                  child: Material(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(8)),
+                    ),
+                    elevation: 4.0,
+                    child: SizedBox(
+                      height: 54.0 * options.length,
+                      width: MediaQuery.of(context).size.width - 40,
+                      child: ListView.separated(
+                        padding: EdgeInsets.zero,
+                        itemCount: options.length,
+                        shrinkWrap: false,
+                        separatorBuilder: (context, i) {
+                          return const Divider();
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          final UserProfile option = options.elementAt(index);
+                          return InkWell(
+                            onTap: () => onSelected(option),
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text("${option.firstname} ${option.lastname}"),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -118,6 +155,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                       style: TextStyle(fontSize: 16),
                     ),
                     onPressed: () {
+                      ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => null);
                       Navigator.pop(context);
                     },
                   ),
@@ -142,6 +180,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                                 await ref.read(tripDetailControllerProvider.notifier).addMember(
                                       ref.read(selectedQueriedUserProfileProvider)?.id ?? "",
                                     );
+                                ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => null);
                                 if (context.mounted) {
                                   Navigator.pop(context);
                                 }

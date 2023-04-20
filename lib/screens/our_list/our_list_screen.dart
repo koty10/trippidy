@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 
 import '../../model/member.dart';
+import '../add_item/add_item_screen.dart';
 
 class OurListScreen extends ConsumerWidget {
   const OurListScreen({
@@ -89,6 +90,20 @@ class OurListScreen extends ConsumerWidget {
                   ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text("Přidat položku"),
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddItemScreen(
+                currentTrip: currentTrip.id, //FIXME - null
+              ),
+            ),
+          );
+        },
       ),
     );
   }
