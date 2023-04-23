@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 
 import '../../components/trippidy_text_form_field.dart';
@@ -75,8 +76,10 @@ class _NewProfileScreenState extends ConsumerState<NewProfileScreen> {
 
   Future<void> submit() async {
     if (_formKey.currentState!.validate()) {
-      var userProfile =
-          ref.read(authControllerProvider).userProfile!.copyWith(firstname: firstnameTextController.text.trim(), lastname: lastnameTextController.text.trim());
+      var userProfile = ref.read(authControllerProvider).userProfile!.copyWith(
+            firstname: firstnameTextController.text.trim().capitalize(),
+            lastname: lastnameTextController.text.trim().capitalize(),
+          );
       await ref.read(authControllerProvider.notifier).updateUserProfile(userProfile);
     }
   }

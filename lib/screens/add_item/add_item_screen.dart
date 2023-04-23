@@ -64,8 +64,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                   if (textEditingValue.text == '') {
                     return const Iterable<String>.empty();
                   }
-                  log(result.where((String option) => option.contains(textEditingValue.text.toLowerCase())).toString());
-                  return result.where((String option) => option.contains(textEditingValue.text.toLowerCase()));
+                  log(result.where((String option) => option.toLowerCase().contains(textEditingValue.text.toLowerCase())).toString());
+                  return result.where((String option) => option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
                   // create your custom text field here

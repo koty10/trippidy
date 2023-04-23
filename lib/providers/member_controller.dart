@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
@@ -41,9 +42,9 @@ class MemberController extends _$MemberController {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     Item item = Item(
         amount: 1,
-        categoryName: category.trim().toLowerCase(),
+        categoryName: category.trim().capitalize(),
         isChecked: false,
-        name: name.trim().toLowerCase(),
+        name: name.trim().capitalize(),
         price: 0,
         isPrivate: false,
         isShared: true,

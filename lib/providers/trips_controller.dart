@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
@@ -35,7 +36,7 @@ class TripsController extends _$TripsController {
     var tripId = const Uuid().v4();
     Trip newTrip = Trip(
       id: tripId,
-      name: name,
+      name: name.trim().capitalize(),
       dateFrom: dateFrom,
       dateTo: dateTo,
       members: [

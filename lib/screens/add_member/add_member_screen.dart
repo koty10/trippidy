@@ -68,20 +68,14 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                   }
                   final result = await ref.watch(queriedUserProfilesProviderProvider(textEditingValue.text, ref.read(tripDetailControllerProvider).id).future);
                   return result;
-
-                  // return _userOptions.where((UserProfile option) {
-                  //   return option.toString().contains(textEditingValue.text.toLowerCase());
-                  // });
                 },
                 onSelected: (UserProfile selection) {
                   ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => selection);
                   log('You just selected ${_displayStringForOption(selection)}');
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
-                  // create your custom text field here
                   return TextFormField(
                     onChanged: (text) {
-                      // call your method here, passing in the new text value
                       // set null while typing
                       ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => null);
                     },
