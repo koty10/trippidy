@@ -26,11 +26,12 @@ class HomeScreen extends ConsumerWidget {
     var tripsProvider = ref.watch(tripsControllerProvider);
     var loggedInUser = ref.watch(authControllerProvider);
     List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: true);
+    int offersCount = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: false).length;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seznam cest'),
-        actions: const [NotificationButton()],
+        actions: [NotificationButton(offersCount: offersCount)],
       ),
       drawer: const HomeScreenDrawer(),
       body: ListView.separated(
