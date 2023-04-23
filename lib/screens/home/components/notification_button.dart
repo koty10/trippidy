@@ -8,7 +8,8 @@ class NotificationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return IconButton(
+      padding: const EdgeInsets.only(right: 16),
       onPressed: () {
         Navigator.push(
           context,
@@ -17,7 +18,7 @@ class NotificationButton extends StatelessWidget {
           ),
         );
       },
-      child: Stack(
+      icon: Stack(
         children: [
           const Padding(
             padding: EdgeInsets.all(8.0),
