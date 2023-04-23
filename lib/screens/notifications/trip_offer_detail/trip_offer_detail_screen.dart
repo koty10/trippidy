@@ -3,6 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/trip_offer_detail_controller.dart';
+import 'package:trippidy/screens/trip/trip_screen.dart';
+
+import '../../../providers/trip_detail_controller.dart';
 
 class TripOfferDetailScreen extends ConsumerWidget {
   const TripOfferDetailScreen({super.key});
@@ -84,8 +87,17 @@ class TripOfferDetailScreen extends ConsumerWidget {
                     "Přijmout",
                     style: TextStyle(fontSize: 16),
                   ),
-                  onPressed: () {
-                    ref.read(tripOfferDetailControllerProvider.notifier).accept();
+                  onPressed: () async {
+                    await ref.read(tripOfferDetailControllerProvider.notifier).accept();
+                    if (context.mounted) {
+                      ref.read(tripDetailControllerProvider.notifier).setTrip(ref.read(tripOfferDetailControllerProvider));
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TripScreen(),
+                          ),
+                          (route) => route.isFirst);
+                    }
                   },
                 ),
               ),
