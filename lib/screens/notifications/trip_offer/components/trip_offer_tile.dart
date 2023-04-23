@@ -13,8 +13,6 @@ class TripOfferTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var format = DateFormat("dd.MM.yyyy");
-
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -33,8 +31,7 @@ class TripOfferTile extends ConsumerWidget {
           ],
         ),
       ),
-      subtitle:
-          Text("Majitel: ${trip.getOwner().userProfileFirstname} ${trip.getOwner().userProfileLastname}\nTermín: ${format.format(trip.dateFrom)} - ${format.format(trip.dateTo)}"),
+      subtitle: Text(getTileText(trip)),
       isThreeLine: true,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -78,5 +75,14 @@ class TripOfferTile extends ConsumerWidget {
         );
       },
     );
+  }
+
+  String getTileText(Trip trip) {
+    var format = DateFormat("dd.MM.yyyy");
+    String text = "Majitel: ${trip.getOwner().userProfileFirstname} ${trip.getOwner().userProfileLastname}";
+    if (trip.dateFrom != null && trip.dateTo != null) {
+      text += "\nTermín: ${format.format(trip.dateFrom!)} - ${format.format(trip.dateTo!)}";
+    }
+    return text;
   }
 }

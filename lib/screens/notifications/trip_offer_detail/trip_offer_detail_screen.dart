@@ -33,7 +33,8 @@ class TripOfferDetailScreen extends ConsumerWidget {
                   children: [
                     Text("Název: ${currentTrip.name}"),
                     Text("Majitel: ${currentTrip.getOwner().userProfileFirstname} ${currentTrip.getOwner().userProfileLastname}"),
-                    Text("Termín: ${format.format(currentTrip.dateFrom)} - ${format.format(currentTrip.dateTo)}"),
+                    if (currentTrip.dateFrom != null && currentTrip.dateTo != null)
+                      Text("Termín: ${format.format(currentTrip.dateFrom!)} - ${format.format(currentTrip.dateTo!)}"),
                   ],
                 ),
               ),

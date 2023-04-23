@@ -32,7 +32,7 @@ class TripDetailController extends _$TripDetailController {
       id: const Uuid().v4(),
       accepted: false,
       items: [],
-      role: Role.member.toString(),
+      role: Role.member.name,
       tripId: state.id,
       userProfileId: userId,
       userProfileFirstname: "",

@@ -38,7 +38,7 @@ class AuthInterceptor extends Interceptor {
 
       log("onError resolve...");
       // Return the new response
-      handler.resolve(newOptions as Response);
+      handler.resolve(Response(requestOptions: newOptions));
     } else {
       log("onError next...");
       //handler.next(err);

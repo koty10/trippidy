@@ -16,8 +16,8 @@ String tripCollectionToJson(List<Trip> data) => json.encode(List<dynamic>.from(d
 
 class Trip {
   Trip({
-    required this.dateFrom,
-    required this.dateTo,
+    this.dateFrom,
+    this.dateTo,
     required this.id,
     required this.members,
     required this.name,
@@ -27,23 +27,23 @@ class Trip {
     return Trip(dateFrom: DateTime.now(), dateTo: DateTime.now(), id: "", members: [], name: "");
   }
 
-  DateTime dateFrom;
-  DateTime dateTo;
+  DateTime? dateFrom;
+  DateTime? dateTo;
   String id;
   List<Member> members;
   String name;
 
   factory Trip.fromJson(Map<String, dynamic> json) => Trip(
-        dateFrom: DateTime.parse(json["dateFrom"]),
-        dateTo: DateTime.parse(json["dateTo"]),
+        dateFrom: json["dateFrom"] != null ? DateTime.parse(json["dateFrom"]) : null,
+        dateTo: json["dateTo"] != null ? DateTime.parse(json["dateTo"]) : null,
         id: json["id"],
         members: List<Member>.from(json["members"].map((x) => Member.fromJson(x))),
         name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "dateFrom": dateFrom.toIso8601String(),
-        "dateTo": dateTo.toIso8601String(),
+        "dateFrom": dateFrom?.toIso8601String(),
+        "dateTo": dateTo?.toIso8601String(),
         "id": id,
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
         "name": name,

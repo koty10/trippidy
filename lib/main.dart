@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,13 @@ class _MyAppState extends ConsumerState<MyApp> {
     final authState = ref.watch(authControllerProvider);
 
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('cs'), Locale("en_US")],
+      locale: const Locale("cs"),
       title: 'Trippidy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

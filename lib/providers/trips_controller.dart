@@ -30,14 +30,14 @@ class TripsController extends _$TripsController {
     });
   }
 
-  Future<void> addTripForUser(context, String name, String userId) async {
+  Future<void> addTripForUser({required context, required String name, required String userId, DateTime? dateFrom, DateTime? dateTo}) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     var tripId = const Uuid().v4();
     Trip newTrip = Trip(
       id: tripId,
       name: name,
-      dateFrom: DateTime.now(),
-      dateTo: DateTime.now(),
+      dateFrom: dateFrom,
+      dateTo: dateTo,
       members: [
         Member(
           id: const Uuid().v4(),
