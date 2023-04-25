@@ -8,7 +8,6 @@ import 'package:trippidy/screens/add_item/add_item_screen.dart';
 
 import '../../model/item.dart';
 
-//TODO after add item it is not returned from the server for some reason (but items for DTU trip are ok)
 class MyListScreen extends ConsumerWidget {
   const MyListScreen({
     super.key,
@@ -55,7 +54,7 @@ class MyListScreen extends ConsumerWidget {
                                 value: val.isChecked,
                                 onChanged: (value) {
                                   val.isChecked = value ?? false;
-                                  ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); //FIXME - null
+                                  ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
                                 },
                               ),
                             ),

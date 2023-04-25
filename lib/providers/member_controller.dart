@@ -48,7 +48,7 @@ class MemberController extends _$MemberController {
         price: 0,
         isPrivate: private,
         isShared: shared,
-        memberId: state.id, // FIXME null
+        memberId: state.id,
         categoryId: const Uuid().v4(),
         id: const Uuid().v4());
     item = await apiCaller.createItem(item);

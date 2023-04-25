@@ -16,31 +16,9 @@ class AddMemberScreen extends ConsumerStatefulWidget {
 }
 
 class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a `GlobalKey<FormState>`,
-  // not a GlobalKey<MyCustomFormState>.
+  // Create a global key that uniquely identifies the Form widget and allows validation of the form.
+  // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
-  late final TextEditingController textController;
-
-  @override
-  void initState() {
-    super.initState();
-    textController = TextEditingController(); // TODO do i still need this?
-    textController.addListener(() {
-      ref.read(queriedUserProfilesProviderProvider(textController.text, ref.read(tripDetailControllerProvider).id));
-    });
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    textController.dispose();
-    super.dispose();
-  }
 
   static String _displayStringForOption(UserProfile option) => "${option.firstname} ${option.lastname}";
 

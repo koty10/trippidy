@@ -75,7 +75,7 @@ class OurListScreen extends ConsumerWidget {
                                           onChanged: val.memberId == ref.read(memberControllerProvider).id
                                               ? (value) {
                                                   val.isChecked = value ?? false;
-                                                  ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val); // FIXME - null
+                                                  ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
                                                 }
                                               : null,
                                         ),
@@ -111,7 +111,7 @@ class OurListScreen extends ConsumerWidget {
   }
 
   Map<String, List<Item>> getOurListItems(Member member) {
-    var tmp = ((currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member]) // FIXME i have to get userId somehow
+    var tmp = ((currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member])
         .expand((element2) => element2.items)
         .where((element3) => element3.isShared)
         .toList();

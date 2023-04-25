@@ -5,7 +5,7 @@ import 'package:trippidy/api/api_caller.dart';
 import '../constants.dart';
 import '../model/hive/credentials_wrapper.dart';
 import '../model/state/auth_state.dart';
-import '../model/user_profile.dart' as trippidyUserProfile;
+import '../model/user_profile.dart' as trippidy_user_profile;
 import '../storage/hive_auth_storage.dart';
 
 part 'auth_controller.g.dart';
@@ -90,7 +90,7 @@ class AuthController extends _$AuthController {
     return state.credentials?.userId;
   }
 
-  Future<void> updateUserProfile(trippidyUserProfile.UserProfile userProfile) async {
+  Future<void> updateUserProfile(trippidy_user_profile.UserProfile userProfile) async {
     final result = await ref.read(apiCallerProvider).updateUserProfile(userProfile);
     log(result.toString());
     state = state.copyWith(userProfile: result);

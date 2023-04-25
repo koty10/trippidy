@@ -26,7 +26,7 @@ class MembersListScreen extends ConsumerWidget {
           ),
           Expanded(
             child: ListView(
-              children: getListItemsForUser(userId: currentMember.id, currentTrip: currentTrip) //FIXME - null
+              children: getListItemsForUser(userId: currentMember.id, currentTrip: currentTrip)
                   .entries
                   .map(
                     (e) => ExpansionTile(
