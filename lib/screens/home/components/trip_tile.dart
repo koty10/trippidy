@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,20 +16,10 @@ class TripTile extends ConsumerWidget {
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      tileColor: Colors.lightGreen[400],
+      tileColor: context.colorScheme.onSecondary,
       title: Text(
         trip.name,
-        style: const TextStyle(
-          fontSize: 18,
-          color: Colors.white,
-          shadows: [
-            Shadow(
-              color: Colors.grey,
-              offset: Offset(2, 2),
-              blurRadius: 3,
-            ),
-          ],
-        ),
+        style: context.txtTheme.titleMedium,
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -40,7 +31,6 @@ class TripTile extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: CircleAvatar(
                   radius: 12,
-                  backgroundColor: Colors.deepOrange,
                   child: member.userProfileImage != null
                       ? ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(member.userProfileImage!))
                       : Text(

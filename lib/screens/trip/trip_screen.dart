@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/my_list/my_list_screen.dart';
@@ -11,6 +12,7 @@ import 'package:trippidy/screens/trip/trip_settings_screen.dart';
 
 import '../../model/member.dart';
 import '../../providers/auth_controller.dart';
+import '../../providers/member_controller.dart';
 import '../add_member/add_member_screen.dart';
 
 class TripScreen extends ConsumerWidget {
@@ -56,6 +58,7 @@ class TripScreen extends ConsumerWidget {
                   target: MyListScreen(
                     currentTrip: currentTrip,
                   ),
+                  member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
                 ),
                 const SizedBox(height: 16),
                 MemberListTile(
@@ -64,20 +67,19 @@ class TripScreen extends ConsumerWidget {
                   target: OurListScreen(
                     currentTrip: currentTrip,
                   ),
+                  member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
+                  showGroupIcon: true,
                 ),
               ],
             ),
           ),
           if (members.isNotEmpty)
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 8),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 8),
               child: Text(
                 'Seznamy ostatních členů',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                ),
+                style: context.txtTheme.bodyMedium,
               ),
             ),
           members.isNotEmpty

@@ -33,9 +33,9 @@ class MemberController extends _$MemberController {
     state = member;
   }
 
-  void setCurrentMember(Trip trip) {
+  Member getLoggedInMemberFromTrip(Trip trip) {
     var loggedInUserId = ref.read(authControllerProvider).userProfile!.id;
-    state = trip.members.firstWhere((element) => element.userProfileId == loggedInUserId);
+    return trip.members.firstWhere((element) => element.userProfileId == loggedInUserId);
   }
 
   Future<void> addItem(String tripId, String name, {String category = '', required bool shared, required bool private}) async {

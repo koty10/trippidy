@@ -36,7 +36,17 @@ class MembersListScreen extends ConsumerWidget {
                           .map(
                             (val) => ListTile(
                               title: Text(val.name),
-                              trailing: Checkbox(value: val.isChecked, onChanged: null),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (val.isShared)
+                                    const Padding(
+                                      padding: EdgeInsets.only(right: 8),
+                                      child: Icon(Icons.groups),
+                                    ),
+                                  Checkbox(value: val.isChecked, onChanged: null),
+                                ],
+                              ),
                             ),
                           )
                           .toList(),
@@ -53,7 +63,7 @@ class MembersListScreen extends ConsumerWidget {
   Map<String, List<Item>> getListItemsForUser({required String userId, required Trip currentTrip}) {
     var member = currentTrip.members.firstWhere((element) => element.id == userId);
     //if (member == null) return {};
-    var tmp = member.items;
+    var tmp = member.items.where((element) => !element.isPrivate);
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
