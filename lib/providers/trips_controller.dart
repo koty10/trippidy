@@ -51,6 +51,7 @@ class TripsController extends _$TripsController {
           userProfileLastname: "",
         ),
       ],
+      isDeleted: false,
     );
 
     newTrip = await apiCaller.createTrip(newTrip);

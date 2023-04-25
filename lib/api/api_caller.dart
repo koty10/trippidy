@@ -70,6 +70,17 @@ class ApiCaller {
     }
   }
 
+  Future<Trip> deleteTrip(Trip item) async {
+    log("delete trip");
+    try {
+      final result = await _restClient.deleteTrip(item.id);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<UserProfile> getUserProfile() async {
     log("get userProfile");
     try {

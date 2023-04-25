@@ -49,4 +49,9 @@ class TripDetailController extends _$TripDetailController {
     // Update higher provider
     ref.read(tripsControllerProvider.notifier).updateTrip(state);
   }
+
+  Future<void> deleteTrip() async {
+    var trip = await ref.read(apiCallerProvider).deleteTrip(state);
+    ref.read(tripsControllerProvider.notifier).updateTrip(trip);
+  }
 }

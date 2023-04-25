@@ -31,6 +31,9 @@ abstract class RestClient {
   @POST(tripsEndpoint)
   Future<HttpResponse<Trip>> createTrip(@Body() Trip item);
 
+  @DELETE("$tripsEndpoint/{tripId}")
+  Future<HttpResponse<Trip>> deleteTrip(@Path("tripId") String tripId);
+
   @PUT(itemsEndpoint)
   Future<HttpResponse<Item>> updateItem(@Body() Item item);
 

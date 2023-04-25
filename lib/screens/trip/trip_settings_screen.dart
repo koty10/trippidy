@@ -62,6 +62,9 @@ class TripSettingsScreen extends ConsumerWidget {
                   style: TextStyle(fontSize: 16),
                 ),
                 onPressed: () {
+                  ref.read(tripDetailControllerProvider.notifier).deleteTrip();
+                  //FIXME i should make those pops in one step
+                  Navigator.pop(context);
                   Navigator.pop(context);
                 },
               ),

@@ -21,10 +21,11 @@ class Trip {
     required this.id,
     required this.members,
     required this.name,
+    required this.isDeleted,
   });
 
   factory Trip.empty() {
-    return Trip(dateFrom: DateTime.now(), dateTo: DateTime.now(), id: "", members: [], name: "");
+    return Trip(dateFrom: DateTime.now(), dateTo: DateTime.now(), id: "", members: [], name: "", isDeleted: false);
   }
 
   DateTime? dateFrom;
@@ -32,6 +33,7 @@ class Trip {
   String id;
   List<Member> members;
   String name;
+  bool isDeleted;
 
   factory Trip.fromJson(Map<String, dynamic> json) => Trip(
         dateFrom: json["dateFrom"] != null ? DateTime.parse(json["dateFrom"]) : null,
@@ -39,6 +41,7 @@ class Trip {
         id: json["id"],
         members: List<Member>.from(json["members"].map((x) => Member.fromJson(x))),
         name: json["name"],
+        isDeleted: json["isDeleted"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,6 +50,7 @@ class Trip {
         "id": id,
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
         "name": name,
+        "isDeleted": isDeleted,
       };
 
   Trip copyWith({
@@ -55,6 +59,7 @@ class Trip {
     String? id,
     List<Member>? members,
     String? name,
+    bool? isDeleted,
   }) {
     return Trip(
       dateFrom: dateFrom ?? this.dateFrom,
@@ -62,6 +67,7 @@ class Trip {
       id: id ?? this.id,
       members: members ?? this.members,
       name: name ?? this.name,
+      isDeleted: isDeleted ?? this.isDeleted,
     );
   }
 
