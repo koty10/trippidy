@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 
 import '../../../providers/trip_detail_controller.dart';
 
@@ -41,35 +42,36 @@ class TripSettingsScreen extends ConsumerWidget {
             ],
           ),
           const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 15,
-                  ),
-                  foregroundColor: Colors.red,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+          if (currentTrip.getOwner().userProfileId == ref.read(authControllerProvider.notifier).getUserId())
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 15,
+                    ),
+                    foregroundColor: Colors.red,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
                   ),
+                  child: const Text(
+                    "Smazat",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  onPressed: () {
+                    ref.read(tripDetailControllerProvider.notifier).deleteTrip();
+                    //FIXME i should make those pops in one step
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
                 ),
-                child: const Text(
-                  "Smazat",
-                  style: TextStyle(fontSize: 16),
-                ),
-                onPressed: () {
-                  ref.read(tripDetailControllerProvider.notifier).deleteTrip();
-                  //FIXME i should make those pops in one step
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
+              ],
+            ),
 
           const SizedBox(
             height: 32,
