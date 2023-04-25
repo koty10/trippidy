@@ -38,7 +38,7 @@ class MemberController extends _$MemberController {
     state = trip.members.firstWhere((element) => element.userProfileId == loggedInUserId);
   }
 
-  Future<void> addItem(String tripId, String name, {String category = ''}) async {
+  Future<void> addItem(String tripId, String name, {String category = '', required bool shared, required bool private}) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     Item item = Item(
         amount: 1,
@@ -46,8 +46,8 @@ class MemberController extends _$MemberController {
         isChecked: false,
         name: name.trim().capitalize(),
         price: 0,
-        isPrivate: false,
-        isShared: true,
+        isPrivate: private,
+        isShared: shared,
         memberId: state.id, // FIXME null
         categoryId: const Uuid().v4(),
         id: const Uuid().v4());

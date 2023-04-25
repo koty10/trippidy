@@ -73,7 +73,9 @@ class MyListScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: currentTrip, //FIXME - null
+                currentTrip: currentTrip,
+                private: false,
+                shared: false,
               ),
             ),
           );

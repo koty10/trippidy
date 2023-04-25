@@ -1,18 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:trippidy/components/trippidy_text_form_field.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
-import 'package:trippidy/components/trippidy_text_form_field.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
   final Trip currentTrip;
+  final bool shared;
+  final bool private;
 
-  const AddItemScreen({super.key, required this.currentTrip});
+  const AddItemScreen({super.key, required this.currentTrip, this.shared = false, this.private = true});
 
   @override
   ConsumerState<AddItemScreen> createState() => _AddItemScreenState();
@@ -31,11 +35,21 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   final categoryTextController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final GlobalKey _autocompleteKey = GlobalKey();
+  late bool _private;
+  late bool _shared;
+
+  @override
+  void initState() {
+    super.initState();
+    _private = widget.private;
+    _shared = widget.shared;
+  }
 
   @override
   Widget build(BuildContext context) {
     final loggedInUser = ref.watch(authControllerProvider).userProfile;
     final result = ref.watch(tripDetailControllerProvider).getCategoriesFromTrip(userProfileId: loggedInUser!.id);
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -51,7 +65,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
               placeholder: "Zadejte název položky",
               requiredMessage: "Název je povinný",
               padding: 20,
-              onFieldSubmitted: submit,
+              onFieldSubmitted: () => submit(_shared, _private),
             ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -76,7 +90,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                     placeholder: "Zadejte název kategorie",
                     requiredMessage: "Kategorie je povinná",
                     focusNode: focusNode,
-                    onFieldSubmitted: submit,
+                    onFieldSubmitted: () => submit(_shared, _private),
                   );
                 },
                 optionsViewBuilder: (context, onSelected, options) {
@@ -114,6 +128,45 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                   );
                 },
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    const Text("Sdílené"),
+                    Switch(
+                      value: _shared,
+                      activeColor: Colors.red,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _shared = value;
+                          if (value) _private = false;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 128,
+                ),
+                Column(
+                  children: [
+                    const Text("Tajné"),
+                    Switch(
+                      value: _private,
+                      activeColor: Colors.red,
+                      onChanged: _shared
+                          ? null
+                          : (bool value) {
+                              setState(() {
+                                _private = value;
+                              });
+                            },
+                    ),
+                  ],
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
@@ -155,7 +208,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                           ),
                         ),
                       ),
-                      onPressed: submit,
+                      onPressed: () => submit(_shared, _private),
                       child: const Text(
                         "Přidat",
                         style: TextStyle(fontSize: 16),
@@ -171,11 +224,17 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     );
   }
 
-  Future<void> submit() async {
+  Future<void> submit(bool shared, bool private) async {
     log("submit debug");
     log(categoryTextController.text);
     if (_formKey.currentState!.validate()) {
-      await ref.read(memberControllerProvider.notifier).addItem(widget.currentTrip.id, nameTextController.text, category: categoryTextController.text);
+      await ref.read(memberControllerProvider.notifier).addItem(
+            widget.currentTrip.id,
+            nameTextController.text,
+            category: categoryTextController.text,
+            shared: shared,
+            private: private,
+          );
       if (!mounted) return; // This makes sure that you are not working with a widget after it has been disposed of
       Navigator.pop(context);
     }
