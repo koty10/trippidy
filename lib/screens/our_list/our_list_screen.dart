@@ -55,6 +55,19 @@ class OurListScreen extends ConsumerWidget {
                               children: e.value
                                   .map(
                                     (val) => ListTile(
+                                      onTap: val.memberId == ref.read(memberControllerProvider).id
+                                          ? () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => AddItemScreen(
+                                                    currentTrip: currentTrip,
+                                                    item: val,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          : null,
                                       title: Text(val.name),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
