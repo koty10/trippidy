@@ -11,12 +11,15 @@ import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 
+import '../../model/item.dart';
+
 class AddItemScreen extends ConsumerStatefulWidget {
   final Trip currentTrip;
   final bool shared;
   final bool private;
+  final Item? item;
 
-  const AddItemScreen({super.key, required this.currentTrip, this.shared = false, this.private = true});
+  const AddItemScreen({super.key, required this.currentTrip, this.shared = false, this.private = true, this.item});
 
   @override
   ConsumerState<AddItemScreen> createState() => _AddItemScreenState();
@@ -38,12 +41,21 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   final GlobalKey _autocompleteKey = GlobalKey();
   late bool _private;
   late bool _shared;
+  Item? item;
 
   @override
   void initState() {
     super.initState();
     _private = widget.private;
     _shared = widget.shared;
+    if (widget.item != null) {
+      _private = widget.item!.isPrivate;
+      _shared = widget.item!.isShared;
+      categoryTextController.text = widget.item!.categoryName;
+      nameTextController.text = widget.item!.name;
+      if (widget.item!.price != 0) priceTextController.text = widget.item!.price.toString();
+      item = widget.item;
+    }
   }
 
   @override
@@ -54,7 +66,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text("Přidat položku"),
+        title: item == null ? const Text("Přidat položku") : const Text("Upravit položku"),
       ),
       body: Form(
         key: _formKey,
@@ -67,7 +79,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 placeholder: "Zadejte název položky",
                 requiredMessage: "Název je povinný",
                 padding: 20,
-                onFieldSubmitted: () => submit(_shared, _private),
+                onFieldSubmitted: () => submit(),
                 length: 128,
               ),
               Padding(
@@ -93,7 +105,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                       placeholder: "Zadejte název kategorie",
                       requiredMessage: "Kategorie je povinná",
                       focusNode: focusNode,
-                      onFieldSubmitted: () => submit(_shared, _private),
+                      onFieldSubmitted: () => submit(),
                       length: 128,
                     );
                   },
@@ -176,7 +188,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 controller: priceTextController,
                 placeholder: "Zadejte cenu",
                 padding: 20,
-                onFieldSubmitted: () => submit(_shared, _private),
+                onFieldSubmitted: () => submit(),
                 required: false,
                 keyboardType: TextInputType.number,
               ),
@@ -220,10 +232,10 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                             ),
                           ),
                         ),
-                        onPressed: () => submit(_shared, _private),
-                        child: const Text(
-                          "Přidat",
-                          style: TextStyle(fontSize: 16),
+                        onPressed: () => submit(),
+                        child: Text(
+                          item == null ? "Přidat" : "Uložit",
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
@@ -237,18 +249,30 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     );
   }
 
-  Future<void> submit(bool shared, bool private) async {
+  Future<void> submit() async {
     log("submit debug");
-    log(categoryTextController.text);
     if (_formKey.currentState!.validate()) {
-      await ref.read(memberControllerProvider.notifier).addItem(
-            widget.currentTrip.id,
-            nameTextController.text,
-            category: categoryTextController.text,
-            price: int.tryParse(priceTextController.text) ?? 0,
-            shared: shared,
-            private: private,
-          );
+      if (item == null) {
+        await ref.read(memberControllerProvider.notifier).addItem(
+              widget.currentTrip.id,
+              nameTextController.text,
+              category: categoryTextController.text,
+              price: int.tryParse(priceTextController.text) ?? 0,
+              shared: _shared,
+              private: _private,
+            );
+      } else {
+        item!.name = nameTextController.text;
+        item!.categoryName = categoryTextController.text;
+        item!.isPrivate = _private;
+        item!.isShared = _shared;
+        item!.price = int.tryParse(priceTextController.text) ?? 0;
+        await ref.read(memberControllerProvider.notifier).updateItem(
+              widget.currentTrip.id,
+              item!,
+            );
+      }
+
       if (!mounted) return; // This makes sure that you are not working with a widget after it has been disposed of
       Navigator.pop(context);
     }

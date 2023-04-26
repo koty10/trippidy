@@ -78,7 +78,7 @@ class OurListScreen extends ConsumerWidget {
                                             onChanged: val.memberId == ref.read(memberControllerProvider).id
                                                 ? (value) {
                                                     val.isChecked = value ?? false;
-                                                    ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
+                                                    ref.read(memberControllerProvider.notifier).updateItem(currentTrip.id, val);
                                                   }
                                                 : null,
                                           ),

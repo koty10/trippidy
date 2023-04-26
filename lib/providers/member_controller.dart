@@ -64,7 +64,7 @@ class MemberController extends _$MemberController {
     // Navigator.pop(context);
   }
 
-  Future<void> updateItem(context, String tripId, Item item) async {
+  Future<void> updateItem(String tripId, Item item) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     apiCaller.updateItem(item);
 
@@ -73,6 +73,5 @@ class MemberController extends _$MemberController {
 
     // Create a new Member object with the updated map of items
     state = state.copyWith(items: updatedItems);
-    //Navigator.pop(context);
   }
 }

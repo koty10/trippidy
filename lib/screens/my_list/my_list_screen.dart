@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
@@ -50,17 +51,46 @@ class MyListScreen extends ConsumerWidget {
                         children: e.value
                             .map(
                               (val) => ListTile(
-                                title: Text(val.name),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddItemScreen(
+                                        currentTrip: currentTrip,
+                                        private: false,
+                                        shared: false,
+                                        item: val,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                title: Text(
+                                  val.name,
+                                ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    if (val.price != 0) Text("${val.price} Kč"),
+                                    if (val.price != 0)
+                                      Text(
+                                        "${val.price} Kč",
+                                        style: context.txtTheme.bodySmall,
+                                      ),
+                                    if (val.isPrivate)
+                                      const Padding(
+                                        padding: EdgeInsets.only(right: 8, left: 16),
+                                        child: Icon(Icons.visibility_off),
+                                      ),
+                                    if (val.isShared)
+                                      const Padding(
+                                        padding: EdgeInsets.only(right: 8, left: 16),
+                                        child: Icon(Icons.groups),
+                                      ),
                                     Checkbox(
                                       //fillColor: MaterialStateProperty.all(Colors.green),
                                       value: val.isChecked,
                                       onChanged: (value) {
                                         val.isChecked = value ?? false;
-                                        ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
+                                        ref.read(memberControllerProvider.notifier).updateItem(currentTrip.id, val);
                                       },
                                     ),
                                   ],
