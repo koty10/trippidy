@@ -49,13 +49,19 @@ class MyListScreen extends ConsumerWidget {
                           .map(
                             (val) => ListTile(
                               title: Text(val.name),
-                              trailing: Checkbox(
-                                fillColor: MaterialStateProperty.all(Colors.green),
-                                value: val.isChecked,
-                                onChanged: (value) {
-                                  val.isChecked = value ?? false;
-                                  ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
-                                },
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (val.price != 0) Text("${val.price} Kč"),
+                                  Checkbox(
+                                    //fillColor: MaterialStateProperty.all(Colors.green),
+                                    value: val.isChecked,
+                                    onChanged: (value) {
+                                      val.isChecked = value ?? false;
+                                      ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           )

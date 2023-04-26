@@ -57,12 +57,12 @@ class OurListScreen extends ConsumerWidget {
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
+                                        if (val.price != 0) Text("${val.price} Kč"),
                                         if (val.memberId != ref.read(memberControllerProvider).id)
                                           Padding(
-                                            padding: const EdgeInsets.only(right: 8),
+                                            padding: const EdgeInsets.only(right: 8, left: 16),
                                             child: CircleAvatar(
                                               radius: 12,
-                                              backgroundColor: Colors.deepOrange,
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(12),
                                                 child: Image.network(currentTrip.members.firstWhere((element) => element.id == val.memberId).userProfileImage!),
@@ -70,7 +70,7 @@ class OurListScreen extends ConsumerWidget {
                                             ),
                                           ),
                                         Checkbox(
-                                          fillColor: val.memberId == ref.read(memberControllerProvider).id ? MaterialStateProperty.all(Colors.green) : null,
+                                          //fillColor: val.memberId == ref.read(memberControllerProvider).id ? MaterialStateProperty.all(Colors.green) : null,
                                           value: val.isChecked,
                                           onChanged: val.memberId == ref.read(memberControllerProvider).id
                                               ? (value) {

@@ -53,9 +53,10 @@ class MembersListScreen extends ConsumerWidget {
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
+                                        if (val.price != 0) Text("${val.price} Kč"),
                                         if (val.isShared)
                                           const Padding(
-                                            padding: EdgeInsets.only(right: 8),
+                                            padding: EdgeInsets.only(right: 8, left: 16),
                                             child: Icon(Icons.groups),
                                           ),
                                         Checkbox(value: val.isChecked, onChanged: null),
