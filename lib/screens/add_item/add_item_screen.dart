@@ -33,6 +33,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   // of the TextField.
   final nameTextController = TextEditingController();
   final categoryTextController = TextEditingController();
+  final priceTextController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final GlobalKey _autocompleteKey = GlobalKey();
   late bool _private;
@@ -169,6 +170,14 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                   ),
                 ],
               ),
+              TrippidyTextFormField(
+                controller: priceTextController,
+                placeholder: "Zadejte cenu",
+                padding: 20,
+                onFieldSubmitted: () => submit(_shared, _private),
+                required: false,
+                keyboardType: TextInputType.number,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Row(
@@ -234,6 +243,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
             widget.currentTrip.id,
             nameTextController.text,
             category: categoryTextController.text,
+            price: int.tryParse(priceTextController.text) ?? 0,
             shared: shared,
             private: private,
           );

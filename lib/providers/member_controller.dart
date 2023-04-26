@@ -38,14 +38,14 @@ class MemberController extends _$MemberController {
     return trip.members.firstWhere((element) => element.userProfileId == loggedInUserId);
   }
 
-  Future<void> addItem(String tripId, String name, {String category = '', required bool shared, required bool private}) async {
+  Future<void> addItem(String tripId, String name, {String category = '', required bool shared, required bool private, required int price}) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     Item item = Item(
         amount: 1,
         categoryName: category.trim().capitalize(),
         isChecked: false,
         name: name.trim().capitalize(),
-        price: 0,
+        price: price,
         isPrivate: private,
         isShared: shared,
         memberId: state.id,

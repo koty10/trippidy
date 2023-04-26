@@ -9,6 +9,8 @@ class TrippidyTextFormField extends StatelessWidget {
     this.focusNode,
     this.padding = 0,
     this.onFieldSubmitted,
+    this.required = true,
+    this.keyboardType,
   });
   final TextEditingController controller;
   final String requiredMessage;
@@ -16,12 +18,15 @@ class TrippidyTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
   final double padding;
   final void Function()? onFieldSubmitted;
+  final bool required;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(padding),
       child: TextFormField(
+        keyboardType: keyboardType,
         onFieldSubmitted: onFieldSubmitted != null
             ? (String? value) {
                 onFieldSubmitted!();
@@ -41,8 +46,15 @@ class TrippidyTextFormField extends StatelessWidget {
           hintText: placeholder,
         ),
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (!required && (value == null || value.isEmpty)) return null;
+          if (required && (value == null || value.isEmpty)) {
             return requiredMessage;
+          }
+          if (keyboardType == TextInputType.number) {
+            final number = int.tryParse(value!);
+            if (number == null) {
+              return 'Prosím zadejte číslo';
+            }
           }
           return null;
         },
