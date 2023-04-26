@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
@@ -9,7 +11,7 @@ import 'package:trippidy/screens/add_item/add_item_screen.dart';
 
 import '../../model/item.dart';
 
-class MyListScreen extends ConsumerWidget {
+class MyListScreen extends ConsumerStatefulWidget {
   const MyListScreen({
     super.key,
     required this.currentTrip,
@@ -18,14 +20,34 @@ class MyListScreen extends ConsumerWidget {
   final Trip currentTrip;
 
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<MyListScreen> createState() => _MyListScreenState();
+}
+
+class _MyListScreenState extends ConsumerState<MyListScreen> {
+  bool expandAll = true;
+
+  @override
+  Widget build(BuildContext context) {
+    log("rebuild $expandAll");
     Member member = ref.watch(memberControllerProvider);
     var items = getMyListItems(member).entries;
 
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - můj seznam"),
+        title: Text("${widget.currentTrip.name} - můj seznam"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                expandAll = !expandAll;
+              });
+            },
+            icon: Icon(
+              expandAll ? Icons.visibility : Icons.visibility_off,
+            ),
+          )
+        ],
       ),
       body: items.isEmpty
           ? Column(
@@ -46,7 +68,8 @@ class MyListScreen extends ConsumerWidget {
                     (e) => Theme(
                       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                       child: ExpansionTile(
-                        initiallyExpanded: true,
+                        key: GlobalKey(),
+                        initiallyExpanded: expandAll,
                         title: Text(e.key),
                         children: e.value
                             .map(
@@ -56,7 +79,7 @@ class MyListScreen extends ConsumerWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => AddItemScreen(
-                                        currentTrip: currentTrip,
+                                        currentTrip: widget.currentTrip,
                                         item: val,
                                       ),
                                     ),
@@ -69,26 +92,33 @@ class MyListScreen extends ConsumerWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     if (val.price != 0)
-                                      Text(
-                                        "${val.price} Kč",
-                                        style: context.txtTheme.bodySmall,
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 16),
+                                        child: Text(
+                                          "${val.price} Kč",
+                                          style: context.txtTheme.bodySmall,
+                                        ),
                                       ),
                                     if (val.isPrivate)
                                       const Padding(
-                                        padding: EdgeInsets.only(right: 8, left: 16),
+                                        padding: EdgeInsets.only(right: 16),
                                         child: Icon(Icons.visibility_off),
                                       ),
                                     if (val.isShared)
                                       const Padding(
-                                        padding: EdgeInsets.only(right: 8, left: 16),
+                                        padding: EdgeInsets.only(right: 16),
                                         child: Icon(Icons.groups),
                                       ),
                                     Checkbox(
+                                      //visualDensity: VisualDensity.compact,
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+
                                       //fillColor: MaterialStateProperty.all(Colors.green),
                                       value: val.isChecked,
                                       onChanged: (value) {
                                         val.isChecked = value ?? false;
-                                        ref.read(memberControllerProvider.notifier).updateItem(currentTrip.id, val);
+                                        ref.read(memberControllerProvider.notifier).updateItem(widget.currentTrip.id, val);
                                       },
                                     ),
                                   ],
@@ -109,7 +139,7 @@ class MyListScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: currentTrip,
+                currentTrip: widget.currentTrip,
                 private: false,
                 shared: false,
               ),
