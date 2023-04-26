@@ -6,6 +6,7 @@ import '../../../model/trip.dart';
 import '../../../providers/auth_controller.dart';
 import '../../../providers/trips_controller.dart';
 import 'components/trip_offer_tile.dart';
+import 'package:lottie/lottie.dart';
 
 class TripOfferScreen extends ConsumerWidget {
   const TripOfferScreen({super.key});
@@ -23,14 +24,26 @@ class TripOfferScreen extends ConsumerWidget {
         leading: const BackButton(),
         title: const Text('Notifikace'),
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        itemCount: trips.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TripOfferTile(trip: trips[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
-      ),
+      body: trips.isEmpty
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LottieBuilder.asset(
+                  'assets/lotties/empty_box.json',
+                  height: 200,
+                ),
+                const SizedBox(height: 20),
+                const Center(child: Text('Žádné novinky tu nejsou.')),
+              ],
+            )
+          : ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              itemCount: trips.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TripOfferTile(trip: trips[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
+            ),
     );
   }
 }
