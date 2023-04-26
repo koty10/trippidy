@@ -8,7 +8,7 @@ import 'package:trippidy/providers/member_controller.dart';
 import '../../model/member.dart';
 import '../add_item/add_item_screen.dart';
 
-class OurListScreen extends ConsumerWidget {
+class OurListScreen extends ConsumerStatefulWidget {
   const OurListScreen({
     super.key,
     required this.currentTrip,
@@ -17,14 +17,33 @@ class OurListScreen extends ConsumerWidget {
   final Trip currentTrip;
 
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<OurListScreen> createState() => _OurListScreenState();
+}
+
+class _OurListScreenState extends ConsumerState<OurListScreen> {
+  bool expandAll = true;
+
+  @override
+  Widget build(BuildContext context) {
     Member member = ref.watch(memberControllerProvider);
     var items = getOurListItems(member).entries;
 
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - společný seznam"),
+        title: Text("${widget.currentTrip.name} - společný seznam"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                expandAll = !expandAll;
+              });
+            },
+            icon: Icon(
+              expandAll ? Icons.visibility : Icons.visibility_off,
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -50,7 +69,8 @@ class OurListScreen extends ConsumerWidget {
                           (e) => Theme(
                             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
-                              initiallyExpanded: true,
+                              key: GlobalKey(),
+                              initiallyExpanded: expandAll,
                               title: Text(e.key),
                               children: e.value
                                   .map(
@@ -61,7 +81,7 @@ class OurListScreen extends ConsumerWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) => AddItemScreen(
-                                                    currentTrip: currentTrip,
+                                                    currentTrip: widget.currentTrip,
                                                     item: val,
                                                   ),
                                                 ),
@@ -80,8 +100,8 @@ class OurListScreen extends ConsumerWidget {
                                                 radius: 12,
                                                 child: ClipRRect(
                                                   borderRadius: BorderRadius.circular(12),
-                                                  child:
-                                                      Image.network(currentTrip.members.firstWhere((element) => element.id == val.memberId).userProfileImage!),
+                                                  child: Image.network(
+                                                      widget.currentTrip.members.firstWhere((element) => element.id == val.memberId).userProfileImage!),
                                                 ),
                                               ),
                                             ),
@@ -91,7 +111,7 @@ class OurListScreen extends ConsumerWidget {
                                             onChanged: val.memberId == ref.read(memberControllerProvider).id
                                                 ? (value) {
                                                     val.isChecked = value ?? false;
-                                                    ref.read(memberControllerProvider.notifier).updateItem(currentTrip.id, val);
+                                                    ref.read(memberControllerProvider.notifier).updateItem(widget.currentTrip.id, val);
                                                   }
                                                 : null,
                                           ),
@@ -116,7 +136,7 @@ class OurListScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: currentTrip,
+                currentTrip: widget.currentTrip,
                 private: false,
                 shared: true,
               ),
@@ -128,7 +148,7 @@ class OurListScreen extends ConsumerWidget {
   }
 
   Map<String, List<Item>> getOurListItems(Member member) {
-    var tmp = ((currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member])
+    var tmp = ((widget.currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member])
         .expand((element2) => element2.items)
         .where((element3) => element3.isShared)
         .toList();
