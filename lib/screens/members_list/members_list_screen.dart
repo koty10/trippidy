@@ -6,13 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 
-class MembersListScreen extends ConsumerWidget {
+class MembersListScreen extends ConsumerStatefulWidget {
   const MembersListScreen({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MembersListScreen> createState() => _MembersListScreenState();
+}
+
+class _MembersListScreenState extends ConsumerState<MembersListScreen> {
+  bool expandAll = true;
+
+  @override
+  Widget build(BuildContext context) {
     final currentMember = ref.watch(memberControllerProvider);
     final currentTrip = ref.watch(tripDetailControllerProvider);
     var items = getListItemsForUser(userId: currentMember.id, currentTrip: currentTrip).entries;
@@ -21,6 +28,18 @@ class MembersListScreen extends ConsumerWidget {
       appBar: AppBar(
         leading: const BackButton(),
         title: Text("${currentTrip.name} - ${currentMember.userProfileFirstname} ${currentMember.userProfileLastname}"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                expandAll = !expandAll;
+              });
+            },
+            icon: Icon(
+              expandAll ? Icons.visibility : Icons.visibility_off,
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -46,7 +65,8 @@ class MembersListScreen extends ConsumerWidget {
                           (e) => Theme(
                             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
-                              initiallyExpanded: true,
+                              key: GlobalKey(),
+                              initiallyExpanded: expandAll,
                               title: Text(e.key),
                               children: e.value
                                   .map(
