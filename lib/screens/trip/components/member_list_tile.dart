@@ -15,11 +15,9 @@ class MemberListTile extends ConsumerWidget {
   final Member member;
   final bool showGroupIcon;
 
-  void initState() {}
-
   @override
   Widget build(BuildContext context, ref) {
-    return InkWell(
+    return ListTile(
       onTap: !member.accepted
           ? null
           : () {
@@ -31,27 +29,25 @@ class MemberListTile extends ConsumerWidget {
                 ),
               );
             },
-      child: ListTile(
-        dense: true,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        tileColor: !member.accepted ? context.colorScheme.onInverseSurface : context.colorScheme.onSecondary,
-        subtitle: !member.accepted ? const Text("Pozvánka odeslána") : null,
-        leading: Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: showGroupIcon
-              ? const Icon(Icons.groups)
-              : CircleAvatar(
-                  radius: 12,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(currentTrip.members.firstWhere((element) => element.id == member.id).userProfileImage!),
-                  ),
+      dense: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      tileColor: !member.accepted ? context.colorScheme.onInverseSurface : context.colorScheme.onSecondary,
+      subtitle: !member.accepted ? const Text("Pozvánka odeslána") : null,
+      leading: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: showGroupIcon
+            ? const Icon(Icons.groups)
+            : CircleAvatar(
+                radius: 12,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(currentTrip.members.firstWhere((element) => element.id == member.id).userProfileImage!),
                 ),
-        ),
-        title: Text(title, style: context.txtTheme.titleMedium),
-        contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-        mouseCursor: SystemMouseCursors.click,
+              ),
       ),
+      title: Text(title, style: context.txtTheme.titleMedium),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+      mouseCursor: SystemMouseCursors.click,
     );
   }
 }

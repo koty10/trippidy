@@ -68,6 +68,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 requiredMessage: "Název je povinný",
                 padding: 20,
                 onFieldSubmitted: () => submit(_shared, _private),
+                length: 128,
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -93,6 +94,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                       requiredMessage: "Kategorie je povinná",
                       focusNode: focusNode,
                       onFieldSubmitted: () => submit(_shared, _private),
+                      length: 128,
                     );
                   },
                   optionsViewBuilder: (context, onSelected, options) {

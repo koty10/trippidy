@@ -26,7 +26,7 @@ class TripOfferDetailScreen extends ConsumerWidget {
         //crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // TODO add trip image
-          Image.asset("images/italy.jpg"),
+          Image.asset("assets/images/trip_illustration.jpg"),
           Row(
             children: [
               Padding(

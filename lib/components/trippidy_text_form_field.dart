@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TrippidyTextFormField extends StatelessWidget {
-  const TrippidyTextFormField({
-    super.key,
-    required this.controller,
-    this.requiredMessage = "Pole je povinné",
-    this.placeholder = "Zadejte název",
-    this.focusNode,
-    this.padding = 0,
-    this.onFieldSubmitted,
-    this.required = true,
-    this.keyboardType,
-  });
+  const TrippidyTextFormField(
+      {super.key,
+      required this.controller,
+      this.requiredMessage = "Pole je povinné",
+      this.placeholder = "Zadejte název",
+      this.focusNode,
+      this.padding = 0,
+      this.onFieldSubmitted,
+      this.required = true,
+      this.keyboardType,
+      this.length});
   final TextEditingController controller;
   final String requiredMessage;
   final String placeholder;
@@ -20,12 +21,15 @@ class TrippidyTextFormField extends StatelessWidget {
   final void Function()? onFieldSubmitted;
   final bool required;
   final TextInputType? keyboardType;
+  final int? length;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(padding),
       child: TextFormField(
+        maxLength: length,
+        inputFormatters: keyboardType == TextInputType.number ? [FilteringTextInputFormatter.digitsOnly] : null,
         keyboardType: keyboardType,
         onFieldSubmitted: onFieldSubmitted != null
             ? (String? value) {

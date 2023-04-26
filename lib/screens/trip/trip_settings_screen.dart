@@ -24,7 +24,7 @@ class TripSettingsScreen extends ConsumerWidget {
       body: Column(
         children: [
           // TODO add trip image
-          Image.asset("images/italy.jpg"),
+          Image.asset("assets/images/trip_illustration.jpg"),
           Row(
             children: [
               Padding(
