@@ -43,28 +43,31 @@ class MembersListScreen extends ConsumerWidget {
                 : ListView(
                     children: items
                         .map(
-                          (e) => ExpansionTile(
-                            initiallyExpanded: true,
-                            title: Text(e.key),
-                            children: e.value
-                                .map(
-                                  (val) => ListTile(
-                                    title: Text(val.name),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        if (val.price != 0) Text("${val.price} Kč"),
-                                        if (val.isShared)
-                                          const Padding(
-                                            padding: EdgeInsets.only(right: 8, left: 16),
-                                            child: Icon(Icons.groups),
-                                          ),
-                                        Checkbox(value: val.isChecked, onChanged: null),
-                                      ],
+                          (e) => Theme(
+                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              initiallyExpanded: true,
+                              title: Text(e.key),
+                              children: e.value
+                                  .map(
+                                    (val) => ListTile(
+                                      title: Text(val.name),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          if (val.price != 0) Text("${val.price} Kč"),
+                                          if (val.isShared)
+                                            const Padding(
+                                              padding: EdgeInsets.only(right: 8, left: 16),
+                                              child: Icon(Icons.groups),
+                                            ),
+                                          Checkbox(value: val.isChecked, onChanged: null),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                                .toList(),
+                                  )
+                                  .toList(),
+                            ),
                           ),
                         )
                         .toList(),

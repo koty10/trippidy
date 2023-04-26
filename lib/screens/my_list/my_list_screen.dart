@@ -42,30 +42,33 @@ class MyListScreen extends ConsumerWidget {
               //padding: const EdgeInsets.all(8),
               children: items
                   .map(
-                    (e) => ExpansionTile(
-                      initiallyExpanded: true,
-                      title: Text(e.key),
-                      children: e.value
-                          .map(
-                            (val) => ListTile(
-                              title: Text(val.name),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  if (val.price != 0) Text("${val.price} Kč"),
-                                  Checkbox(
-                                    //fillColor: MaterialStateProperty.all(Colors.green),
-                                    value: val.isChecked,
-                                    onChanged: (value) {
-                                      val.isChecked = value ?? false;
-                                      ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
-                                    },
-                                  ),
-                                ],
+                    (e) => Theme(
+                      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        initiallyExpanded: true,
+                        title: Text(e.key),
+                        children: e.value
+                            .map(
+                              (val) => ListTile(
+                                title: Text(val.name),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (val.price != 0) Text("${val.price} Kč"),
+                                    Checkbox(
+                                      //fillColor: MaterialStateProperty.all(Colors.green),
+                                      value: val.isChecked,
+                                      onChanged: (value) {
+                                        val.isChecked = value ?? false;
+                                        ref.read(memberControllerProvider.notifier).updateItem(context, currentTrip.id, val);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
+                            )
+                            .toList(),
+                      ),
                     ),
                   )
                   .toList(),
