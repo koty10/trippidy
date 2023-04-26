@@ -111,8 +111,8 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
                                       ),
                                     Checkbox(
                                       //visualDensity: VisualDensity.compact,
-                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+                                      //materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      //visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
 
                                       //fillColor: MaterialStateProperty.all(Colors.green),
                                       value: val.isChecked,

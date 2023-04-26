@@ -119,7 +119,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         ),
                         elevation: 4.0,
                         child: SizedBox(
-                          height: 54.0 * options.length,
+                          height: 50.0 * (options.length > 8 ? 8 : options.length),
                           width: MediaQuery.of(context).size.width - 40,
                           child: ListView.separated(
                             padding: EdgeInsets.zero,
@@ -133,7 +133,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                               return InkWell(
                                 onTap: () => onSelected(option),
                                 child: Container(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Text(option),
                                 ),
                               );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/trip_list_extension.dart';
 import 'package:trippidy/screens/home/components/notification_button.dart';
 
@@ -34,14 +35,28 @@ class HomeScreen extends ConsumerWidget {
         actions: [NotificationButton(offersCount: offersCount)],
       ),
       drawer: const HomeScreenDrawer(),
-      body: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        itemCount: trips.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TripTile(trip: trips[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
-      ),
+      body: trips.isNotEmpty
+          ? ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+              itemCount: trips.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TripTile(trip: trips[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LottieBuilder.asset(
+                  'assets/lotties/trip_map.json',
+                  height: 200,
+                ),
+                const SizedBox(height: 20),
+                const Center(
+                  child: Text('Začněte přidáním nového výletu.'),
+                ),
+              ],
+            ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(

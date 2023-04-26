@@ -89,7 +89,7 @@ class TripScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       LottieBuilder.asset(
-                        'assets/lotties/empty_box.json',
+                        'assets/lotties/people.json',
                         height: 200,
                       ),
                       const SizedBox(height: 20),
