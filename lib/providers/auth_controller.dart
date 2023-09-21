@@ -36,23 +36,27 @@ class AuthController extends _$AuthController {
     log("login started");
     final Auth0 auth = ref.read(auth0providerProvider);
 
-    final credentials = await auth.webAuthentication(scheme: AUTH0_SCHEME).login();
-    log(credentials.toString());
-    //final userInfo = credentials.idToken; // .userInfo({'access_token': credentials['access_token']});
-    //final user = User.fromJson(credentials.user);
-    await HiveAuthStorage.storeCredentials(credentials);
-    //await HiveAuthStorage.storeUser(user);
-    state = AuthState.authenticated(
-      CredentialsWrapper(
-        idToken: credentials.idToken,
-        accessToken: credentials.accessToken,
-        refreshToken: credentials.refreshToken,
-        userId: credentials.user.sub,
-      ),
-    );
-    await _setUserProfile();
-    log("login finished");
-    log(state.isAuthenticated.toString());
+    try {
+      final credentials = await auth.webAuthentication(scheme: AUTH0_SCHEME).login();
+      log(credentials.toString());
+      //final userInfo = credentials.idToken; // .userInfo({'access_token': credentials['access_token']});
+      //final user = User.fromJson(credentials.user);
+      await HiveAuthStorage.storeCredentials(credentials);
+      //await HiveAuthStorage.storeUser(user);
+      state = AuthState.authenticated(
+        CredentialsWrapper(
+          idToken: credentials.idToken,
+          accessToken: credentials.accessToken,
+          refreshToken: credentials.refreshToken,
+          userId: credentials.user.sub,
+        ),
+      );
+      await _setUserProfile();
+      log("login finished");
+      log(state.isAuthenticated.toString());
+    } catch (e) {
+      log("User was not able to login using Auth0.");
+    }
   }
 
   Future<void> logout() async {
@@ -97,8 +101,12 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> _setUserProfile() async {
-    final result = await ref.read(apiCallerProvider).getUserProfile();
-    log(result.toString());
-    state = state.copyWith(userProfile: result);
+    try {
+      final result = await ref.read(apiCallerProvider).getUserProfile();
+      log(result.toString());
+      state = state.copyWith(userProfile: result);
+    } catch (e) {
+      log("Could not load userProfile.");
+    }
   }
 }
