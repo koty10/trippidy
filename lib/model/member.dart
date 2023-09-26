@@ -29,6 +29,8 @@ class Member {
   String userProfileId;
   String? userProfileImage;
 
+  double get totalPrice => items.fold(0.0, (sum, item) => sum + item.price);
+
   factory Member.fromJson(Map<String, dynamic> json) => Member(
         accepted: json["accepted"],
         id: json["id"],

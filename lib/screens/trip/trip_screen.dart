@@ -8,6 +8,7 @@ import 'package:trippidy/screens/our_list/our_list_screen.dart';
 import 'package:trippidy/screens/trip/components/member_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/screens/trip/components/members_list_view.dart';
+import 'package:trippidy/screens/trip/trip_payments_screen.dart';
 import 'package:trippidy/screens/trip/trip_settings_screen.dart';
 
 import '../../model/member.dart';
@@ -30,6 +31,18 @@ class TripScreen extends ConsumerWidget {
         leading: const BackButton(),
         title: Text(currentTrip.name),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const TripPaymentsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.attach_money),
+            padding: const EdgeInsets.all(16),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
