@@ -6,10 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:trippidy/components/trippidy_text_form_field.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
+import 'package:trippidy/model/future_transaction.dart';
+import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../model/item.dart';
 
@@ -42,6 +45,9 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   late bool _private;
   late bool _shared;
   Item? item;
+  late List<FutureTransaction> futureTransactions;
+  final newItemId = const Uuid().v4();
+  late Iterable<String> result;
 
   @override
   void initState() {
@@ -55,13 +61,23 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
       nameTextController.text = widget.item!.name;
       if (widget.item!.price != 0) priceTextController.text = widget.item!.price.toString();
       item = widget.item;
+      futureTransactions = item!.futureTransactions;
+    } else {
+      futureTransactions = ref
+          .read(tripDetailControllerProvider)
+          .members
+          .map(
+            (m) => FutureTransaction(id: const Uuid().v4(), payerId: m.id, itemId: newItemId),
+          )
+          .toList();
     }
+    final loggedInUser = ref.read(authControllerProvider).userProfile;
+    result = ref.read(tripDetailControllerProvider).getCategoriesFromTrip(userProfileId: loggedInUser!.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final loggedInUser = ref.watch(authControllerProvider).userProfile;
-    final result = ref.watch(tripDetailControllerProvider).getCategoriesFromTrip(userProfileId: loggedInUser!.id);
+    final members = ref.watch(tripDetailControllerProvider).members;
 
     return Scaffold(
       appBar: AppBar(
@@ -192,6 +208,31 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 required: false,
                 keyboardType: TextInputType.number,
               ),
+              Wrap(
+                spacing: 8.0, // gap between adjacent chips
+                runSpacing: 4.0, // gap between lines
+                children: members.map((Member member) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(
+                        () {
+                          if (futureTransactions.any((element) => element.payerId == member.id)) {
+                            futureTransactions = futureTransactions.where((element) => element.payerId != member.id).toList();
+                          } else {
+                            futureTransactions =
+                                futureTransactions + [FutureTransaction(id: const Uuid().v4(), itemId: item?.id ?? newItemId, payerId: member.id)];
+                          }
+                        },
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 30.0, // You can replace this with Text widget for displaying initials
+                      backgroundColor: futureTransactions.any((element) => element.payerId == member.id) ? Colors.green : Colors.grey,
+                      child: futureTransactions.any((element) => element.payerId == member.id) ? const Icon(Icons.check, color: Colors.white) : null,
+                    ),
+                  );
+                }).toList(),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Row(
@@ -254,12 +295,14 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     if (_formKey.currentState!.validate()) {
       if (item == null) {
         await ref.read(memberControllerProvider.notifier).addItem(
+              newItemId,
               widget.currentTrip.id,
               nameTextController.text,
               category: categoryTextController.text,
               price: int.tryParse(priceTextController.text) ?? 0,
               shared: _shared,
               private: _private,
+              futureTransactions: futureTransactions,
             );
       } else {
         item!.name = nameTextController.text;
@@ -267,6 +310,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
         item!.isPrivate = _private;
         item!.isShared = _shared;
         item!.price = int.tryParse(priceTextController.text) ?? 0;
+        item!.futureTransactions = futureTransactions;
         await ref.read(memberControllerProvider.notifier).updateItem(
               widget.currentTrip.id,
               item!,
