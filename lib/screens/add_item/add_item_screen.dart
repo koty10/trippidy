@@ -13,6 +13,7 @@ import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 
 import '../../model/item.dart';
 
@@ -225,16 +226,43 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         },
                       );
                     },
-                    child: CircleAvatar(
-                      radius: 30.0, // You can replace this with Text widget for displaying initials
-                      backgroundColor: futureTransactions.any((element) => element.payerId == member.id) ? Colors.green : Colors.grey,
-                      child: futureTransactions.any((element) => element.payerId == member.id) ? const Icon(Icons.check, color: Colors.white) : null,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Image.network(
+                            member.userProfileImage!,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                        if (futureTransactions.any((element) => element.payerId == member.id))
+                          Positioned(
+                            left: 0,
+                            top: 0,
+                            child: Opacity(
+                              opacity: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: context.colorScheme.onPrimaryContainer,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: context.colorScheme.primaryContainer,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Icon(Icons.check, color: context.colorScheme.primaryContainer, size: 12),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   );
                 }).toList(),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
