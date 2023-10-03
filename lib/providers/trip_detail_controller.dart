@@ -38,6 +38,7 @@ class TripDetailController extends _$TripDetailController {
       userProfileFirstname: "",
       userProfileLastname: "",
       userProfileImage: "",
+      futureTransactions: [],
     );
     member = await apiCaller.createMember(member);
 

@@ -1,12 +1,22 @@
-import 'dart:convert';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:flutter/foundation.dart';
+
+import 'package:trippidy/model/future_transaction.dart';
 
 import 'item.dart';
 
-Member memberFromJson(String str) => json.decode(str);
-
-String memberToJson(Member data) => json.encode(data);
-
 class Member {
+  bool accepted;
+  String id;
+  List<Item> items;
+  String role;
+  String tripId;
+  String userProfileFirstname;
+  String userProfileLastname;
+  String userProfileId;
+  String? userProfileImage;
+  List<FutureTransaction> futureTransactions;
   Member({
     required this.accepted,
     required this.id,
@@ -17,43 +27,10 @@ class Member {
     required this.userProfileLastname,
     required this.userProfileId,
     this.userProfileImage,
+    required this.futureTransactions,
   });
 
-  bool accepted;
-  String id;
-  List<Item> items;
-  String role;
-  String tripId;
-  String userProfileFirstname;
-  String userProfileLastname;
-  String userProfileId;
-  String? userProfileImage;
-
   double get totalPrice => items.fold(0.0, (sum, item) => sum + item.price);
-
-  factory Member.fromJson(Map<String, dynamic> json) => Member(
-        accepted: json["accepted"],
-        id: json["id"],
-        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-        role: json["role"],
-        tripId: json["tripId"],
-        userProfileFirstname: json["userProfileFirstname"],
-        userProfileLastname: json["userProfileLastname"],
-        userProfileId: json["userProfileId"],
-        userProfileImage: json["userProfileImage"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "accepted": accepted,
-        "id": id,
-        "items": List<dynamic>.from(items.map((x) => x.toJson())),
-        "role": role,
-        "tripId": tripId,
-        "userProfileFirstname": userProfileFirstname,
-        "userProfileLastname": userProfileLastname,
-        "userProfileId": userProfileId,
-        "userProfileImage": userProfileImage,
-      };
 
   Member copyWith({
     bool? accepted,
@@ -65,6 +42,7 @@ class Member {
     String? userProfileLastname,
     String? userProfileId,
     String? userProfileImage,
+    List<FutureTransaction>? futureTransactions,
   }) {
     return Member(
       accepted: accepted ?? this.accepted,
@@ -76,6 +54,70 @@ class Member {
       userProfileLastname: userProfileLastname ?? this.userProfileLastname,
       userProfileId: userProfileId ?? this.userProfileId,
       userProfileImage: userProfileImage ?? this.userProfileImage,
+      futureTransactions: futureTransactions ?? this.futureTransactions,
     );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'accepted': accepted,
+        'id': id,
+        'items': items.map((x) => x.toJson()).toList(),
+        'role': role,
+        'tripId': tripId,
+        'userProfileFirstname': userProfileFirstname,
+        'userProfileLastname': userProfileLastname,
+        'userProfileId': userProfileId,
+        'userProfileImage': userProfileImage,
+        'futureTransactions': futureTransactions.map((x) => x.toJson()).toList(),
+      };
+
+  factory Member.fromJson(Map<String, dynamic> map) {
+    return Member(
+      accepted: map['accepted'] as bool,
+      id: map['id'] as String,
+      items: List<Item>.from(map["items"].map((x) => Item.fromJson(x))),
+      role: map['role'] as String,
+      tripId: map['tripId'] as String,
+      userProfileFirstname: map['userProfileFirstname'] as String,
+      userProfileLastname: map['userProfileLastname'] as String,
+      userProfileId: map['userProfileId'] as String,
+      userProfileImage: map['userProfileImage'] != null ? map['userProfileImage'] as String : null,
+      futureTransactions: List<FutureTransaction>.from(map["futureTransactions"].map((x) => FutureTransaction.fromJson(x))),
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, futureTransactions: $futureTransactions)';
+  }
+
+  @override
+  bool operator ==(covariant Member other) {
+    if (identical(this, other)) return true;
+
+    return other.accepted == accepted &&
+        other.id == id &&
+        listEquals(other.items, items) &&
+        other.role == role &&
+        other.tripId == tripId &&
+        other.userProfileFirstname == userProfileFirstname &&
+        other.userProfileLastname == userProfileLastname &&
+        other.userProfileId == userProfileId &&
+        other.userProfileImage == userProfileImage &&
+        listEquals(other.futureTransactions, futureTransactions);
+  }
+
+  @override
+  int get hashCode {
+    return accepted.hashCode ^
+        id.hashCode ^
+        items.hashCode ^
+        role.hashCode ^
+        tripId.hashCode ^
+        userProfileFirstname.hashCode ^
+        userProfileLastname.hashCode ^
+        userProfileId.hashCode ^
+        userProfileImage.hashCode ^
+        futureTransactions.hashCode;
   }
 }

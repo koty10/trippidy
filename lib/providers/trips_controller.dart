@@ -49,6 +49,7 @@ class TripsController extends _$TripsController {
           accepted: true,
           userProfileFirstname: "",
           userProfileLastname: "",
+          futureTransactions: [],
         ),
       ],
       isDeleted: false,

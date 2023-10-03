@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,7 @@ class ApiCaller {
   Future<Item> updateItem(Item item) async {
     log("update item");
     try {
-      log(itemToJson(item));
+      log(jsonEncode(item));
       final result = await _restClient.updateItem(item);
       return result.data;
     } catch (e) {
@@ -50,7 +51,7 @@ class ApiCaller {
   Future<Item> createItem(Item item) async {
     log("create item");
     try {
-      log(itemToJson(item));
+      log(jsonEncode(item));
       final result = await _restClient.createItem(item);
       return result.data;
     } catch (e) {
@@ -117,7 +118,7 @@ class ApiCaller {
 
   Future<Member> updateMember(Member item) async {
     log("update member");
-    log(memberToJson(item));
+    log(jsonEncode(item));
     try {
       final result = await _restClient.updateMember(item);
       return result.data;
@@ -129,7 +130,7 @@ class ApiCaller {
 
   Future<Member> createMember(Member item) async {
     log("create member");
-    log(memberToJson(item));
+    log(jsonEncode(item));
     try {
       final result = await _restClient.createMember(item);
       return result.data;

@@ -26,6 +26,7 @@ class MemberController extends _$MemberController {
       userProfileFirstname: "",
       userProfileLastname: "",
       userProfileImage: "",
+      futureTransactions: [],
     );
   }
 
@@ -41,16 +42,18 @@ class MemberController extends _$MemberController {
   Future<void> addItem(String tripId, String name, {String category = '', required bool shared, required bool private, required int price}) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     Item item = Item(
-        amount: 1,
-        categoryName: category.trim().capitalize(),
-        isChecked: false,
-        name: name.trim().capitalize(),
-        price: price,
-        isPrivate: private,
-        isShared: shared,
-        memberId: state.id,
-        categoryId: const Uuid().v4(),
-        id: const Uuid().v4());
+      amount: 1,
+      categoryName: category.trim().capitalize(),
+      isChecked: false,
+      name: name.trim().capitalize(),
+      price: price,
+      isPrivate: private,
+      isShared: shared,
+      memberId: state.id,
+      categoryId: const Uuid().v4(),
+      id: const Uuid().v4(),
+      futureTransactions: [],
+    );
     item = await apiCaller.createItem(item);
 
     // Create a new map of items with the new item added
