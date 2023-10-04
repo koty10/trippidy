@@ -210,54 +210,62 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 keyboardType: TextInputType.number,
               ),
               Wrap(
-                spacing: 8.0, // gap between adjacent chips
+                spacing: 12.0, // gap between adjacent chips
                 runSpacing: 4.0, // gap between lines
                 children: members.map((Member member) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(
-                        () {
-                          if (futureTransactions.any((element) => element.payerId == member.id)) {
-                            futureTransactions = futureTransactions.where((element) => element.payerId != member.id).toList();
-                          } else {
-                            futureTransactions =
-                                futureTransactions + [FutureTransaction(id: const Uuid().v4(), itemId: item?.id ?? newItemId, payerId: member.id)];
-                          }
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(
+                            () {
+                              if (futureTransactions.any((element) => element.payerId == member.id)) {
+                                futureTransactions = futureTransactions.where((element) => element.payerId != member.id).toList();
+                              } else {
+                                futureTransactions =
+                                    futureTransactions + [FutureTransaction(id: const Uuid().v4(), itemId: item?.id ?? newItemId, payerId: member.id)];
+                              }
+                            },
+                          );
                         },
-                      );
-                    },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.network(
-                            member.userProfileImage!,
-                            width: 50,
-                            height: 50,
-                          ),
-                        ),
-                        if (futureTransactions.any((element) => element.payerId == member.id))
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Opacity(
-                              opacity: 1,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: context.colorScheme.onPrimaryContainer,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: context.colorScheme.primaryContainer,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Icon(Icons.check, color: context.colorScheme.primaryContainer, size: 12),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(25),
+                              child: Image.network(
+                                member.userProfileImage!,
+                                width: 50,
+                                height: 50,
                               ),
                             ),
-                          ),
-                      ],
-                    ),
+                            if (futureTransactions.any((element) => element.payerId == member.id))
+                              Positioned(
+                                left: 0,
+                                top: 0,
+                                child: Opacity(
+                                  opacity: 1,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: context.colorScheme.onPrimaryContainer,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: context.colorScheme.primaryContainer,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Icon(Icons.check, color: context.colorScheme.primaryContainer, size: 12),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "${member.userProfileFirstname} ${member.userProfileLastname.characters.first}.",
+                        style: context.txtTheme.bodySmall,
+                      ),
+                    ],
                   );
                 }).toList(),
               ),
