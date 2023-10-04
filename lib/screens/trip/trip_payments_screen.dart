@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/screens/trip/components/payment_list_tile.dart';

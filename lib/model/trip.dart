@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:trippidy/model/app/future_payment.dart';
-
 import 'member.dart';
 
 Trip tripFromJson(String str) => json.decode(str);
@@ -75,18 +73,5 @@ class Trip {
 
   Member getOwner() {
     return members.firstWhere((element) => element.role == "admin");
-  }
-
-  // TODO dummy result - proper calculation needs to be implemented
-  List<FuturePayment> getFuturePayments() {
-    List<FuturePayment> result = [];
-
-    for (var member in members) {
-      for (var member2 in members) {
-        result.add(FuturePayment(member, member2, member2.totalPrice));
-      }
-    }
-
-    return result;
   }
 }

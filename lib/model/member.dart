@@ -17,6 +17,9 @@ class Member {
   String userProfileId;
   String? userProfileImage;
   List<FutureTransaction> futureTransactions;
+
+  double balance = 0.0;
+
   Member({
     required this.accepted,
     required this.id,
