@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/auth_controller.dart';
+import 'package:trippidy/screens/edit_profile/edit_profile_screen.dart';
 
 class HomeScreenDrawer extends ConsumerWidget {
   const HomeScreenDrawer({super.key});
@@ -27,6 +28,18 @@ class HomeScreenDrawer extends ConsumerWidget {
             leading: const Icon(Icons.list_alt),
             title: const Text('Výlety'),
             onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.manage_accounts),
+            title: const Text('Upravit profil'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EditProfileScreen(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.delete),

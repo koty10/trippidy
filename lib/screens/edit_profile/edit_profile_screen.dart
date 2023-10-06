@@ -29,6 +29,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Widget build(BuildContext context) {
     firstnameTextController.text = ref.watch(authControllerProvider).userProfile!.firstname;
     lastnameTextController.text = ref.watch(authControllerProvider).userProfile!.lastname;
+    bankAccountNumberTextController.text = ref.watch(authControllerProvider).userProfile!.bankAccountNumber;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,7 +93,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       var userProfile = ref.read(authControllerProvider).userProfile!.copyWith(
             firstname: firstnameTextController.text.trim().capitalize(),
             lastname: lastnameTextController.text.trim().capitalize(),
-            
+            bankAccountNumber: bankAccountNumberTextController.text.trim(),
           );
       await ref.read(authControllerProvider.notifier).updateUserProfile(userProfile);
     }

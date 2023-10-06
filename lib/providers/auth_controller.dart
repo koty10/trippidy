@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
+import 'package:trippidy/providers/trips_controller.dart';
 import '../constants.dart';
 import '../model/hive/credentials_wrapper.dart';
 import '../model/state/auth_state.dart';
@@ -98,6 +99,7 @@ class AuthController extends _$AuthController {
     final result = await ref.read(apiCallerProvider).updateUserProfile(userProfile);
     log(result.toString());
     state = state.copyWith(userProfile: result);
+    ref.read(tripsControllerProvider.notifier).loadTrips();
   }
 
   Future<void> _setUserProfile() async {
