@@ -52,12 +52,18 @@ class PaymentListTile extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Text("${futurePayment.amount.round()} Kč"),
-                  ),
-                  const Icon(
-                    Icons.trending_flat,
-                    size: 32,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                        child: Text("${futurePayment.amount.round()} Kč"),
+                      ),
+                      const Icon(
+                        Icons.trending_flat,
+                        size: 32,
+                      ),
+                    ],
                   ),
                 ],
               ),

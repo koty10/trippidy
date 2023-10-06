@@ -26,7 +26,7 @@ class CompletedTransactionListTile extends ConsumerWidget {
                   backgroundImage: NetworkImage(completedTransaction.payerUserProfileImage),
                   radius: 20,
                 ),
-                const SizedBox(width: 8.0),
+                const SizedBox(height: 4),
                 Text(
                   completedTransaction.payerUserProfileFirstname,
                   style: context.txtTheme.bodySmall,
@@ -42,7 +42,7 @@ class CompletedTransactionListTile extends ConsumerWidget {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(8),
                   height: 40,
                   child: Text(
                     '${completedTransaction.amount.round()} Kč',
@@ -59,7 +59,7 @@ class CompletedTransactionListTile extends ConsumerWidget {
                   backgroundImage: NetworkImage(completedTransaction.payeeUserProfileImage),
                   radius: 20,
                 ),
-                const SizedBox(width: 8.0),
+                const SizedBox(height: 4),
                 Text(
                   completedTransaction.payeeUserProfileFirstname,
                   style: context.txtTheme.bodySmall,

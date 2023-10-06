@@ -53,6 +53,7 @@ dependencies:
   lottie: ^2.3.2
   qr_flutter: ^4.1.0
   decimal: ^2.2.3
+  share_plus: ^7.1.0
 
   # State management
   flutter_riverpod: ^2.3.4
