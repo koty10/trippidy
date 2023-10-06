@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:trippidy/model/completed_transaction.dart';
 import 'package:trippidy/model/enum/role.dart';
@@ -22,7 +23,7 @@ class Member {
   List<CompletedTransaction> completedTransactionsSent;
   List<CompletedTransaction> completedTransactionsReceived;
 
-  double balance = 0.0;
+  Decimal balance = Decimal.zero;
 
   Member({
     required this.accepted,
@@ -39,7 +40,7 @@ class Member {
     required this.completedTransactionsReceived,
   });
 
-  double get totalPrice => items.fold(0.0, (sum, item) => sum + item.price);
+  Decimal get totalPrice => items.fold(Decimal.zero, (sum, item) => sum + item.price);
 
   factory Member.empty() {
     return Member(

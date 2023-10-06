@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:trippidy/model/future_transaction.dart';
 
@@ -13,7 +14,7 @@ class Item {
   bool isShared;
   String memberId;
   String name;
-  int price;
+  Decimal price;
   List<FutureTransaction> futureTransactions;
   Item({
     required this.amount,
@@ -39,7 +40,7 @@ class Item {
     bool? isShared,
     String? memberId,
     String? name,
-    int? price,
+    Decimal? price,
     List<FutureTransaction>? futureTransactions,
   }) {
     return Item(
@@ -82,7 +83,7 @@ class Item {
       isShared: map['isShared'] as bool,
       memberId: map['memberId'] as String,
       name: map['name'] as String,
-      price: map['price'] as int,
+      price: Decimal.parse(map['price']),
       futureTransactions: List<FutureTransaction>.from(map["futureTransactions"].map((x) => FutureTransaction.fromJson(x))),
     );
   }

@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -60,7 +61,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
       _shared = widget.item!.isShared;
       categoryTextController.text = widget.item!.categoryName;
       nameTextController.text = widget.item!.name;
-      if (widget.item!.price != 0) priceTextController.text = widget.item!.price.toString();
+      if (widget.item!.price != Decimal.zero) priceTextController.text = widget.item!.price.toString();
       item = widget.item;
       futureTransactions = item!.futureTransactions;
     } else {
@@ -335,7 +336,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
               widget.currentTrip.id,
               nameTextController.text,
               category: categoryTextController.text,
-              price: int.tryParse(priceTextController.text) ?? 0,
+              price: Decimal.tryParse(priceTextController.text) ?? Decimal.zero,
               shared: _shared,
               private: _private,
               futureTransactions: futureTransactions,
@@ -345,7 +346,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
         item!.categoryName = categoryTextController.text;
         item!.isPrivate = _private;
         item!.isShared = _shared;
-        item!.price = int.tryParse(priceTextController.text) ?? 0;
+        item!.price = Decimal.tryParse(priceTextController.text) ?? Decimal.zero;
         item!.futureTransactions = futureTransactions;
         await ref.read(memberControllerProvider.notifier).updateItem(
               widget.currentTrip.id,

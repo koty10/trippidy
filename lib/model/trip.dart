@@ -46,7 +46,7 @@ class Trip {
         members: List<Member>.from(json["members"].map((x) => Member.fromJson(x))),
         name: json["name"],
         isDeleted: json["isDeleted"],
-        completedTransactions: List<CompletedTransaction>.from(json["completedTransactions"].json((x) => CompletedTransaction.fromJson(x))),
+        completedTransactions: List<CompletedTransaction>.from(json["completedTransactions"].map((x) => CompletedTransaction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

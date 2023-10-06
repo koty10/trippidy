@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:trippidy/constants.dart';
+import 'package:trippidy/model/completed_transaction.dart';
 import 'package:trippidy/model/member.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/model/user_profile.dart';
@@ -54,4 +55,7 @@ abstract class RestClient {
 
   @POST(membersEndpoint)
   Future<HttpResponse<Member>> createMember(@Body() Member item);
+
+  @POST(completedTransactionsEndpoint)
+  Future<HttpResponse<CompletedTransaction>> createCompletedTransaction(@Body() CompletedTransaction item);
 }

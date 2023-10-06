@@ -11,7 +11,6 @@ class PaymentListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Container(
-      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -46,7 +45,7 @@ class PaymentListTile extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("${futurePayment.amount.toInt()} Kč"),
+                  Text("${futurePayment.amount.round()} Kč"),
                   const Icon(
                     Icons.trending_flat,
                     size: 32,

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
@@ -91,7 +92,7 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    if (val.price != 0)
+                                    if (val.price != Decimal.zero)
                                       Padding(
                                         padding: const EdgeInsets.only(right: 16),
                                         child: Text(

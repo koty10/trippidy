@@ -1,4 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trippidy/model/app/future_payment.dart';
+import 'package:trippidy/model/completed_transaction.dart';
 import 'package:trippidy/model/enum/role.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:trippidy/providers/trips_controller.dart';
@@ -49,6 +51,27 @@ class TripDetailController extends _$TripDetailController {
 
     // Create a new Trip object with the updated map of members
     state = state.copyWith(members: updatedMembers);
+    // Update higher provider
+    ref.read(tripsControllerProvider.notifier).updateTrip(state);
+  }
+
+  Future<void> addCompletedTransaction(FuturePayment futurePayment) async {
+    final ApiCaller apiCaller = ref.read(apiCallerProvider);
+    CompletedTransaction completedTransaction = CompletedTransaction.empty().copyWith(
+      id: const Uuid().v4(),
+      payerId: futurePayment.payer.id,
+      payeeId: futurePayment.payee.id,
+      amount: futurePayment.amount,
+      isCanceled: false,
+      tripId: state.id,
+    );
+    completedTransaction = await apiCaller.createCompletedTransaction(completedTransaction);
+
+    // Create a new list of members with the new member added
+    final updatedCompletedTransactions = state.completedTransactions + [completedTransaction];
+
+    // Create a new Trip object with the updated map of members
+    state = state.copyWith(completedTransactions: updatedCompletedTransactions);
     // Update higher provider
     ref.read(tripsControllerProvider.notifier).updateTrip(state);
   }

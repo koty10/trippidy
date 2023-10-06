@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/model/future_transaction.dart';
@@ -30,7 +31,7 @@ class MemberController extends _$MemberController {
   }
 
   Future<void> addItem(String? id, String tripId, String name,
-      {String category = '', required bool shared, required bool private, required int price, required List<FutureTransaction> futureTransactions}) async {
+      {String category = '', required bool shared, required bool private, required Decimal price, required List<FutureTransaction> futureTransactions}) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     Item item = Item(
       amount: 1,

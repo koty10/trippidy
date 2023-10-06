@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:decimal/decimal.dart';
+
 class CompletedTransaction {
   final String id;
   final String payerId;
@@ -12,7 +14,7 @@ class CompletedTransaction {
   final String payeeUserProfileFirstname;
   final String payeeUserProfileLastname;
   final String payeeUserProfileImage;
-  final int amount;
+  final Decimal amount;
   final bool isCanceled;
   final String tripId;
   CompletedTransaction({
@@ -32,6 +34,25 @@ class CompletedTransaction {
     required this.tripId,
   });
 
+  factory CompletedTransaction.empty() {
+    return CompletedTransaction(
+      id: "",
+      payerId: "",
+      payerUserProfileId: "",
+      payerUserProfileFirstname: "",
+      payerUserProfileLastname: "",
+      payerUserProfileImage: "",
+      payeeId: "",
+      payeeUserProfileId: "",
+      payeeUserProfileFirstname: "",
+      payeeUserProfileLastname: "",
+      payeeUserProfileImage: "",
+      amount: Decimal.fromInt(0),
+      isCanceled: false,
+      tripId: "",
+    );
+  }
+
   CompletedTransaction copyWith({
     String? id,
     String? payerId,
@@ -44,7 +65,7 @@ class CompletedTransaction {
     String? payeeUserProfileFirstname,
     String? payeeUserProfileLastname,
     String? payeeUserProfileImage,
-    int? amount,
+    Decimal? amount,
     bool? isCanceled,
     String? tripId,
   }) {
@@ -98,7 +119,7 @@ class CompletedTransaction {
       payeeUserProfileFirstname: map['payeeUserProfileFirstname'] as String,
       payeeUserProfileLastname: map['payeeUserProfileLastname'] as String,
       payeeUserProfileImage: map['payeeUserProfileImage'] as String,
-      amount: map['amount'] as int,
+      amount: Decimal.parse(map['amount']),
       isCanceled: map['isCanceled'] as bool,
       tripId: map['tripId'] as String,
     );

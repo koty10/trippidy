@@ -1,7 +1,7 @@
-import 'dart:math';
-
+import 'package:decimal/decimal.dart';
 import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/model/member.dart';
+import 'package:trippidy/utils/decimal_utils.dart';
 
 import '../model/trip.dart';
 
@@ -22,8 +22,8 @@ extension TripExtension on Trip {
     var completedTransactionsCopy = completedTransactions.map((e) => e.copyWith()).toList();
 
     for (var member in membersCopy) {
-      for (var item in member.items.where((i) => i.price > 0 && i.futureTransactions.isNotEmpty)) {
-        int share = (item.price / item.futureTransactions.length).round();
+      for (var item in member.items.where((i) => i.price > Decimal.zero && i.futureTransactions.isNotEmpty)) {
+        Decimal share = (item.price / Decimal.fromInt(item.futureTransactions.length)).toDecimal(scaleOnInfinitePrecision: 2);
         for (var futureTransaction in item.futureTransactions) {
           if (futureTransaction.payerId != item.memberId) {
             // if current member is not a buyer
@@ -43,8 +43,8 @@ extension TripExtension on Trip {
 
   List<FuturePayment> getFuturePayments() {
     List<Member> membersWithCalculatedBalance = getMembersWithCalculatedBalances();
-    List<Member> debtors = membersWithCalculatedBalance.where((p) => p.balance < 0).toList();
-    List<Member> creditors = membersWithCalculatedBalance.where((p) => p.balance > 0).toList();
+    List<Member> debtors = membersWithCalculatedBalance.where((p) => p.balance < Decimal.zero).toList();
+    List<Member> creditors = membersWithCalculatedBalance.where((p) => p.balance > Decimal.zero).toList();
     List<FuturePayment> futurePayments = [];
 
     while (debtors.isNotEmpty && creditors.isNotEmpty) {
@@ -54,13 +54,13 @@ extension TripExtension on Trip {
       var debtor = debtors.first;
       var creditor = creditors.first;
 
-      var transactionAmount = min(debtor.balance.abs(), creditor.balance);
+      var transactionAmount = minDecimal(debtor.balance.abs(), creditor.balance);
 
       debtor.balance += transactionAmount;
       creditor.balance -= transactionAmount;
 
-      if (debtor.balance == 0) debtors.remove(debtor);
-      if (creditor.balance == 0) creditors.remove(creditor);
+      if (debtor.balance == Decimal.zero) debtors.remove(debtor);
+      if (creditor.balance == Decimal.zero) creditors.remove(creditor);
 
       futurePayments.add(FuturePayment(debtor, creditor, transactionAmount));
     }

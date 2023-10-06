@@ -8,3 +8,4 @@ const String tripsEndpoint = '/my/trip';
 const String itemsEndpoint = '/my/item';
 const String userProfileEndpoint = '/my/userProfile';
 const String membersEndpoint = '/my/member';
+const String completedTransactionsEndpoint = '/my/completedTransaction';

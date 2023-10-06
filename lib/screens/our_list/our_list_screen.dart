@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/model/item.dart';
@@ -92,7 +93,7 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          if (val.price != 0) Text("${val.price} Kč"),
+                                          if (val.price != Decimal.zero) Text("${val.price} Kč"),
                                           if (val.memberId != ref.read(memberControllerProvider).id)
                                             Padding(
                                               padding: const EdgeInsets.only(right: 8, left: 16),
