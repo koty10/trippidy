@@ -43,6 +43,8 @@ class TripDetailController extends _$TripDetailController {
       futureTransactions: [],
       completedTransactionsSent: [],
       completedTransactionsReceived: [],
+      userProfileBankAccountNumber: "",
+      userProfileIban: "",
     );
     member = await apiCaller.createMember(member);
 

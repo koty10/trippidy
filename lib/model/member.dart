@@ -19,6 +19,8 @@ class Member {
   String userProfileLastname;
   String userProfileId;
   String? userProfileImage;
+  String userProfileBankAccountNumber;
+  String userProfileIban;
   List<FutureTransaction> futureTransactions;
   List<CompletedTransaction> completedTransactionsSent;
   List<CompletedTransaction> completedTransactionsReceived;
@@ -38,6 +40,8 @@ class Member {
     required this.futureTransactions,
     required this.completedTransactionsSent,
     required this.completedTransactionsReceived,
+    required this.userProfileBankAccountNumber,
+    required this.userProfileIban,
   });
 
   Decimal get totalPrice => items.fold(Decimal.zero, (sum, item) => sum + item.price);
@@ -56,6 +60,8 @@ class Member {
       futureTransactions: [],
       completedTransactionsSent: [],
       completedTransactionsReceived: [],
+      userProfileBankAccountNumber: "",
+      userProfileIban: "",
     );
   }
 
@@ -72,6 +78,8 @@ class Member {
     List<FutureTransaction>? futureTransactions,
     List<CompletedTransaction>? completedTransactionsSent,
     List<CompletedTransaction>? completedTransactionsReceived,
+    String? userProfileBankAccountNumber,
+    String? userProfileIban,
   }) {
     return Member(
       accepted: accepted ?? this.accepted,
@@ -86,6 +94,8 @@ class Member {
       futureTransactions: futureTransactions ?? this.futureTransactions,
       completedTransactionsSent: completedTransactionsSent ?? this.completedTransactionsSent,
       completedTransactionsReceived: completedTransactionsReceived ?? this.completedTransactionsReceived,
+      userProfileBankAccountNumber: userProfileBankAccountNumber ?? this.userProfileBankAccountNumber,
+      userProfileIban: userProfileIban ?? this.userProfileIban,
     );
   }
 
@@ -102,6 +112,8 @@ class Member {
         'futureTransactions': futureTransactions.map((x) => x.toJson()).toList(),
         'completedTransactionsSent': completedTransactionsSent.map((x) => x.toJson()).toList(),
         'completedTransactionsReceived': completedTransactionsReceived.map((x) => x.toJson()).toList(),
+        'userProfileBankAccountNumber': userProfileBankAccountNumber,
+        'userProfileIban': userProfileIban,
       };
 
   factory Member.fromJson(Map<String, dynamic> map) {
@@ -118,12 +130,14 @@ class Member {
       futureTransactions: List<FutureTransaction>.from(map["futureTransactions"].map((x) => FutureTransaction.fromJson(x))),
       completedTransactionsSent: List<CompletedTransaction>.from(map["completedTransactionsSent"].map((x) => CompletedTransaction.fromJson(x))),
       completedTransactionsReceived: List<CompletedTransaction>.from(map["completedTransactionsReceived"].map((x) => CompletedTransaction.fromJson(x))),
+      userProfileBankAccountNumber: map['userProfileBankAccountNumber'] as String,
+      userProfileIban: map['userProfileIban'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, futureTransactions: $futureTransactions, completedTransactionsSent: $completedTransactionsSent, completedTransactionsReceived: $completedTransactionsReceived)';
+    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, futureTransactions: $futureTransactions, completedTransactionsSent: $completedTransactionsSent, completedTransactionsReceived: $completedTransactionsReceived, userProfileBankAccountNumber: $userProfileBankAccountNumber, userProfileIban: $userProfileIban)';
   }
 
   @override
@@ -139,6 +153,8 @@ class Member {
         other.userProfileLastname == userProfileLastname &&
         other.userProfileId == userProfileId &&
         other.userProfileImage == userProfileImage &&
+        other.userProfileBankAccountNumber == userProfileBankAccountNumber &&
+        other.userProfileIban == userProfileIban &&
         listEquals(other.futureTransactions, futureTransactions) &&
         listEquals(other.completedTransactionsSent, completedTransactionsSent) &&
         listEquals(other.completedTransactionsReceived, completedTransactionsReceived);
@@ -155,6 +171,8 @@ class Member {
         userProfileLastname.hashCode ^
         userProfileId.hashCode ^
         userProfileImage.hashCode ^
+        userProfileBankAccountNumber.hashCode ^
+        userProfileIban.hashCode ^
         futureTransactions.hashCode ^
         completedTransactionsSent.hashCode ^
         completedTransactionsReceived.hashCode;

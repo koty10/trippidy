@@ -53,6 +53,8 @@ class TripsController extends _$TripsController {
           futureTransactions: [],
           completedTransactionsSent: [],
           completedTransactionsReceived: [],
+          userProfileBankAccountNumber: "",
+          userProfileIban: "",
         ),
       ],
       isDeleted: false,
