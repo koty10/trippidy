@@ -51,6 +51,7 @@ dependencies:
   uuid: ^3.0.7
   intl: ^0.18.0
   lottie: ^2.3.2
+  qr_flutter: ^4.1.0
 
   # State management
   flutter_riverpod: ^2.3.4

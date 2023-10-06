@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/app/future_payment.dart';
+import 'package:trippidy/screens/trip/trip_payment_detail_screen.dart';
 
 class PaymentListTile extends ConsumerWidget {
   const PaymentListTile({super.key, required this.futurePayment});
@@ -15,7 +16,14 @@ class PaymentListTile extends ConsumerWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TripPaymentDetailScreen(futurePayment: futurePayment),
+            ),
+          );
+        },
         child: Row(
           children: [
             Container(
