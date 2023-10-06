@@ -19,6 +19,7 @@ extension TripExtension on Trip {
 
   List<Member> getMembersWithCalculatedBalances() {
     var membersCopy = members.map((e) => e.copyWith()).toList();
+    var completedTransactionsCopy = completedTransactions.map((e) => e.copyWith()).toList();
 
     for (var member in membersCopy) {
       for (var item in member.items.where((i) => i.price > 0 && i.futureTransactions.isNotEmpty)) {
@@ -31,6 +32,11 @@ extension TripExtension on Trip {
         }
         member.balance += item.price - share; // buyer already payed whole price but still owes his share
       }
+    }
+    // Apply existing transactions
+    for (var transaction in completedTransactionsCopy) {
+      membersCopy.firstWhere((element) => element.id == transaction.payerId).balance += transaction.amount;
+      membersCopy.firstWhere((element) => element.id == transaction.payeeId).balance -= transaction.amount;
     }
     return membersCopy;
   }
