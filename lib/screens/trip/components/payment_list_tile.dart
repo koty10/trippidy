@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/screens/trip/trip_payment_detail_screen.dart';
 
@@ -10,42 +11,50 @@ class PaymentListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TripPaymentDetailScreen(futurePayment: futurePayment),
-            ),
-          );
-        },
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TripPaymentDetailScreen(futurePayment: futurePayment),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: context.colorScheme.secondaryContainer,
+        ),
         child: Row(
           children: [
-            Container(
-              width: 90,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
-                ),
-                child: Text("${futurePayment.payer.userProfileFirstname} ${futurePayment.payer.userProfileLastname}"),
+            Flexible(
+              flex: 4,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: futurePayment.payer.userProfileImage == null
+                        ? const AssetImage("images/user.png") as ImageProvider
+                        : NetworkImage(futurePayment.payer.userProfileImage!),
+                    radius: 16,
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      "${futurePayment.payer.userProfileFirstname} ${futurePayment.payer.userProfileLastname}",
+                    ),
+                  ),
+                ],
               ),
             ),
-            Expanded(
+            Flexible(
+              flex: 3,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("${futurePayment.amount.round()} Kč"),
+                  Flexible(
+                    child: Text("${futurePayment.amount.round()} Kč"),
+                  ),
                   const Icon(
                     Icons.trending_flat,
                     size: 32,
@@ -53,20 +62,24 @@ class PaymentListTile extends ConsumerWidget {
                 ],
               ),
             ),
-            Container(
-              width: 90,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
-                ),
-              ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  bottomLeft: Radius.circular(8),
-                ),
-                child: Text("${futurePayment.payee.userProfileFirstname} ${futurePayment.payee.userProfileLastname}"),
+            Flexible(
+              flex: 4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      "${futurePayment.payee.userProfileFirstname} ${futurePayment.payee.userProfileLastname}",
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  CircleAvatar(
+                    backgroundImage: futurePayment.payee.userProfileImage == null
+                        ? const AssetImage("images/user.png") as ImageProvider
+                        : NetworkImage(futurePayment.payee.userProfileImage!),
+                    radius: 16,
+                  ),
+                ],
               ),
             ),
           ],

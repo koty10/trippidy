@@ -53,7 +53,7 @@ class TripPaymentDetailScreen extends ConsumerWidget {
             ],
           ),
           const Spacer(),
-          if (futurePayment.payer.userProfileId != ref.read(authControllerProvider.notifier).getUserId())
+          if (futurePayment.payer.userProfileId == ref.read(authControllerProvider.notifier).getUserId())
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
