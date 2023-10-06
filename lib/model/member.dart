@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/foundation.dart';
+import 'package:trippidy/model/completed_transaction.dart';
+import 'package:trippidy/model/enum/role.dart';
 
 import 'package:trippidy/model/future_transaction.dart';
 
@@ -17,6 +19,8 @@ class Member {
   String userProfileId;
   String? userProfileImage;
   List<FutureTransaction> futureTransactions;
+  List<CompletedTransaction> completedTransactionsSent;
+  List<CompletedTransaction> completedTransactionsReceived;
 
   double balance = 0.0;
 
@@ -31,9 +35,28 @@ class Member {
     required this.userProfileId,
     this.userProfileImage,
     required this.futureTransactions,
+    required this.completedTransactionsSent,
+    required this.completedTransactionsReceived,
   });
 
   double get totalPrice => items.fold(0.0, (sum, item) => sum + item.price);
+
+  factory Member.empty() {
+    return Member(
+      accepted: false,
+      items: List.empty(),
+      role: Role.member.name,
+      userProfileId: '',
+      tripId: "",
+      id: "",
+      userProfileFirstname: "",
+      userProfileLastname: "",
+      userProfileImage: "",
+      futureTransactions: [],
+      completedTransactionsSent: [],
+      completedTransactionsReceived: [],
+    );
+  }
 
   Member copyWith({
     bool? accepted,
@@ -46,6 +69,8 @@ class Member {
     String? userProfileId,
     String? userProfileImage,
     List<FutureTransaction>? futureTransactions,
+    List<CompletedTransaction>? completedTransactionsSent,
+    List<CompletedTransaction>? completedTransactionsReceived,
   }) {
     return Member(
       accepted: accepted ?? this.accepted,
@@ -58,6 +83,8 @@ class Member {
       userProfileId: userProfileId ?? this.userProfileId,
       userProfileImage: userProfileImage ?? this.userProfileImage,
       futureTransactions: futureTransactions ?? this.futureTransactions,
+      completedTransactionsSent: completedTransactionsSent ?? this.completedTransactionsSent,
+      completedTransactionsReceived: completedTransactionsReceived ?? this.completedTransactionsReceived,
     );
   }
 
@@ -72,6 +99,8 @@ class Member {
         'userProfileId': userProfileId,
         'userProfileImage': userProfileImage,
         'futureTransactions': futureTransactions.map((x) => x.toJson()).toList(),
+        'completedTransactionsSent': completedTransactionsSent.map((x) => x.toJson()).toList(),
+        'completedTransactionsReceived': completedTransactionsReceived.map((x) => x.toJson()).toList(),
       };
 
   factory Member.fromJson(Map<String, dynamic> map) {
@@ -86,12 +115,14 @@ class Member {
       userProfileId: map['userProfileId'] as String,
       userProfileImage: map['userProfileImage'] != null ? map['userProfileImage'] as String : null,
       futureTransactions: List<FutureTransaction>.from(map["futureTransactions"].map((x) => FutureTransaction.fromJson(x))),
+      completedTransactionsSent: List<CompletedTransaction>.from(map["completedTransactionsSent"].map((x) => CompletedTransaction.fromJson(x))),
+      completedTransactionsReceived: List<CompletedTransaction>.from(map["completedTransactionsReceived"].map((x) => CompletedTransaction.fromJson(x))),
     );
   }
 
   @override
   String toString() {
-    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, futureTransactions: $futureTransactions)';
+    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, futureTransactions: $futureTransactions, completedTransactionsSent: $completedTransactionsSent, completedTransactionsReceived: $completedTransactionsReceived)';
   }
 
   @override
@@ -107,7 +138,9 @@ class Member {
         other.userProfileLastname == userProfileLastname &&
         other.userProfileId == userProfileId &&
         other.userProfileImage == userProfileImage &&
-        listEquals(other.futureTransactions, futureTransactions);
+        listEquals(other.futureTransactions, futureTransactions) &&
+        listEquals(other.completedTransactionsSent, completedTransactionsSent) &&
+        listEquals(other.completedTransactionsReceived, completedTransactionsReceived);
   }
 
   @override
@@ -121,6 +154,8 @@ class Member {
         userProfileLastname.hashCode ^
         userProfileId.hashCode ^
         userProfileImage.hashCode ^
-        futureTransactions.hashCode;
+        futureTransactions.hashCode ^
+        completedTransactionsSent.hashCode ^
+        completedTransactionsReceived.hashCode;
   }
 }

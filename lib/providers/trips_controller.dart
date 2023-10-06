@@ -39,6 +39,7 @@ class TripsController extends _$TripsController {
       name: name.trim().capitalize(),
       dateFrom: dateFrom,
       dateTo: dateTo,
+      completedTransactions: [],
       members: [
         Member(
           id: const Uuid().v4(),
@@ -50,6 +51,8 @@ class TripsController extends _$TripsController {
           userProfileFirstname: "",
           userProfileLastname: "",
           futureTransactions: [],
+          completedTransactionsSent: [],
+          completedTransactionsReceived: [],
         ),
       ],
       isDeleted: false,

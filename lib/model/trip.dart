@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:trippidy/model/completed_transaction.dart';
+
 import 'member.dart';
 
 Trip tripFromJson(String str) => json.decode(str);
@@ -22,10 +24,11 @@ class Trip {
     required this.members,
     required this.name,
     required this.isDeleted,
+    required this.completedTransactions,
   });
 
   factory Trip.empty() {
-    return Trip(dateFrom: DateTime.now(), dateTo: DateTime.now(), id: "", members: [], name: "", isDeleted: false);
+    return Trip(dateFrom: DateTime.now(), dateTo: DateTime.now(), id: "", members: [], name: "", isDeleted: false, completedTransactions: []);
   }
 
   DateTime? dateFrom;
@@ -34,6 +37,7 @@ class Trip {
   List<Member> members;
   String name;
   bool isDeleted;
+  List<CompletedTransaction> completedTransactions;
 
   factory Trip.fromJson(Map<String, dynamic> json) => Trip(
         dateFrom: json["dateFrom"] != null ? DateTime.parse(json["dateFrom"]) : null,
@@ -42,6 +46,7 @@ class Trip {
         members: List<Member>.from(json["members"].map((x) => Member.fromJson(x))),
         name: json["name"],
         isDeleted: json["isDeleted"],
+        completedTransactions: List<CompletedTransaction>.from(json["completedTransactions"].json((x) => CompletedTransaction.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -51,6 +56,7 @@ class Trip {
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
         "name": name,
         "isDeleted": isDeleted,
+        'completedTransactions': completedTransactions.map((x) => x.toJson()).toList(),
       };
 
   Trip copyWith({
@@ -60,6 +66,7 @@ class Trip {
     List<Member>? members,
     String? name,
     bool? isDeleted,
+    List<CompletedTransaction>? completedTransactions,
   }) {
     return Trip(
       dateFrom: dateFrom ?? this.dateFrom,
@@ -68,6 +75,7 @@ class Trip {
       members: members ?? this.members,
       name: name ?? this.name,
       isDeleted: isDeleted ?? this.isDeleted,
+      completedTransactions: completedTransactions ?? this.completedTransactions,
     );
   }
 

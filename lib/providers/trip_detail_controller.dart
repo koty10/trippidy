@@ -39,6 +39,8 @@ class TripDetailController extends _$TripDetailController {
       userProfileLastname: "",
       userProfileImage: "",
       futureTransactions: [],
+      completedTransactionsSent: [],
+      completedTransactionsReceived: [],
     );
     member = await apiCaller.createMember(member);
 

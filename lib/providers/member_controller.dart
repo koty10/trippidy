@@ -8,7 +8,6 @@ import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
 
 import '../api/api_caller.dart';
-import '../model/enum/role.dart';
 import '../model/item.dart';
 import '../model/trip.dart';
 
@@ -18,18 +17,7 @@ part 'member_controller.g.dart';
 class MemberController extends _$MemberController {
   @override
   Member build() {
-    return Member(
-      accepted: false,
-      items: List.empty(),
-      role: Role.member.name,
-      userProfileId: '',
-      tripId: "",
-      id: "",
-      userProfileFirstname: "",
-      userProfileLastname: "",
-      userProfileImage: "",
-      futureTransactions: [],
-    );
+    return Member.empty();
   }
 
   void setMember(Member member) {
