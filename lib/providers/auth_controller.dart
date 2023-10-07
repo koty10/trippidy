@@ -95,14 +95,16 @@ class AuthController extends _$AuthController {
     return state.credentials?.userId;
   }
 
-  Future<void> updateUserProfile(trippidy_user_profile.UserProfile userProfile) async {
+  Future<bool> updateUserProfile(trippidy_user_profile.UserProfile userProfile) async {
     try {
       final result = await ref.read(apiCallerProvider).updateUserProfile(userProfile);
       log(result.toString());
       state = state.copyWith(userProfile: result);
       ref.read(tripsControllerProvider.notifier).loadTrips();
+      return true;
     } on Exception catch (e) {
       log(e.toString());
+      return false;
     }
   }
 

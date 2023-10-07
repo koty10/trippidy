@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 
@@ -99,8 +100,24 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             lastname: lastnameTextController.text.trim().capitalize(),
             bankAccountNumber: bankAccountNumberTextController.text.trim(),
           );
-      await ref.read(authControllerProvider.notifier).updateUserProfile(userProfile);
-      if (context.mounted) Navigator.pop(context);
+      var res = await ref.read(authControllerProvider.notifier).updateUserProfile(userProfile);
+      if (res) {
+        if (context.mounted) Navigator.pop(context);
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "Nepodařilo se rozeznat číslo bankovního účtu.",
+                style: TextStyle(
+                  color: context.colorScheme.error,
+                ),
+              ),
+              backgroundColor: context.colorScheme.errorContainer,
+            ),
+          );
+        }
+      }
     }
   }
 
