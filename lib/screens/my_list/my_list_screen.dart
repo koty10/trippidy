@@ -65,14 +65,24 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
           : ListView(
               //padding: const EdgeInsets.all(8),
               children: items
+                  .toList()
+                  .asMap()
+                  .entries
                   .map(
                     (e) => Theme(
                       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                       child: ExpansionTile(
                         key: GlobalKey(),
                         initiallyExpanded: expandAll,
-                        title: Text(e.key),
-                        children: e.value
+                        backgroundColor: e.key % 2 == 0
+                            ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2)
+                            : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
+                        collapsedBackgroundColor: e.key % 2 == 0
+                            ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2)
+                            : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
+                        leading: const Icon(Icons.list),
+                        title: Text(e.value.key),
+                        children: e.value.value
                             .map(
                               (val) => ListTile(
                                 onTap: () {

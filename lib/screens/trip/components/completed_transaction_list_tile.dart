@@ -15,7 +15,7 @@ class CompletedTransactionListTile extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.only(left: 0, right: 16, top: 0, bottom: 0),
         padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.colorScheme.secondaryContainer),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: context.colorScheme.onSecondary),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

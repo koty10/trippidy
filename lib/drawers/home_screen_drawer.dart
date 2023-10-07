@@ -14,8 +14,8 @@ class HomeScreenDrawer extends ConsumerWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text(user.firstname),
-            accountEmail: Text(user.lastname),
+            accountName: Text("${user.firstname} ${user.lastname}"),
+            accountEmail: const Text(""),
             currentAccountPicture: CircleAvatar(
               backgroundImage: user.image == "" ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image),
             ),
@@ -27,7 +27,9 @@ class HomeScreenDrawer extends ConsumerWidget {
           ListTile(
             leading: const Icon(Icons.list_alt),
             title: const Text('Výlety'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.manage_accounts),

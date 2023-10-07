@@ -24,7 +24,7 @@ class PaymentListTile extends ConsumerWidget {
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: context.colorScheme.secondaryContainer,
+          color: context.colorScheme.onSecondary,
         ),
         child: Row(
           children: [

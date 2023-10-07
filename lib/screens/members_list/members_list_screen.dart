@@ -1,5 +1,7 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/item.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
@@ -61,21 +63,31 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
                   )
                 : ListView(
                     children: items
+                        .toList()
+                        .asMap()
+                        .entries
                         .map(
                           (e) => Theme(
                             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
                               key: GlobalKey(),
                               initiallyExpanded: expandAll,
-                              title: Text(e.key),
-                              children: e.value
+                              backgroundColor: e.key % 2 == 0
+                                  ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2)
+                                  : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
+                              collapsedBackgroundColor: e.key % 2 == 0
+                                  ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2)
+                                  : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
+                              leading: const Icon(Icons.list),
+                              title: Text(e.value.key),
+                              children: e.value.value
                                   .map(
                                     (val) => ListTile(
                                       title: Text(val.name),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          if (val.price != 0) Text("${val.price} Kč"),
+                                          if (val.price != Decimal.zero) Text("${val.price} Kč"),
                                           if (val.isShared)
                                             const Padding(
                                               padding: EdgeInsets.only(right: 8, left: 16),
