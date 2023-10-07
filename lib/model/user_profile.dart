@@ -19,6 +19,7 @@ class UserProfile {
     required this.members,
     required this.bankAccountNumber,
     required this.iban,
+    required this.email,
   });
 
   String firstname;
@@ -28,6 +29,7 @@ class UserProfile {
   List<Member> members;
   String bankAccountNumber;
   String iban;
+  String email;
 
   factory UserProfile.initial() {
     return UserProfile(
@@ -38,6 +40,7 @@ class UserProfile {
       members: [],
       bankAccountNumber: '',
       iban: '',
+      email: '',
     );
   }
 
@@ -49,6 +52,7 @@ class UserProfile {
         members: List<Member>.from(json["members"].map((x) => Member.fromJson(x))),
         bankAccountNumber: json["bankAccountNumber"],
         iban: json["iban"],
+        email: json["email"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,11 +63,12 @@ class UserProfile {
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
         "bankAccountNumber": bankAccountNumber,
         "iban": iban,
+        "email": email,
       };
 
   @override
   String toString() {
-    return "$id, $firstname, $lastname, $image, $bankAccountNumber, $iban";
+    return "$id, $firstname, $lastname, $image, $bankAccountNumber, $iban, $email";
   }
 
   UserProfile copyWith({
@@ -74,6 +79,7 @@ class UserProfile {
     String? image,
     String? bankAccountNumber,
     String? iban,
+    String? email,
   }) {
     return UserProfile(
       id: id ?? this.id,
@@ -83,6 +89,7 @@ class UserProfile {
       image: image ?? this.image,
       bankAccountNumber: bankAccountNumber ?? this.bankAccountNumber,
       iban: iban ?? this.iban,
+      email: email ?? this.email,
     );
   }
 }

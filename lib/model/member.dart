@@ -21,6 +21,7 @@ class Member {
   String? userProfileImage;
   String userProfileBankAccountNumber;
   String userProfileIban;
+  String userProfileEmail;
   List<FutureTransaction> futureTransactions;
   List<CompletedTransaction> completedTransactionsSent;
   List<CompletedTransaction> completedTransactionsReceived;
@@ -42,6 +43,7 @@ class Member {
     required this.completedTransactionsReceived,
     required this.userProfileBankAccountNumber,
     required this.userProfileIban,
+    required this.userProfileEmail,
   });
 
   Decimal get totalPrice => items.fold(Decimal.zero, (sum, item) => sum + item.price);
@@ -62,6 +64,7 @@ class Member {
       completedTransactionsReceived: [],
       userProfileBankAccountNumber: "",
       userProfileIban: "",
+      userProfileEmail: "",
     );
   }
 
@@ -80,6 +83,7 @@ class Member {
     List<CompletedTransaction>? completedTransactionsReceived,
     String? userProfileBankAccountNumber,
     String? userProfileIban,
+    String? userProfileEmail,
   }) {
     return Member(
       accepted: accepted ?? this.accepted,
@@ -96,6 +100,7 @@ class Member {
       completedTransactionsReceived: completedTransactionsReceived ?? this.completedTransactionsReceived,
       userProfileBankAccountNumber: userProfileBankAccountNumber ?? this.userProfileBankAccountNumber,
       userProfileIban: userProfileIban ?? this.userProfileIban,
+      userProfileEmail: userProfileEmail ?? this.userProfileEmail,
     );
   }
 
@@ -114,6 +119,7 @@ class Member {
         'completedTransactionsReceived': completedTransactionsReceived.map((x) => x.toJson()).toList(),
         'userProfileBankAccountNumber': userProfileBankAccountNumber,
         'userProfileIban': userProfileIban,
+        'userProfileEmail': userProfileEmail,
       };
 
   factory Member.fromJson(Map<String, dynamic> map) {
@@ -132,12 +138,13 @@ class Member {
       completedTransactionsReceived: List<CompletedTransaction>.from(map["completedTransactionsReceived"].map((x) => CompletedTransaction.fromJson(x))),
       userProfileBankAccountNumber: map['userProfileBankAccountNumber'] as String,
       userProfileIban: map['userProfileIban'] as String,
+      userProfileEmail: map['userProfileEmail'] as String,
     );
   }
 
   @override
   String toString() {
-    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, futureTransactions: $futureTransactions, completedTransactionsSent: $completedTransactionsSent, completedTransactionsReceived: $completedTransactionsReceived, userProfileBankAccountNumber: $userProfileBankAccountNumber, userProfileIban: $userProfileIban)';
+    return 'Member(accepted: $accepted, id: $id, items: $items, role: $role, tripId: $tripId, userProfileFirstname: $userProfileFirstname, userProfileLastname: $userProfileLastname, userProfileId: $userProfileId, userProfileImage: $userProfileImage, userProfileEmail: $userProfileEmail, futureTransactions: $futureTransactions, completedTransactionsSent: $completedTransactionsSent, completedTransactionsReceived: $completedTransactionsReceived, userProfileBankAccountNumber: $userProfileBankAccountNumber, userProfileIban: $userProfileIban)';
   }
 
   @override
@@ -155,6 +162,7 @@ class Member {
         other.userProfileImage == userProfileImage &&
         other.userProfileBankAccountNumber == userProfileBankAccountNumber &&
         other.userProfileIban == userProfileIban &&
+        other.userProfileEmail == userProfileEmail &&
         listEquals(other.futureTransactions, futureTransactions) &&
         listEquals(other.completedTransactionsSent, completedTransactionsSent) &&
         listEquals(other.completedTransactionsReceived, completedTransactionsReceived);
@@ -173,6 +181,7 @@ class Member {
         userProfileImage.hashCode ^
         userProfileBankAccountNumber.hashCode ^
         userProfileIban.hashCode ^
+        userProfileEmail.hashCode ^
         futureTransactions.hashCode ^
         completedTransactionsSent.hashCode ^
         completedTransactionsReceived.hashCode;

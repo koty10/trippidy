@@ -40,6 +40,7 @@ class TripDetailController extends _$TripDetailController {
       userProfileFirstname: "",
       userProfileLastname: "",
       userProfileImage: "",
+      userProfileEmail: "",
       futureTransactions: [],
       completedTransactionsSent: [],
       completedTransactionsReceived: [],

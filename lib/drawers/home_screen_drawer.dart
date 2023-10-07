@@ -15,7 +15,7 @@ class HomeScreenDrawer extends ConsumerWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text("${user.firstname} ${user.lastname}"),
-            accountEmail: const Text(""),
+            accountEmail: Text(user.email),
             currentAccountPicture: CircleAvatar(
               backgroundImage: user.image == "" ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image),
             ),
