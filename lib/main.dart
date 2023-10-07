@@ -28,6 +28,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
     precacheImage(const AssetImage("assets/images/trip_illustration.jpg"), context);
+    precacheImage(const AssetImage("assets/images/future_payments.jpg"), context);
 
     return MaterialApp(
       localizationsDelegates: const [

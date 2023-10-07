@@ -96,10 +96,14 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> updateUserProfile(trippidy_user_profile.UserProfile userProfile) async {
-    final result = await ref.read(apiCallerProvider).updateUserProfile(userProfile);
-    log(result.toString());
-    state = state.copyWith(userProfile: result);
-    ref.read(tripsControllerProvider.notifier).loadTrips();
+    try {
+      final result = await ref.read(apiCallerProvider).updateUserProfile(userProfile);
+      log(result.toString());
+      state = state.copyWith(userProfile: result);
+      ref.read(tripsControllerProvider.notifier).loadTrips();
+    } on Exception catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> _setUserProfile() async {

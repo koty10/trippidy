@@ -26,11 +26,15 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final bankAccountNumberTextController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    firstnameTextController.text = ref.watch(authControllerProvider).userProfile!.firstname;
-    lastnameTextController.text = ref.watch(authControllerProvider).userProfile!.lastname;
-    bankAccountNumberTextController.text = ref.watch(authControllerProvider).userProfile!.bankAccountNumber;
+  void initState() {
+    super.initState();
+    firstnameTextController.text = ref.read(authControllerProvider).userProfile!.firstname;
+    lastnameTextController.text = ref.read(authControllerProvider).userProfile!.lastname;
+    bankAccountNumberTextController.text = ref.read(authControllerProvider).userProfile!.bankAccountNumber;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Upravit profil"),
@@ -96,6 +100,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             bankAccountNumber: bankAccountNumberTextController.text.trim(),
           );
       await ref.read(authControllerProvider.notifier).updateUserProfile(userProfile);
+      if (context.mounted) Navigator.pop(context);
     }
   }
 

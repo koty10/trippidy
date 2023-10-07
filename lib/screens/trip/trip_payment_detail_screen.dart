@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/model/trip.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,8 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
     // var futurePayments = currentTrip.getFuturePayments();
     // var format = DateFormat("dd.MM.yyyy");
     var qrCodeData = QrCode.fromData(
-        data: "SPD*1.0*ACC:CZ2806000000000168540115*AM:450.00*CC:CZK*MSG:PLATBA ZA ZBOZI*X-VS:1234567890", errorCorrectLevel: QrErrorCorrectLevel.L);
+        data: "SPD*1.0*ACC:${widget.futurePayment.payee.userProfileIban}*AM:${widget.futurePayment.amount.toStringAsFixed(2)}*CC:CZK*MSG:Trippidy",
+        errorCorrectLevel: QrErrorCorrectLevel.L);
 
     return Scaffold(
       appBar: AppBar(
@@ -66,31 +68,76 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
           ),
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Dlužník: ${widget.futurePayment.payer.userProfileFirstname} ${widget.futurePayment.payer.userProfileLastname}"),
-                    Text("Příjemce: ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname}"),
-                    Text("Částka: ${widget.futurePayment.amount} Kč"),
-                    const SizedBox(height: 8),
-                    RepaintBoundary(
-                      key: globalKey,
-                      child: QrImageView.withQr(
-                        qr: qrCodeData,
-                        version: QrVersions.auto,
-                        size: 200,
-                        backgroundColor: Colors.white,
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Dlužník: ${widget.futurePayment.payer.userProfileFirstname} ${widget.futurePayment.payer.userProfileLastname}"),
+                      Text("Příjemce: ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname}"),
+                      if (widget.futurePayment.payee.userProfileBankAccountNumber.isNotEmpty)
+                        Text("Číslo účtu příjemce: ${widget.futurePayment.payee.userProfileBankAccountNumber}"),
+                      Text("Částka: ${widget.futurePayment.amount} Kč"),
+                      const SizedBox(height: 16),
+                      if (widget.futurePayment.payee.userProfileIban.isNotEmpty)
+                        InkWell(
+                          onTap: () {
+                            _shareImage();
+                          },
+                          child: RepaintBoundary(
+                            key: globalKey,
+                            child: QrImageView.withQr(
+                              qr: qrCodeData,
+                              version: QrVersions.auto,
+                              size: 200,
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 16,
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        _shareImage();
-                      },
-                      child: const Text("Sdílet"),
-                    )
-                  ],
+                      if (widget.futurePayment.payee.userProfileIban.isNotEmpty)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.info,
+                              size: 16,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Flexible(
+                              child: Text(
+                                "Pro otevření mobilní banky klikněte na QR kód.",
+                                style: context.txtTheme.labelSmall,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (widget.futurePayment.payee.userProfileBankAccountNumber.isEmpty)
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.info,
+                              size: 16,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Flexible(
+                              child: Text(
+                                "Pro možnost platby přímo z aplikace si musí ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname} v profilu vyplnit číslo účtu.",
+                                style: context.txtTheme.labelSmall,
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ],

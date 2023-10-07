@@ -34,7 +34,7 @@ extension TripExtension on Trip {
       }
     }
     // Apply existing transactions
-    for (var transaction in completedTransactionsCopy) {
+    for (var transaction in completedTransactionsCopy.where((element) => !element.isCanceled)) {
       membersCopy.firstWhere((element) => element.id == transaction.payerId).balance += transaction.amount;
       membersCopy.firstWhere((element) => element.id == transaction.payeeId).balance -= transaction.amount;
     }
