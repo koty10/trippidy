@@ -77,7 +77,8 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
                       Text("Dlužník: ${widget.futurePayment.payer.userProfileFirstname} ${widget.futurePayment.payer.userProfileLastname}"),
                       Text("Příjemce: ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname}"),
                       if (widget.futurePayment.payee.userProfileBankAccountNumber.isNotEmpty)
-                        Text("Číslo účtu příjemce: ${widget.futurePayment.payee.userProfileBankAccountNumber}"),
+                        Text("Číslo účtu: ${widget.futurePayment.payee.userProfileBankAccountNumber}"),
+                      if (widget.futurePayment.payee.userProfileIban.isNotEmpty) Text("IBAN: ${widget.futurePayment.payee.userProfileIban}"),
                       Text("Částka: ${widget.futurePayment.amount} Kč"),
                       const SizedBox(height: 16),
                       if (widget.futurePayment.payee.userProfileIban.isNotEmpty)
@@ -111,7 +112,7 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
                             ),
                             Flexible(
                               child: Text(
-                                "Pro otevření mobilní banky klikněte na QR kód.",
+                                "Pro zaplacení klikněte na QR kód a vyberte aplikaci vaší banky.",
                                 style: context.txtTheme.labelSmall,
                               ),
                             ),
