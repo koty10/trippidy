@@ -32,45 +32,47 @@ class _NewProfileScreenState extends ConsumerState<NewProfileScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TrippidyTextFormField(
-              controller: firstnameTextController,
-              placeholder: "Zadejte jméno",
-              requiredMessage: "Jméno je povinné",
-              padding: 20,
-              length: 128,
-            ),
-            TrippidyTextFormField(
-              controller: lastnameTextController,
-              placeholder: "Zadejte příjmení",
-              requiredMessage: "Příjmení je povinné",
-              padding: 20,
-              length: 128,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 55,
-                    vertical: 15,
-                  ),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TrippidyTextFormField(
+                controller: firstnameTextController,
+                placeholder: "Zadejte jméno",
+                requiredMessage: "Jméno je povinné",
+                padding: 20,
+                length: 128,
+              ),
+              TrippidyTextFormField(
+                controller: lastnameTextController,
+                placeholder: "Zadejte příjmení",
+                requiredMessage: "Příjmení je povinné",
+                padding: 20,
+                length: 128,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 55,
+                      vertical: 15,
+                    ),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
                     ),
                   ),
-                ),
-                onPressed: submit,
-                child: const Text(
-                  "Uložit",
-                  style: TextStyle(fontSize: 16),
+                  onPressed: submit,
+                  child: const Text(
+                    "Uložit",
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
