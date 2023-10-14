@@ -4,13 +4,12 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
+import 'package:trippidy/extensions/member_extension.dart';
 import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/screens/add_item/add_item_screen.dart';
-
-import '../../model/dto/item.dart';
 
 class MyListScreen extends ConsumerStatefulWidget {
   const MyListScreen({
@@ -31,7 +30,7 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
   Widget build(BuildContext context) {
     log("rebuild $expandAll");
     Member member = ref.watch(memberControllerProvider);
-    var items = getMyListItems(member).entries;
+    var items = member.getMyListItems().entries;
 
     return Scaffold(
       appBar: AppBar(
@@ -159,15 +158,5 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
         },
       ),
     );
-  }
-
-  Map<String, List<Item>> getMyListItems(Member member) {
-    var tmp = member.items;
-
-    var dict = <String, List<Item>>{};
-    for (var element in tmp) {
-      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
-    }
-    return dict;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:trippidy/model/app/future_payment.dart';
+import 'package:trippidy/model/dto/item.dart';
 import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/utils/decimal_utils.dart';
 
@@ -65,5 +66,30 @@ extension TripExtension on Trip {
       futurePayments.add(FuturePayment(debtor, creditor, transactionAmount));
     }
     return futurePayments;
+  }
+
+  Map<String, List<Item>> getListItemsForUser({required String userId}) {
+    var member = members.firstWhere((element) => element.id == userId);
+    //if (member == null) return {};
+    var tmp = member.items.where((element) => !element.isPrivate);
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
+    }
+    return dict;
+  }
+
+  Map<String, List<Item>> getOurListItems({required Member loggedUserMember}) {
+    var tmp = (members.where((m) => m.userProfileId != loggedUserMember.userProfileId).toList() + [loggedUserMember])
+        .expand((element2) => element2.items)
+        .where((element3) => element3.isShared)
+        .toList();
+
+    var dict = <String, List<Item>>{};
+    for (var element in tmp) {
+      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
+    }
+    return dict;
   }
 }

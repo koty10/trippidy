@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
-import 'package:trippidy/model/dto/item.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
@@ -28,7 +28,7 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
   @override
   Widget build(BuildContext context) {
     Member member = ref.watch(memberControllerProvider);
-    var items = getOurListItems(member).entries;
+    var items = widget.currentTrip.getOurListItems(loggedUserMember: member).entries;
 
     return Scaffold(
       appBar: AppBar(
@@ -157,18 +157,5 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
         },
       ),
     );
-  }
-
-  Map<String, List<Item>> getOurListItems(Member member) {
-    var tmp = ((widget.currentTrip.members).where((m) => m.userProfileId != member.userProfileId).toList() + [member])
-        .expand((element2) => element2.items)
-        .where((element3) => element3.isShared)
-        .toList();
-
-    var dict = <String, List<Item>>{};
-    for (var element in tmp) {
-      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
-    }
-    return dict;
   }
 }

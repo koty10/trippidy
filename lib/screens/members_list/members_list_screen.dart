@@ -2,8 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
-import 'package:trippidy/model/dto/item.dart';
-import 'package:trippidy/model/dto/trip.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
@@ -24,7 +23,7 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
   Widget build(BuildContext context) {
     final currentMember = ref.watch(memberControllerProvider);
     final currentTrip = ref.watch(tripDetailControllerProvider);
-    var items = getListItemsForUser(userId: currentMember.id, currentTrip: currentTrip).entries;
+    var items = currentTrip.getListItemsForUser(userId: currentMember.id).entries;
 
     return Scaffold(
       appBar: AppBar(
@@ -108,17 +107,5 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
         ],
       ),
     );
-  }
-
-  Map<String, List<Item>> getListItemsForUser({required String userId, required Trip currentTrip}) {
-    var member = currentTrip.members.firstWhere((element) => element.id == userId);
-    //if (member == null) return {};
-    var tmp = member.items.where((element) => !element.isPrivate);
-
-    var dict = <String, List<Item>>{};
-    for (var element in tmp) {
-      dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
-    }
-    return dict;
   }
 }
