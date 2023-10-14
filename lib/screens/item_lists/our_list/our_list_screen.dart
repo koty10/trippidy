@@ -7,8 +7,8 @@ import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 
-import '../../model/dto/member.dart';
-import '../add_item/add_item_screen.dart';
+import '../../../model/dto/member.dart';
+import '../../add_item/add_item_screen.dart';
 
 class OurListScreen extends ConsumerStatefulWidget {
   const OurListScreen({

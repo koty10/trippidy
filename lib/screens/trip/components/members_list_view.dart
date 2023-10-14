@@ -4,7 +4,7 @@ import 'package:trippidy/providers/auth_controller.dart';
 
 import '../../../model/dto/member.dart';
 import '../../../model/dto/trip.dart';
-import '../../members_list/members_list_screen.dart';
+import '../../item_lists/members_list/members_list_screen.dart';
 import 'member_list_tile.dart';
 
 class MembersListView extends ConsumerWidget {
