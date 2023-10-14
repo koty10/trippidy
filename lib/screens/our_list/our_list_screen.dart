@@ -2,12 +2,12 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
-import 'package:trippidy/model/item.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/item.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 
-import '../../model/member.dart';
+import '../../model/dto/member.dart';
 import '../add_item/add_item_screen.dart';
 
 class OurListScreen extends ConsumerStatefulWidget {

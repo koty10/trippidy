@@ -1,9 +1,9 @@
 import 'package:decimal/decimal.dart';
 import 'package:trippidy/model/app/future_payment.dart';
-import 'package:trippidy/model/member.dart';
+import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/utils/decimal_utils.dart';
 
-import '../model/trip.dart';
+import '../model/dto/trip.dart';
 
 extension TripExtension on Trip {
   Iterable<String> getCategoriesFromTrip({required String userProfileId}) {

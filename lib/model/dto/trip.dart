@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:trippidy/model/completed_transaction.dart';
+import 'package:trippidy/model/dto/completed_transaction.dart';
 
 import 'member.dart';
 

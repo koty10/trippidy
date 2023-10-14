@@ -1,4 +1,4 @@
-import '../model/trip.dart';
+import '../model/dto/trip.dart';
 
 extension TripListExtension on List<Trip> {
   List<Trip> filterTrips({bool accepted = true, required String userProfileId}) {

@@ -9,8 +9,8 @@ import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/enum/role.dart';
-import '../model/member.dart';
-import '../model/trip.dart';
+import '../model/dto/member.dart';
+import '../model/dto/trip.dart';
 import '../screens/trip/trip_screen.dart';
 
 part 'trips_controller.g.dart';

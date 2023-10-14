@@ -5,7 +5,7 @@ import 'package:trippidy/extensions/trip_list_extension.dart';
 import 'package:trippidy/screens/home/components/notification_button.dart';
 
 import '../../drawers/home_screen_drawer.dart';
-import '../../model/trip.dart';
+import '../../model/dto/trip.dart';
 import '../../providers/auth_controller.dart';
 import '../../providers/trips_controller.dart';
 import '../add_trip/add_trip_screen.dart';

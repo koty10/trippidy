@@ -2,7 +2,7 @@
 
 import 'package:trippidy/model/hive/credentials_wrapper.dart';
 
-import '../user_profile.dart' as trippidy_user_profile;
+import '../dto/user_profile.dart' as trippidy_user_profile;
 
 class AuthState {
   AuthState._({this.credentials, this.userProfile});

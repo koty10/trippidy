@@ -7,16 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:trippidy/components/trippidy_text_form_field.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
-import 'package:trippidy/model/future_transaction.dart';
-import 'package:trippidy/model/member.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/future_transaction.dart';
+import 'package:trippidy/model/dto/member.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 
-import '../../model/item.dart';
+import '../../model/dto/item.dart';
 
 class AddItemScreen extends ConsumerStatefulWidget {
   final Trip currentTrip;

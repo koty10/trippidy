@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/app/future_payment.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 

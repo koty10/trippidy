@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/trip_list_extension.dart';
 
-import '../../../model/trip.dart';
+import '../../../model/dto/trip.dart';
 import '../../../providers/auth_controller.dart';
 import '../../../providers/trips_controller.dart';
 import 'components/trip_offer_tile.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/trip_offer_detail_controller.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';

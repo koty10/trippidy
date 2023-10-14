@@ -1,16 +1,16 @@
 import 'package:decimal/decimal.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/extensions/string_extension.dart';
-import 'package:trippidy/model/future_transaction.dart';
-import 'package:trippidy/model/member.dart';
+import 'package:trippidy/model/dto/future_transaction.dart';
+import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:collection/collection.dart';
 
 import '../api/api_caller.dart';
-import '../model/item.dart';
-import '../model/trip.dart';
+import '../model/dto/item.dart';
+import '../model/dto/trip.dart';
 
 part 'member_controller.g.dart';
 

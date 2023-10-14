@@ -2,10 +2,10 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:trippidy/model/completed_transaction.dart';
+import 'package:trippidy/model/dto/completed_transaction.dart';
 import 'package:trippidy/model/enum/role.dart';
 
-import 'package:trippidy/model/future_transaction.dart';
+import 'package:trippidy/model/dto/future_transaction.dart';
 
 import 'item.dart';
 

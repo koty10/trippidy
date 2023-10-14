@@ -1,13 +1,13 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/model/app/future_payment.dart';
-import 'package:trippidy/model/completed_transaction.dart';
+import 'package:trippidy/model/dto/completed_transaction.dart';
 import 'package:trippidy/model/enum/role.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/trips_controller.dart';
 import 'package:uuid/uuid.dart';
 
 import '../api/api_caller.dart';
-import '../model/member.dart';
+import '../model/dto/member.dart';
 
 part 'trip_detail_controller.g.dart';
 

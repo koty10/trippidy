@@ -4,7 +4,7 @@ import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/trip.dart';
+import '../../../model/dto/trip.dart';
 
 class TripTile extends ConsumerWidget {
   const TripTile({super.key, required this.trip});

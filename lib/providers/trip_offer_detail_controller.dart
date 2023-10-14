@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trips_controller.dart';
 

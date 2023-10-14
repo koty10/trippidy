@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
-import 'package:trippidy/model/trip.dart';
+import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/my_list/my_list_screen.dart';
 import 'package:trippidy/screens/our_list/our_list_screen.dart';
@@ -11,7 +11,7 @@ import 'package:trippidy/screens/trip/components/members_list_view.dart';
 import 'package:trippidy/screens/trip/trip_payments_screen.dart';
 import 'package:trippidy/screens/trip/trip_settings_screen.dart';
 
-import '../../model/member.dart';
+import '../../model/dto/member.dart';
 import '../../providers/auth_controller.dart';
 import '../../providers/member_controller.dart';
 import '../add_member/add_member_screen.dart';

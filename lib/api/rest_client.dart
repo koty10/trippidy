@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:trippidy/constants.dart';
-import 'package:trippidy/model/completed_transaction.dart';
-import 'package:trippidy/model/member.dart';
-import 'package:trippidy/model/trip.dart';
-import 'package:trippidy/model/user_profile.dart';
+import 'package:trippidy/model/dto/completed_transaction.dart';
+import 'package:trippidy/model/dto/member.dart';
+import 'package:trippidy/model/dto/trip.dart';
+import 'package:trippidy/model/dto/user_profile.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 
-import '../model/item.dart';
+import '../model/dto/item.dart';
 import 'auth_interceptor.dart';
 
 part 'rest_client.g.dart';

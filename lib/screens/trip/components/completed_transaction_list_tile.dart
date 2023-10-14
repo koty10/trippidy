@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
-import 'package:trippidy/model/completed_transaction.dart';
+import 'package:trippidy/model/dto/completed_transaction.dart';
 
 class CompletedTransactionListTile extends ConsumerWidget {
   const CompletedTransactionListTile({super.key, required this.completedTransaction});

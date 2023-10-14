@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
-import 'package:trippidy/model/member.dart';
+import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/providers/member_controller.dart';
 
-import '../../../model/trip.dart';
+import '../../../model/dto/trip.dart';
 
 class MemberListTile extends ConsumerWidget {
   const MemberListTile({super.key, required this.title, required this.currentTrip, required this.target, required this.member, this.showGroupIcon = false});

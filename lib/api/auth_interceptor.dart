@@ -35,10 +35,11 @@ class AuthInterceptor extends Interceptor {
       final newOptions = err.response!.requestOptions.copyWith(headers: {
         'Authorization': 'Bearer ${ref.getIdToken()}',
       });
-
-      log("onError resolve...");
-      // Return the new response
-      handler.resolve(Response(requestOptions: newOptions));
+      if (ref.getIdToken() != null) {
+        log("onError resolve...");
+        // Return the new response
+        handler.resolve(Response(requestOptions: newOptions));
+      }
     } else {
       log("onError next...");
       //handler.next(err);

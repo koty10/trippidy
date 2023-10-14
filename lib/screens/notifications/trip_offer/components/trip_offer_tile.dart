@@ -5,7 +5,7 @@ import 'package:trippidy/providers/trip_offer_detail_controller.dart';
 import 'package:trippidy/screens/notifications/trip_offer_detail/trip_offer_detail_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../model/trip.dart';
+import '../../../../model/dto/trip.dart';
 
 class TripOfferTile extends ConsumerWidget {
   const TripOfferTile({super.key, required this.trip});

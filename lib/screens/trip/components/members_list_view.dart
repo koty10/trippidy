@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 
-import '../../../model/member.dart';
-import '../../../model/trip.dart';
+import '../../../model/dto/member.dart';
+import '../../../model/dto/trip.dart';
 import '../../members_list/members_list_screen.dart';
 import 'member_list_tile.dart';
 

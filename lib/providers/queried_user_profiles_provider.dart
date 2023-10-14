@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
 
-import '../model/user_profile.dart';
+import '../model/dto/user_profile.dart';
 
 part 'queried_user_profiles_provider.g.dart';
 

@@ -6,7 +6,7 @@ import 'package:trippidy/providers/trips_controller.dart';
 import '../constants.dart';
 import '../model/hive/credentials_wrapper.dart';
 import '../model/state/auth_state.dart';
-import '../model/user_profile.dart' as trippidy_user_profile;
+import '../model/dto/user_profile.dart' as trippidy_user_profile;
 import '../storage/hive_auth_storage.dart';
 
 part 'auth_controller.g.dart';
@@ -26,6 +26,7 @@ class AuthController extends _$AuthController {
 
   Future<void> _init() async {
     final credentials = await HiveAuthStorage.getCredentials();
+    log("_init refresh token: ${credentials?.refreshToken}");
 
     if (credentials != null) {
       state = AuthState.authenticated(credentials);
@@ -40,6 +41,7 @@ class AuthController extends _$AuthController {
     try {
       final credentials = await auth.webAuthentication(scheme: AUTH0_SCHEME).login();
       log(credentials.toString());
+      log("refresh token: ${credentials.refreshToken}");
       //final userInfo = credentials.idToken; // .userInfo({'access_token': credentials['access_token']});
       //final user = User.fromJson(credentials.user);
       await HiveAuthStorage.storeCredentials(credentials);
@@ -69,10 +71,13 @@ class AuthController extends _$AuthController {
   Future<void> refresh() async {
     final Auth0 auth = ref.read(auth0providerProvider);
     final oldCredentials = await HiveAuthStorage.getCredentials();
+    log(oldCredentials.toString());
     if (oldCredentials == null || oldCredentials.refreshToken == null) {
       state = AuthState.unauthenticated();
+      log("Could not load a refresh token. Setting AuthState to unauthenticated");
       return;
     }
+    log("Using a refresh token to renewCredentials");
     var credentials = await auth.api.renewCredentials(refreshToken: (oldCredentials.refreshToken!));
     log(credentials.toString());
     await HiveAuthStorage.storeCredentials(credentials);

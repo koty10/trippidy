@@ -2,7 +2,7 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
-import 'package:trippidy/model/future_transaction.dart';
+import 'package:trippidy/model/dto/future_transaction.dart';
 
 class Item {
   int amount;

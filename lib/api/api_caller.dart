@@ -3,12 +3,12 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/api/rest_client.dart';
-import 'package:trippidy/model/completed_transaction.dart';
-import 'package:trippidy/model/member.dart';
-import 'package:trippidy/model/trip.dart';
-import 'package:trippidy/model/user_profile.dart';
+import 'package:trippidy/model/dto/completed_transaction.dart';
+import 'package:trippidy/model/dto/member.dart';
+import 'package:trippidy/model/dto/trip.dart';
+import 'package:trippidy/model/dto/user_profile.dart';
 
-import '../model/item.dart';
+import '../model/dto/item.dart';
 
 final apiCallerProvider = Provider((ref) {
   return ApiCaller(ref.watch(restClientProvider));

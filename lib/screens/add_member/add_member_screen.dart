@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/model/user_profile.dart';
+import 'package:trippidy/model/dto/user_profile.dart';
 import 'package:trippidy/providers/queried_user_profiles_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 
