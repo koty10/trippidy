@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/api/rest_client.dart';
 import 'package:trippidy/model/dto/completed_transaction.dart';
 import 'package:trippidy/model/dto/member.dart';
+import 'package:trippidy/model/dto/requests/suggestion_request.dart';
+import 'package:trippidy/model/dto/requests/suggestion_response.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/model/dto/user_profile.dart';
 
@@ -146,6 +148,18 @@ class ApiCaller {
     log(jsonEncode(item));
     try {
       final result = await _restClient.createCompletedTransaction(item);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<SuggestionResponse> suggestItems(SuggestionRequest item) async {
+    log("suggest items");
+    log(jsonEncode(item));
+    try {
+      final result = await _restClient.suggestItems(item);
       return result.data;
     } catch (e) {
       log(e.toString());

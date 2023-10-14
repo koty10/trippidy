@@ -9,3 +9,4 @@ const String itemsEndpoint = '/my/item';
 const String userProfileEndpoint = '/my/userProfile';
 const String membersEndpoint = '/my/member';
 const String completedTransactionsEndpoint = '/my/completedTransaction';
+const String suggestEndpoint = '/suggest';

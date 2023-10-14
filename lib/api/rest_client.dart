@@ -4,6 +4,8 @@ import 'package:retrofit/retrofit.dart';
 import 'package:trippidy/constants.dart';
 import 'package:trippidy/model/dto/completed_transaction.dart';
 import 'package:trippidy/model/dto/member.dart';
+import 'package:trippidy/model/dto/requests/suggestion_request.dart';
+import 'package:trippidy/model/dto/requests/suggestion_response.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/model/dto/user_profile.dart';
 import 'package:trippidy/providers/auth_controller.dart';
@@ -58,4 +60,7 @@ abstract class RestClient {
 
   @POST(completedTransactionsEndpoint)
   Future<HttpResponse<CompletedTransaction>> createCompletedTransaction(@Body() CompletedTransaction item);
+
+  @POST(suggestEndpoint)
+  Future<HttpResponse<SuggestionResponse>> suggestItems(@Body() SuggestionRequest item);
 }
