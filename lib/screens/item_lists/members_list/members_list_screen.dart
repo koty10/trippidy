@@ -1,11 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
+
+import '../components/no_items_animation_widget.dart';
 
 class MembersListScreen extends ConsumerStatefulWidget {
   const MembersListScreen({
@@ -49,16 +50,8 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
           ),
           Expanded(
             child: items.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LottieBuilder.asset(
-                        'assets/lotties/empty_box.json',
-                        height: 200,
-                      ),
-                      const SizedBox(height: 20),
-                      const Center(child: Text('Uživatel nemá žádné veřejné položky.')),
-                    ],
+                ? const NoItemsAnimationWidget(
+                    message: "Uživatel nemá žádné veřejné položky.",
                   )
                 : ListView(
                     children: items

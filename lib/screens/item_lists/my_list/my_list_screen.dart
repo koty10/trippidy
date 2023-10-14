@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/member_extension.dart';
 import 'package:trippidy/model/dto/member.dart';
@@ -10,6 +9,7 @@ import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/screens/add_item/add_item_screen.dart';
+import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
 
 class MyListScreen extends ConsumerStatefulWidget {
   const MyListScreen({
@@ -50,16 +50,8 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
         ],
       ),
       body: items.isEmpty
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LottieBuilder.asset(
-                  'assets/lotties/empty_box.json',
-                  height: 200,
-                ),
-                const SizedBox(height: 20),
-                const Center(child: Text('Nemáte zatím žádné položky.')),
-              ],
+          ? const NoItemsAnimationWidget(
+              message: "Nemáte zatím žádné položky.",
             )
           : ListView(
               //padding: const EdgeInsets.all(8),

@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/dto/trip.dart';
@@ -9,6 +8,7 @@ import 'package:trippidy/providers/member_controller.dart';
 
 import '../../../model/dto/member.dart';
 import '../../add_item/add_item_screen.dart';
+import '../components/no_items_animation_widget.dart';
 
 class OurListScreen extends ConsumerStatefulWidget {
   const OurListScreen({
@@ -54,16 +54,8 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
           ),
           Expanded(
             child: items.isEmpty
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LottieBuilder.asset(
-                        'assets/lotties/empty_box.json',
-                        height: 200,
-                      ),
-                      const SizedBox(height: 20),
-                      const Center(child: Text('Nemáte žádné společné položky.')),
-                    ],
+                ? const NoItemsAnimationWidget(
+                    message: "Nemáte žádné společné položky.",
                   )
                 : ListView(
                     children: items
