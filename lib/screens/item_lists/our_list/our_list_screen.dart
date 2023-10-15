@@ -10,7 +10,7 @@ import '../../../model/dto/member.dart';
 import '../../add_item/add_item_screen.dart';
 import '../components/no_items_animation_widget.dart';
 
-class OurListScreen extends ConsumerStatefulWidget {
+class OurListScreen extends ConsumerWidget {
   const OurListScreen({
     super.key,
     required this.currentTrip,
@@ -19,20 +19,15 @@ class OurListScreen extends ConsumerStatefulWidget {
   final Trip currentTrip;
 
   @override
-  ConsumerState<OurListScreen> createState() => _OurListScreenState();
-}
-
-class _OurListScreenState extends ConsumerState<OurListScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Member member = ref.watch(memberControllerProvider);
-    var items = widget.currentTrip.getOurListItems(loggedUserMember: member).entries;
+    var items = currentTrip.getOurListItems(loggedUserMember: member).entries;
     var expandAll = ref.watch(expandAllCategoriesProvider);
 
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${widget.currentTrip.name} - společný seznam"),
+        title: Text("${currentTrip.name} - společný seznam"),
         actions: [
           IconButton(
             onPressed: () {
@@ -46,9 +41,6 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 20,
-          ),
           Expanded(
               child: items.isEmpty
                   ? const NoItemsAnimationWidget(
@@ -56,7 +48,7 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
                     )
                   : AllItemsWidget(
                       items: items,
-                      currentTrip: widget.currentTrip,
+                      currentTrip: currentTrip,
                       currentMember: ref.read(memberControllerProvider),
                       showAvatars: true,
                       onTapCallback: (item) {
@@ -64,7 +56,7 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddItemScreen(
-                              currentTrip: widget.currentTrip,
+                              currentTrip: currentTrip,
                               item: item,
                             ),
                           ),
@@ -73,7 +65,7 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
                       onChangedCallback: (item, value) {
                         item.isChecked = value;
                         ref.read(memberControllerProvider.notifier).updateItem(
-                              widget.currentTrip.id,
+                              currentTrip.id,
                               item,
                             );
                       },
@@ -88,7 +80,7 @@ class _OurListScreenState extends ConsumerState<OurListScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: widget.currentTrip,
+                currentTrip: currentTrip,
                 private: false,
                 shared: true,
               ),

@@ -8,18 +8,13 @@ import 'package:trippidy/screens/item_lists/components/all_items_widget.dart';
 
 import '../components/no_items_animation_widget.dart';
 
-class MembersListScreen extends ConsumerStatefulWidget {
+class MembersListScreen extends ConsumerWidget {
   const MembersListScreen({
     super.key,
   });
 
   @override
-  ConsumerState<MembersListScreen> createState() => _MembersListScreenState();
-}
-
-class _MembersListScreenState extends ConsumerState<MembersListScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentMember = ref.watch(memberControllerProvider);
     final currentTrip = ref.watch(tripDetailControllerProvider);
     var items = currentTrip.getListItemsForUser(userId: currentMember.id).entries;
@@ -42,9 +37,6 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 20,
-          ),
           Expanded(
             child: items.isEmpty
                 ? const NoItemsAnimationWidget(

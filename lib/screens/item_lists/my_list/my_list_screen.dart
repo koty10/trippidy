@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/member_extension.dart';
 import 'package:trippidy/model/dto/member.dart';
@@ -11,7 +9,7 @@ import 'package:trippidy/screens/add_item/add_item_screen.dart';
 import 'package:trippidy/screens/item_lists/components/all_items_widget.dart';
 import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
 
-class MyListScreen extends ConsumerStatefulWidget {
+class MyListScreen extends ConsumerWidget {
   const MyListScreen({
     super.key,
     required this.currentTrip,
@@ -20,27 +18,18 @@ class MyListScreen extends ConsumerStatefulWidget {
   final Trip currentTrip;
 
   @override
-  ConsumerState<MyListScreen> createState() => _MyListScreenState();
-}
-
-class _MyListScreenState extends ConsumerState<MyListScreen> {
-  bool expandAll = true;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Member member = ref.watch(memberControllerProvider);
     var items = member.getMyListItems().entries;
     var expandAll = ref.watch(expandAllCategoriesProvider);
-    log("rebuild $expandAll");
 
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${widget.currentTrip.name} - můj seznam"),
+        title: Text("${currentTrip.name} - můj seznam"),
         actions: [
           IconButton(
             onPressed: () {
-              // TODO maybe i can make this widget stateless as there are no setStates
               ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
             },
             icon: Icon(
@@ -54,15 +43,14 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
               message: "Nemáte zatím žádné položky.",
             )
           : AllItemsWidget(
-              key: widget.key,
               items: items,
-              currentTrip: widget.currentTrip,
+              currentTrip: currentTrip,
               onTapCallback: (item) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddItemScreen(
-                      currentTrip: widget.currentTrip,
+                      currentTrip: currentTrip,
                       item: item,
                     ),
                   ),
@@ -71,7 +59,7 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
               onChangedCallback: (item, value) {
                 item.isChecked = value;
                 ref.read(memberControllerProvider.notifier).updateItem(
-                      widget.currentTrip.id,
+                      currentTrip.id,
                       item,
                     );
               },
@@ -86,7 +74,7 @@ class _MyListScreenState extends ConsumerState<MyListScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => AddItemScreen(
-                currentTrip: widget.currentTrip,
+                currentTrip: currentTrip,
                 private: false,
                 shared: false,
               ),
