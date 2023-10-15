@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 
 import '../../../model/dto/member.dart';
@@ -26,6 +27,7 @@ class MembersListView extends ConsumerWidget {
             title: "${curMember.userProfileFirstname} ${curMember.userProfileLastname}",
             currentTrip: currentTrip,
             target: const MembersListScreen(),
+            items: currentTrip.getListItemsForUser(userId: curMember.id).entries,
           );
         },
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),

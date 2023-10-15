@@ -3,6 +3,7 @@ import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/expand_all_categories_provider.dart';
+import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
@@ -29,6 +30,11 @@ class MembersListScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
+              if (showTabs) {
+                ref.read(selectedCategoryProvider.notifier).state = "";
+              } else {
+                ref.read(selectedCategoryProvider.notifier).state = items.first.key;
+              }
               ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
             },
             icon: Icon(

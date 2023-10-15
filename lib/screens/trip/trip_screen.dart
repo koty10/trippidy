@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
+import 'package:trippidy/extensions/member_extension.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/item_lists/my_list/my_list_screen.dart';
@@ -72,6 +74,7 @@ class TripScreen extends ConsumerWidget {
                     currentTrip: currentTrip,
                   ),
                   member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
+                  items: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip).getMyListItems().entries,
                 ),
                 const SizedBox(height: 16),
                 MemberListTile(
@@ -81,6 +84,8 @@ class TripScreen extends ConsumerWidget {
                     currentTrip: currentTrip,
                   ),
                   member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
+                  items:
+                      currentTrip.getOurListItems(loggedUserMember: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip)).entries,
                   showGroupIcon: true,
                 ),
               ],

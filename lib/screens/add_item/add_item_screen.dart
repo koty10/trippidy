@@ -12,6 +12,7 @@ import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/member_controller.dart';
+import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:uuid/uuid.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
@@ -72,6 +73,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
             (m) => FutureTransaction(id: const Uuid().v4(), payerId: m.id, itemId: newItemId),
           )
           .toList();
+      categoryTextController.text = ref.read(selectedCategoryProvider);
     }
     final loggedInUser = ref.read(authControllerProvider).userProfile;
     result = ref.read(tripDetailControllerProvider).getCategoriesFromTrip(userProfileId: loggedInUser!.id);

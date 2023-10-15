@@ -4,6 +4,7 @@ import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/expand_all_categories_provider.dart';
+import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 
@@ -41,6 +42,11 @@ class OurListScreen extends ConsumerWidget {
           ),
           IconButton(
             onPressed: () {
+              if (showTabs) {
+                ref.read(selectedCategoryProvider.notifier).state = "";
+              } else {
+                ref.read(selectedCategoryProvider.notifier).state = items.first.key;
+              }
               ref.read(showTabsProvider.notifier).state = !ref.read(showTabsProvider.notifier).state;
             },
             icon: Icon(

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/model/dto/item.dart';
 import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/model/dto/trip.dart';
+import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/screens/item_lists/components/item_list_tile.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 
@@ -33,6 +34,9 @@ class ItemsByCategoryWidget extends ConsumerWidget {
       child: Column(
         children: [
           TabBar(
+            onTap: (value) {
+              ref.read(selectedCategoryProvider.notifier).state = categoriesWithItems.elementAt(value).key;
+            },
             isScrollable: true,
             tabs: categoriesWithItems.map((category) {
               return Tab(text: category.key);
