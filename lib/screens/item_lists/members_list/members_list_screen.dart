@@ -3,8 +3,9 @@ import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/expand_all_categories_provider.dart';
+import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
-import 'package:trippidy/screens/item_lists/components/all_items_widget.dart';
+import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 
 import '../components/no_items_animation_widget.dart';
 
@@ -19,6 +20,7 @@ class MembersListScreen extends ConsumerWidget {
     final currentTrip = ref.watch(tripDetailControllerProvider);
     var items = currentTrip.getListItemsForUser(userId: currentMember.id).entries;
     var expandAll = ref.watch(expandAllCategoriesProvider);
+    var showTabs = ref.watch(showTabsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,6 +34,14 @@ class MembersListScreen extends ConsumerWidget {
             icon: Icon(
               expandAll ? Icons.visibility : Icons.visibility_off,
             ),
+          ),
+          IconButton(
+            onPressed: () {
+              ref.read(showTabsProvider.notifier).state = !ref.read(showTabsProvider.notifier).state;
+            },
+            icon: Icon(
+              showTabs ? Icons.grid_view : Icons.view_list,
+            ),
           )
         ],
       ),
@@ -42,8 +52,8 @@ class MembersListScreen extends ConsumerWidget {
                 ? const NoItemsAnimationWidget(
                     message: "Uživatel nemá žádné veřejné položky.",
                   )
-                : AllItemsWidget(
-                    items: items,
+                : ItemsWrapperWidget(
+                    categoriesWithItems: items,
                     currentTrip: currentTrip,
                     currentMember: currentMember,
                     showAvatars: false,

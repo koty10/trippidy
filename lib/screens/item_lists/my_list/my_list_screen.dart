@@ -5,8 +5,9 @@ import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/expand_all_categories_provider.dart';
+import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/screens/add_item/add_item_screen.dart';
-import 'package:trippidy/screens/item_lists/components/all_items_widget.dart';
+import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
 
 class MyListScreen extends ConsumerWidget {
@@ -22,6 +23,7 @@ class MyListScreen extends ConsumerWidget {
     Member member = ref.watch(memberControllerProvider);
     var items = member.getMyListItems().entries;
     var expandAll = ref.watch(expandAllCategoriesProvider);
+    var showTabs = ref.watch(showTabsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +37,14 @@ class MyListScreen extends ConsumerWidget {
             icon: Icon(
               expandAll ? Icons.visibility : Icons.visibility_off,
             ),
+          ),
+          IconButton(
+            onPressed: () {
+              ref.read(showTabsProvider.notifier).state = !ref.read(showTabsProvider.notifier).state;
+            },
+            icon: Icon(
+              showTabs ? Icons.grid_view : Icons.view_list,
+            ),
           )
         ],
       ),
@@ -42,8 +52,8 @@ class MyListScreen extends ConsumerWidget {
           ? const NoItemsAnimationWidget(
               message: "Nemáte zatím žádné položky.",
             )
-          : AllItemsWidget(
-              items: items,
+          : ItemsWrapperWidget(
+              categoriesWithItems: items,
               currentTrip: currentTrip,
               onTapCallback: (item) {
                 Navigator.push(
