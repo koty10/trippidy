@@ -24,9 +24,8 @@ class SuggestionResponse {
 
   factory SuggestionResponse.fromJson(Map<String, dynamic> map) {
     return SuggestionResponse(
-        suggestedItems: List<String>.from(
-      (map['suggestedItems'] as List<String>),
-    ));
+      suggestedItems: List<String>.from(map['suggestedItems'] ?? []),
+    );
   }
 
   @override

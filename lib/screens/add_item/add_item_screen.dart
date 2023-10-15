@@ -334,9 +334,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     if (_formKey.currentState!.validate()) {
       if (item == null) {
         await ref.read(memberControllerProvider.notifier).addItem(
-              newItemId,
-              widget.currentTrip.id,
-              nameTextController.text,
+              id: newItemId,
+              name: nameTextController.text,
               category: categoryTextController.text,
               price: Decimal.tryParse(priceTextController.text) ?? Decimal.zero,
               shared: _shared,
