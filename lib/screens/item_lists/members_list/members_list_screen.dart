@@ -1,10 +1,10 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
+import 'package:trippidy/providers/expand_all_categories_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
+import 'package:trippidy/screens/item_lists/components/all_items_widget.dart';
 
 import '../components/no_items_animation_widget.dart';
 
@@ -18,13 +18,12 @@ class MembersListScreen extends ConsumerStatefulWidget {
 }
 
 class _MembersListScreenState extends ConsumerState<MembersListScreen> {
-  bool expandAll = true;
-
   @override
   Widget build(BuildContext context) {
     final currentMember = ref.watch(memberControllerProvider);
     final currentTrip = ref.watch(tripDetailControllerProvider);
     var items = currentTrip.getListItemsForUser(userId: currentMember.id).entries;
+    var expandAll = ref.watch(expandAllCategoriesProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,9 +32,7 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                expandAll = !expandAll;
-              });
+              ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
             },
             icon: Icon(
               expandAll ? Icons.visibility : Icons.visibility_off,
@@ -53,48 +50,11 @@ class _MembersListScreenState extends ConsumerState<MembersListScreen> {
                 ? const NoItemsAnimationWidget(
                     message: "Uživatel nemá žádné veřejné položky.",
                   )
-                : ListView(
-                    children: items
-                        .toList()
-                        .asMap()
-                        .entries
-                        .map(
-                          (e) => Theme(
-                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                            child: ExpansionTile(
-                              key: GlobalKey(),
-                              initiallyExpanded: expandAll,
-                              backgroundColor: e.key % 2 == 0
-                                  ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2)
-                                  : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
-                              collapsedBackgroundColor: e.key % 2 == 0
-                                  ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2)
-                                  : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
-                              leading: const Icon(Icons.list),
-                              title: Text(e.value.key),
-                              children: e.value.value
-                                  .map(
-                                    (val) => ListTile(
-                                      title: Text(val.name),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          if (val.price != Decimal.zero) Text("${val.price} Kč"),
-                                          if (val.isShared)
-                                            const Padding(
-                                              padding: EdgeInsets.only(right: 8, left: 16),
-                                              child: Icon(Icons.groups),
-                                            ),
-                                          Checkbox(value: val.isChecked, onChanged: null),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                        )
-                        .toList(),
+                : AllItemsWidget(
+                    items: items,
+                    currentTrip: currentTrip,
+                    currentMember: currentMember,
+                    showAvatars: false,
                   ),
           ),
         ],

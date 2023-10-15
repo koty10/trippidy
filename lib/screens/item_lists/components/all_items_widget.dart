@@ -1,23 +1,35 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/model/dto/item.dart';
+import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/model/dto/trip.dart';
+import 'package:trippidy/providers/expand_all_categories_provider.dart';
 
-typedef TrippidyParameterlessFunctionType = Function();
+typedef TrippidyItemFunctionType = Function(Item item);
 typedef TrippidyItemBoolFunctionType = Function(Item item, bool value);
 
-class AllItemsWidget extends StatelessWidget {
+class AllItemsWidget extends ConsumerWidget {
   final Iterable<MapEntry<String, List<Item>>> items;
-  final bool expandAll;
   final Trip currentTrip;
-  final TrippidyParameterlessFunctionType? onTapCallback;
+  final TrippidyItemFunctionType? onTapCallback;
   final TrippidyItemBoolFunctionType? onChangedCallback;
-  const AllItemsWidget(
-      {super.key, required this.items, required this.expandAll, required this.currentTrip, required this.onTapCallback, required this.onChangedCallback});
+  final Member currentMember;
+  final bool showAvatars;
+  const AllItemsWidget({
+    super.key,
+    required this.items,
+    required this.currentTrip,
+    this.onTapCallback,
+    this.onChangedCallback,
+    required this.currentMember,
+    required this.showAvatars,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var expandAll = ref.watch(expandAllCategoriesProvider);
     return ListView(
         //padding: const EdgeInsets.all(8),
         children: items
@@ -39,7 +51,7 @@ class AllItemsWidget extends StatelessWidget {
                   children: e.value.value
                       .map(
                         (item) => ListTile(
-                          onTap: onTapCallback,
+                          onTap: (item.memberId == currentMember.id && onTapCallback != null) ? () => onTapCallback!(item) : null,
                           title: Text(item.name),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -57,10 +69,21 @@ class AllItemsWidget extends StatelessWidget {
                                   padding: EdgeInsets.only(right: 16),
                                   child: Icon(Icons.visibility_off),
                                 ),
-                              if (item.isShared)
+                              if (!showAvatars && item.isShared)
                                 const Padding(
                                   padding: EdgeInsets.only(right: 16),
                                   child: Icon(Icons.groups),
+                                ),
+                              if (showAvatars && item.memberId != currentMember.id)
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8, left: 16),
+                                  child: CircleAvatar(
+                                    radius: 12,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(currentTrip.members.firstWhere((element) => element.id == item.memberId).userProfileImage!),
+                                    ),
+                                  ),
                                 ),
                               Checkbox(
                                 //visualDensity: VisualDensity.compact,
@@ -69,7 +92,7 @@ class AllItemsWidget extends StatelessWidget {
 
                                 //fillColor: MaterialStateProperty.all(Colors.green),
                                 value: item.isChecked,
-                                onChanged: onChangedCallback != null
+                                onChanged: (item.memberId == currentMember.id && onChangedCallback != null)
                                     ? (value) {
                                         onChangedCallback!(item, value ?? false);
                                       }
