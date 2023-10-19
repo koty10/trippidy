@@ -29,6 +29,7 @@ class SuggestedItemsController extends _$SuggestedItemsController {
   }
 
   Future<void> suggestItems() async {
+    state = const AsyncValue.loading();
     log("generating");
     var tripName = ref.read(tripDetailControllerProvider).name;
     var itemsCategory = ref.read(selectedCategoryProvider);
@@ -41,8 +42,6 @@ class SuggestedItemsController extends _$SuggestedItemsController {
             alreadyPackedItems: alreadyPackedItems,
           ),
         );
-
-    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       return (await suggestedItems).suggestedItems;
     });
