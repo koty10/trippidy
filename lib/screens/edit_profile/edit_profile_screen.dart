@@ -38,7 +38,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Upravit profil"),
+        title: const Text("Edit profile"),
       ),
       body: Form(
         key: _formKey,
@@ -48,21 +48,21 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
             children: [
               TrippidyTextFormField(
                 controller: firstnameTextController,
-                placeholder: "Zadejte jméno",
-                requiredMessage: "Jméno je povinné",
+                placeholder: "Firstname",
+                requiredMessage: "Firstname is required",
                 padding: 20,
                 length: 128,
               ),
               TrippidyTextFormField(
                 controller: lastnameTextController,
-                placeholder: "Zadejte příjmení",
-                requiredMessage: "Příjmení je povinné",
+                placeholder: "Lastname",
+                requiredMessage: "Lastname is required",
                 padding: 20,
                 length: 128,
               ),
               TrippidyTextFormField(
                 controller: bankAccountNumberTextController,
-                placeholder: "Zadejte číslo účtu",
+                placeholder: "Bank account number",
                 required: false,
                 padding: 20,
                 length: 128,
@@ -83,7 +83,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   ),
                   onPressed: submit,
                   child: const Text(
-                    "Uložit",
+                    "Save",
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -110,7 +110,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                "Nepodařilo se rozeznat číslo bankovního účtu.",
+                "Could not recognize bank account number.",
                 style: TextStyle(
                   color: context.colorScheme.error,
                 ),
