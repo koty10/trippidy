@@ -68,7 +68,7 @@ class TripScreen extends ConsumerWidget {
             child: Column(
               children: [
                 MemberListTile(
-                  title: "Můj seznam",
+                  title: "My list",
                   currentTrip: currentTrip,
                   target: MyListScreen(
                     currentTrip: currentTrip,
@@ -78,7 +78,7 @@ class TripScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 MemberListTile(
-                  title: "Společný seznam",
+                  title: "Shared list",
                   currentTrip: currentTrip,
                   target: OurListScreen(
                     currentTrip: currentTrip,
@@ -95,7 +95,7 @@ class TripScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16, top: 8),
               child: Text(
-                'Seznamy ostatních členů',
+                'Lists of other members',
                 textAlign: TextAlign.left,
                 style: context.txtTheme.bodyMedium,
               ),
@@ -111,7 +111,7 @@ class TripScreen extends ConsumerWidget {
                         height: 200,
                       ),
                       const SizedBox(height: 20),
-                      const Center(child: Text('Žádní členové tu zatím nejsou.')),
+                      const Center(child: Text('There are no members here yet.')),
                     ],
                   ),
                 ),
@@ -119,7 +119,7 @@ class TripScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        label: const Text("Přidat člena"),
+        label: const Text("Add member"),
         icon: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(

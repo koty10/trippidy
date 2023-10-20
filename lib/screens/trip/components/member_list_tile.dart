@@ -27,7 +27,7 @@ class MemberListTile extends ConsumerWidget {
           ? null
           : () {
               if (ref.read(showTabsProvider)) {
-                ref.read(selectedCategoryProvider.notifier).state = items.first.key;
+                ref.read(selectedCategoryProvider.notifier).state = items.isNotEmpty ? items.first.key : "Other";
               } else {
                 ref.read(selectedCategoryProvider.notifier).state = "";
               }
@@ -42,7 +42,7 @@ class MemberListTile extends ConsumerWidget {
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       tileColor: !member.accepted ? context.colorScheme.onInverseSurface : context.colorScheme.onSecondary,
-      subtitle: !member.accepted ? const Text("Pozvánka odeslána") : null,
+      subtitle: !member.accepted ? const Text("Invitation sent") : null,
       leading: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: showGroupIcon

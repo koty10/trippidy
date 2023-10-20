@@ -26,14 +26,14 @@ class HomeScreenDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.list_alt),
-            title: const Text('Výlety'),
+            title: const Text('Trips'),
             onTap: () {
               Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.manage_accounts),
-            title: const Text('Upravit profil'),
+            title: const Text('Edit Profile'),
             onTap: () {
               Navigator.push(
                 context,
@@ -45,12 +45,12 @@ class HomeScreenDrawer extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.delete),
-            title: const Text('Koš'),
+            title: const Text('Trash'),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Odhlásit'),
+            title: const Text('Logout'),
             onTap: () async {
               await ref.read(authControllerProvider.notifier).logout();
             },

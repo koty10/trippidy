@@ -86,7 +86,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: item == null ? const Text("Přidat položku") : const Text("Upravit položku"),
+        title: item == null ? const Text("Add item") : const Text("Edit item"),
       ),
       body: Form(
         key: _formKey,
@@ -96,8 +96,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
             children: [
               TrippidyTextFormField(
                 controller: nameTextController,
-                placeholder: "Zadejte název položky",
-                requiredMessage: "Název je povinný",
+                placeholder: "Item name",
+                requiredMessage: "Item name is required",
                 padding: 20,
                 onFieldSubmitted: () => submit(),
                 length: 128,
@@ -118,19 +118,16 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                   },
                   fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
                     // create your custom text field here
-                    log("message");
-
                     return TrippidyTextFormField(
                       controller: textEditingController,
-                      placeholder: "Zadejte název kategorie",
-                      requiredMessage: "Kategorie je povinná",
+                      placeholder: "Category name",
+                      requiredMessage: "Category name is required",
                       focusNode: focusNode,
                       onFieldSubmitted: () => submit(),
                       length: 128,
                     );
                   },
                   optionsViewBuilder: (context, onSelected, options) {
-                    log("option");
                     return Align(
                       alignment: Alignment.topLeft,
                       child: Material(
@@ -170,7 +167,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                 children: [
                   Column(
                     children: [
-                      const Text("Sdílené"),
+                      const Text("Shared"),
                       Switch(
                         value: _shared,
                         //activeColor: Colors.red,
@@ -188,7 +185,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                   ),
                   Column(
                     children: [
-                      const Text("Tajné"),
+                      const Text("Secret"),
                       Switch(
                         value: _private,
                         //activeColor: Colors.red,
@@ -206,7 +203,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
               ),
               TrippidyTextFormField(
                 controller: priceTextController,
-                placeholder: "Zadejte cenu",
+                placeholder: "Item price",
                 padding: 20,
                 onFieldSubmitted: () => submit(),
                 required: false,
@@ -291,7 +288,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         ),
                       ),
                       child: const Text(
-                        "Zrušit",
+                        "Cancel",
                         style: TextStyle(fontSize: 16),
                       ),
                       onPressed: () {
@@ -314,7 +311,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         ),
                         onPressed: () => submit(),
                         child: Text(
-                          item == null ? "Přidat" : "Uložit",
+                          item == null ? "Add" : "Save",
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),

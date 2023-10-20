@@ -26,10 +26,10 @@ class TripOfferDetailController extends _$TripOfferDetailController {
     final updatedMember = updatedTrip.members.firstWhere((element) => element.userProfileId == loggedInUser.id);
     try {
       final result = await apiCaller.updateMember(updatedMember);
-      log("povedlo se");
+      log("Accepted invitation");
       log(result.userProfileFirstname);
       state = updatedTrip;
-      log("Nesouhlasí:  ${state.members.where((element) => !element.accepted).length.toString()}");
+      log("Invitation rejected:  ${state.members.where((element) => !element.accepted).length.toString()}");
       ref.read(tripsControllerProvider.notifier).updateTrip(state);
     } catch (e) {
       log("could not update a member ${updatedMember.id}");

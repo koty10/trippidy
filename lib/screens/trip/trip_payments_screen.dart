@@ -22,7 +22,7 @@ class TripPaymentsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - platby"),
+        title: Text("${currentTrip.name} - payments"),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16),
@@ -31,7 +31,7 @@ class TripPaymentsScreen extends ConsumerWidget {
           children: [
             if (currentTrip.completedTransactions.isNotEmpty)
               Text(
-                "Provedené platby",
+                "Completed payments",
                 style: context.txtTheme.bodyLarge,
               ),
             if (currentTrip.completedTransactions.isNotEmpty)
@@ -49,7 +49,7 @@ class TripPaymentsScreen extends ConsumerWidget {
               ),
             if (futurePayments.isNotEmpty)
               Text(
-                "Zbývající platby",
+                "Remaining payments",
                 style: context.txtTheme.bodyLarge,
               ),
             futurePayments.isNotEmpty
@@ -75,7 +75,7 @@ class TripPaymentsScreen extends ConsumerWidget {
                           height: 200,
                         ),
                         const SizedBox(height: 20),
-                        const Center(child: Text('Nikdo zatím nikomu nedluží.')),
+                        const Center(child: Text('No one owes anyone.')),
                       ],
                     ),
                   ),

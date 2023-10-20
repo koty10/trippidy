@@ -69,9 +69,9 @@ class TripOfferTile extends ConsumerWidget {
 
   String getTileText(Trip trip) {
     var format = DateFormat("dd.MM.yyyy");
-    String text = "Majitel: ${trip.getOwner().userProfileFirstname} ${trip.getOwner().userProfileLastname}";
+    String text = "Owner: ${trip.getOwner().userProfileFirstname} ${trip.getOwner().userProfileLastname}";
     if (trip.dateFrom != null && trip.dateTo != null) {
-      text += "\nTermín: ${format.format(trip.dateFrom!)} - ${format.format(trip.dateTo!)}";
+      text += "\nDate: ${format.format(trip.dateFrom!)} - ${format.format(trip.dateTo!)}";
     }
     return text;
   }

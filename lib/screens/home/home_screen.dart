@@ -31,7 +31,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seznam cest'),
+        title: const Text("Trips"),
         actions: [NotificationButton(offersCount: offersCount)],
       ),
       drawer: const HomeScreenDrawer(),
@@ -53,7 +53,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 const Center(
-                  child: Text('Začněte přidáním nového výletu.'),
+                  child: Text('Start by adding a new trip.'),
                 ),
               ],
             ),
@@ -66,7 +66,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           );
         },
-        label: const Text("Přidat výlet"),
+        label: const Text("Add trip"),
         icon: const Icon(Icons.add),
       ),
     );

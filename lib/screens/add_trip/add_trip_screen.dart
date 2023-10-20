@@ -36,7 +36,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text("Přidat výlet"),
+        title: const Text("Add trip"),
       ),
       body: Form(
         key: _formKey,
@@ -49,7 +49,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
                 // The validator receives the text that the user has entered.
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Název je povinný';
+                    return 'Name is required';
                   }
                   return null;
                 },
@@ -62,7 +62,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
                       Radius.circular(20),
                     ),
                   ),
-                  hintText: 'Zadejte název výletu',
+                  hintText: 'Name',
                 ),
               ),
             ),
@@ -70,7 +70,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
               padding: const EdgeInsets.all(20),
               child: ListTile(
                 title: Text(
-                  formatDate(_dateRange) ?? 'Zadejte termín',
+                  formatDate(_dateRange) ?? 'Date',
                   style: const TextStyle(color: Colors.grey),
                 ),
                 contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 2, bottom: 2),
@@ -124,7 +124,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
                       ),
                     ),
                     child: const Text(
-                      "Zrušit",
+                      "Cancel",
                       style: TextStyle(fontSize: 16),
                     ),
                     onPressed: () {
@@ -146,7 +146,7 @@ class _AddTripScreenState extends ConsumerState<AddTripScreen> {
                         ),
                       ),
                       child: const Text(
-                        "Přidat",
+                        "Add",
                         style: TextStyle(fontSize: 16),
                       ),
                       onPressed: () {

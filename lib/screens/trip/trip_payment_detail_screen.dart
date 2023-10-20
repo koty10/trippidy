@@ -58,7 +58,7 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - detail platby"),
+        title: Text("${currentTrip.name} - payment detail"),
       ),
       body: Column(
         children: [
@@ -74,12 +74,12 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Dlužník: ${widget.futurePayment.payer.userProfileFirstname} ${widget.futurePayment.payer.userProfileLastname}"),
-                      Text("Příjemce: ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname}"),
+                      Text("Debtor: ${widget.futurePayment.payer.userProfileFirstname} ${widget.futurePayment.payer.userProfileLastname}"),
+                      Text("Creditor: ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname}"),
                       if (widget.futurePayment.payee.userProfileBankAccountNumber.isNotEmpty)
-                        Text("Číslo účtu: ${widget.futurePayment.payee.userProfileBankAccountNumber}"),
+                        Text("Bank account number: ${widget.futurePayment.payee.userProfileBankAccountNumber}"),
                       if (widget.futurePayment.payee.userProfileIban.isNotEmpty) Text("IBAN: ${widget.futurePayment.payee.userProfileIban}"),
-                      Text("Částka: ${widget.futurePayment.amount} Kč"),
+                      Text("Amount: ${widget.futurePayment.amount} Kč"),
                       const SizedBox(height: 16),
                       if (widget.futurePayment.payee.userProfileIban.isNotEmpty)
                         InkWell(
@@ -112,7 +112,7 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
                             ),
                             Flexible(
                               child: Text(
-                                "Pro zaplacení klikněte na QR kód a vyberte aplikaci vaší banky.",
+                                "To pay, click on the QR code and select your bank's app.",
                                 style: context.txtTheme.labelSmall,
                               ),
                             ),
@@ -131,7 +131,7 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
                             ),
                             Flexible(
                               child: Text(
-                                "Pro možnost platby přímo z aplikace si musí ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname} v profilu vyplnit číslo účtu.",
+                                "To be able to pay directly from the app, ${widget.futurePayment.payee.userProfileFirstname} ${widget.futurePayment.payee.userProfileLastname} must fill in the account number in their profile.",
                                 style: context.txtTheme.labelSmall,
                               ),
                             ),
@@ -162,7 +162,7 @@ class _TripPaymentDetailScreenState extends ConsumerState<TripPaymentDetailScree
                   ),
                 ),
                 child: const Text(
-                  "Potvrdit zaplacení",
+                  "Confirm payment",
                   style: TextStyle(fontSize: 16),
                 ),
                 onPressed: () {

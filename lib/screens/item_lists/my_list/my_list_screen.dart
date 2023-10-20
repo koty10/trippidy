@@ -37,7 +37,7 @@ class MyListScreen extends ConsumerWidget {
           children: [
             Text(currentTrip.name),
             Text(
-              "Můj seznam",
+              "My list",
               style: context.txtTheme.titleSmall,
             )
           ],
@@ -65,7 +65,7 @@ class MyListScreen extends ConsumerWidget {
               if (showTabs) {
                 ref.read(selectedCategoryProvider.notifier).state = "";
               } else {
-                ref.read(selectedCategoryProvider.notifier).state = items.first.key;
+                ref.read(selectedCategoryProvider.notifier).state = items.isNotEmpty ? items.first.key : "Other";
               }
               ref.read(showTabsProvider.notifier).state = !showTabs;
             },
@@ -77,7 +77,7 @@ class MyListScreen extends ConsumerWidget {
       ),
       body: items.isEmpty
           ? const NoItemsAnimationWidget(
-              message: "Nemáte zatím žádné položky.",
+              message: "You have no items.",
             )
           : ItemsWrapperWidget(
               categoriesWithItems: items,
@@ -104,7 +104,7 @@ class MyListScreen extends ConsumerWidget {
               showAvatars: false,
             ),
       floatingActionButton: FloatingActionButton.extended(
-        label: const Text("Přidat položku"),
+        label: const Text("Add item"),
         icon: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(

@@ -38,7 +38,7 @@ class OurListScreen extends ConsumerWidget {
           children: [
             Text(currentTrip.name),
             Text(
-              "Společný seznam",
+              "Shared list",
               style: context.txtTheme.titleSmall,
             )
           ],
@@ -66,7 +66,7 @@ class OurListScreen extends ConsumerWidget {
               if (showTabs) {
                 ref.read(selectedCategoryProvider.notifier).state = "";
               } else {
-                ref.read(selectedCategoryProvider.notifier).state = items.first.key;
+                ref.read(selectedCategoryProvider.notifier).state = items.isNotEmpty ? items.first.key : "Other";
               }
               ref.read(showTabsProvider.notifier).state = !ref.read(showTabsProvider.notifier).state;
             },
@@ -81,7 +81,7 @@ class OurListScreen extends ConsumerWidget {
           Expanded(
               child: items.isEmpty
                   ? const NoItemsAnimationWidget(
-                      message: "Nemáte žádné společné položky.",
+                      message: "You have no shared items.",
                     )
                   : ItemsWrapperWidget(
                       categoriesWithItems: items,
@@ -110,7 +110,7 @@ class OurListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        label: const Text("Přidat položku"),
+        label: const Text("Add item"),
         icon: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(

@@ -34,10 +34,10 @@ class TripOfferDetailScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Název: ${currentTrip.name}"),
-                    Text("Majitel: ${currentTrip.getOwner().userProfileFirstname} ${currentTrip.getOwner().userProfileLastname}"),
+                    Text("Trip name: ${currentTrip.name}"),
+                    Text("Owner: ${currentTrip.getOwner().userProfileFirstname} ${currentTrip.getOwner().userProfileLastname}"),
                     if (currentTrip.dateFrom != null && currentTrip.dateTo != null)
-                      Text("Termín: ${format.format(currentTrip.dateFrom!)} - ${format.format(currentTrip.dateTo!)}"),
+                      Text("Date: ${format.format(currentTrip.dateFrom!)} - ${format.format(currentTrip.dateTo!)}"),
                   ],
                 ),
               ),
@@ -62,7 +62,7 @@ class TripOfferDetailScreen extends ConsumerWidget {
                   ),
                 ),
                 child: const Text(
-                  "Odmítnout",
+                  "Decline",
                   style: TextStyle(fontSize: 16),
                 ),
                 onPressed: () {
@@ -84,7 +84,7 @@ class TripOfferDetailScreen extends ConsumerWidget {
                     ),
                   ),
                   child: const Text(
-                    "Přijmout",
+                    "Accept",
                     style: TextStyle(fontSize: 16),
                   ),
                   onPressed: () async {

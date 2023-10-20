@@ -68,7 +68,7 @@ class MembersListScreen extends ConsumerWidget {
           Expanded(
             child: items.isEmpty
                 ? const NoItemsAnimationWidget(
-                    message: "Uživatel nemá žádné veřejné položky.",
+                    message: "User has no public items.",
                   )
                 : ItemsWrapperWidget(
                     categoriesWithItems: items,

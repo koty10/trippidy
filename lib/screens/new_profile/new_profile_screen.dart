@@ -28,7 +28,7 @@ class _NewProfileScreenState extends ConsumerState<NewProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nový profil"),
+        title: const Text("New profile"),
       ),
       body: Form(
         key: _formKey,
@@ -38,15 +38,15 @@ class _NewProfileScreenState extends ConsumerState<NewProfileScreen> {
             children: [
               TrippidyTextFormField(
                 controller: firstnameTextController,
-                placeholder: "Zadejte jméno",
-                requiredMessage: "Jméno je povinné",
+                placeholder: "Firstname",
+                requiredMessage: "Firstname is required",
                 padding: 20,
                 length: 128,
               ),
               TrippidyTextFormField(
                 controller: lastnameTextController,
-                placeholder: "Zadejte příjmení",
-                requiredMessage: "Příjmení je povinné",
+                placeholder: "Lastname",
+                requiredMessage: "Lastname is required",
                 padding: 20,
                 length: 128,
               ),
@@ -66,7 +66,7 @@ class _NewProfileScreenState extends ConsumerState<NewProfileScreen> {
                   ),
                   onPressed: submit,
                   child: const Text(
-                    "Uložit",
+                    "Continue",
                     style: TextStyle(fontSize: 16),
                   ),
                 ),

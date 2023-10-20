@@ -29,7 +29,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text("Přidat uživatele"),
+        title: const Text("Add member"),
       ),
       body: Form(
         key: _formKey,
@@ -49,7 +49,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                 },
                 onSelected: (UserProfile selection) {
                   ref.read(selectedQueriedUserProfileProvider.notifier).update((state) => selection);
-                  log('You just selected ${_displayStringForOption(selection)}');
+                  log('User just selected ${_displayStringForOption(selection)}');
                 },
                 fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
                   return TextFormField(
@@ -67,7 +67,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                           Radius.circular(20),
                         ),
                       ),
-                      hintText: "Zadejte jméno uživatele",
+                      hintText: "Find user",
                     ),
                   );
                 },
@@ -123,7 +123,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                       ),
                     ),
                     child: const Text(
-                      "Zrušit",
+                      "Cancel",
                       style: TextStyle(fontSize: 16),
                     ),
                     onPressed: () {
@@ -147,7 +147,7 @@ class _AddMemberScreenState extends ConsumerState<AddMemberScreen> {
                       ),
                       onPressed: selectedUserProfile == null ? null : submit,
                       child: const Text(
-                        "Přidat",
+                        "Add",
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

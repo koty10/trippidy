@@ -36,8 +36,8 @@ class _MyAppState extends ConsumerState<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('cs'), Locale("en_US")],
-      locale: const Locale("cs"),
+      // supportedLocales: const [Locale('cs'), Locale("en_US")],
+      // locale: const Locale("cs"),
       title: 'Trippidy',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

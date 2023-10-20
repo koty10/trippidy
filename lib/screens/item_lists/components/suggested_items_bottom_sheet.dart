@@ -22,7 +22,7 @@ class SuggestedItemsBottomSheet {
                 error: (o, s) => const SizedBox(
                   height: 100,
                   child: Center(
-                    child: Text("Nepodařilo se načíst položky"),
+                    child: Text("Could not generate item suggestions"),
                   ),
                 ),
                 loading: () => const GridViewShimmer(),

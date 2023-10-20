@@ -22,7 +22,7 @@ class TripOfferScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text('Notifikace'),
+        title: const Text("Notifications"),
       ),
       body: trips.isEmpty
           ? Column(
@@ -33,7 +33,7 @@ class TripOfferScreen extends ConsumerWidget {
                   height: 200,
                 ),
                 const SizedBox(height: 20),
-                const Center(child: Text('Žádné novinky tu nejsou.')),
+                const Center(child: Text("There are no notifications.")),
               ],
             )
           : ListView.separated(
