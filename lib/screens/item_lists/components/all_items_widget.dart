@@ -28,39 +28,42 @@ class AllItemsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var expandAll = ref.watch(expandAllCategoriesProvider);
-    return ListView(
-      children: categoriesWithItems
-          .toList()
-          .asMap()
-          .entries
-          .map(
-            (e) => Theme(
-              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-              child: ExpansionTile(
-                key: GlobalKey(),
-                initiallyExpanded: expandAll,
-                backgroundColor:
-                    e.key % 2 == 0 ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2) : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
-                collapsedBackgroundColor:
-                    e.key % 2 == 0 ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2) : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
-                leading: const Icon(Icons.list),
-                title: Text(e.value.key),
-                children: e.value.value
-                    .map(
-                      (item) => ItemListTile(
-                        item: item,
-                        currentMember: currentMember,
-                        currentTrip: currentTrip,
-                        showAvatars: showAvatars,
-                        onChangedCallback: onChangedCallback,
-                        onTapCallback: onTapCallback,
-                      ),
-                    )
-                    .toList(),
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: ListView(
+        children: categoriesWithItems
+            .toList()
+            .asMap()
+            .entries
+            .map(
+              (e) => Theme(
+                data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  key: GlobalKey(),
+                  initiallyExpanded: expandAll,
+                  backgroundColor:
+                      e.key % 2 == 0 ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2) : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
+                  collapsedBackgroundColor:
+                      e.key % 2 == 0 ? Color.lerp(context.colorScheme.surface, Colors.black, 0.2) : Color.lerp(context.colorScheme.surface, Colors.black, 0.0),
+                  leading: const Icon(Icons.list),
+                  title: Text(e.value.key),
+                  children: e.value.value
+                      .map(
+                        (item) => ItemListTile(
+                          item: item,
+                          currentMember: currentMember,
+                          currentTrip: currentTrip,
+                          showAvatars: showAvatars,
+                          onChangedCallback: onChangedCallback,
+                          onTapCallback: onTapCallback,
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
-            ),
-          )
-          .toList(),
+            )
+            .toList(),
+      ),
     );
   }
 }
