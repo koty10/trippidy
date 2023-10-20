@@ -92,4 +92,8 @@ extension TripExtension on Trip {
     }
     return dict;
   }
+
+  List<Item> getAllSharedItems() {
+    return members.expand((e) => e.items.where((item) => item.isShared)).toList();
+  }
 }

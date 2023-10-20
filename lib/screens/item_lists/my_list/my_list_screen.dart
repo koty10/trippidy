@@ -1,8 +1,4 @@
-import 'dart:developer';
-
-import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trippidy/components/grid_view_shimmer.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/member_extension.dart';
 import 'package:trippidy/model/dto/member.dart';
@@ -16,6 +12,7 @@ import 'package:trippidy/providers/suggested_items_controller.dart';
 import 'package:trippidy/screens/add_item/add_item_screen.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
+import 'package:trippidy/screens/item_lists/components/suggested_items_bottom_sheet.dart';
 
 class MyListScreen extends ConsumerWidget {
   const MyListScreen({
@@ -35,14 +32,23 @@ class MyListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - můj seznam"),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(currentTrip.name),
+            Text(
+              "Můj seznam",
+              style: context.txtTheme.titleSmall,
+            )
+          ],
+        ),
         actions: [
           showTabs
               ? IconButton(
                   onPressed: () {
                     //ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
-                    ref.read(suggestedItemsControllerProvider.notifier).suggestItems();
-                    _showBottomSheet(context);
+                    ref.read(suggestedItemsControllerProvider.notifier).suggestItems(false);
+                    SuggestedItemsBottomSheet.suggestedItemsBottomSheet(context, false);
                   },
                   icon: const Icon(Icons.auto_awesome),
                 )
@@ -114,66 +120,5 @@ class MyListScreen extends ConsumerWidget {
         },
       ),
     );
-  }
-
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Consumer(
-            builder: (context, ref, child) {
-              final items = ref.watch(suggestedItemsControllerProvider);
-
-              return items.when(
-                error: (o, s) => Container(),
-                loading: () => const GridViewShimmer(),
-                data: (List<String> items) => Container(
-                  //constraints: const BoxConstraints(maxHeight: 500),
-                  padding: const EdgeInsets.all(16.0),
-                  height: (items.length / 2).ceil() * 80 + 16, // You might want to adjust the height to your need
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(), // This disables scrolling
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 6 / 2, // Adjust aspect ratio to control the size of the tiles
-                      mainAxisSpacing: 16.0, // Vertical spacing
-                      crossAxisSpacing: 16.0, // Horizontal spacing
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return GridTile(
-                        child: InkWell(
-                          onTap: () {
-                            log('Adding generated item ${items.elementAt(index)} to the item list');
-
-                            ref.read(memberControllerProvider.notifier).addItem(
-                              name: items.elementAt(index),
-                              category: ref.read(selectedCategoryProvider),
-                              shared: false,
-                              private: false,
-                              price: Decimal.zero,
-                              futureTransactions: [],
-                            );
-
-                            ref.read(suggestedItemsControllerProvider.notifier).removeItem(items.elementAt(index));
-                            if (items.isEmpty) {
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Card(
-                            color: context.colorScheme.secondaryContainer,
-                            child: Center(
-                              child: Text(items.elementAt(index)),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: items.length,
-                  ),
-                ),
-              );
-            },
-          );
-        });
   }
 }

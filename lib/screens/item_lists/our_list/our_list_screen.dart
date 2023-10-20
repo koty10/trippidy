@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,9 @@ import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/expand_all_categories_provider.dart';
 import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
+import 'package:trippidy/providers/suggested_items_controller.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
+import 'package:trippidy/screens/item_lists/components/suggested_items_bottom_sheet.dart';
 
 import '../../../model/dto/member.dart';
 import '../../add_item/add_item_screen.dart';
@@ -30,16 +33,34 @@ class OurListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - společný seznam"),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(currentTrip.name),
+            Text(
+              "Společný seznam",
+              style: context.txtTheme.titleSmall,
+            )
+          ],
+        ),
         actions: [
-          IconButton(
-            onPressed: () {
-              ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
-            },
-            icon: Icon(
-              expandAll ? Icons.visibility : Icons.visibility_off,
-            ),
-          ),
+          showTabs
+              ? IconButton(
+                  onPressed: () {
+                    //ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
+                    ref.read(suggestedItemsControllerProvider.notifier).suggestItems(true);
+                    SuggestedItemsBottomSheet.suggestedItemsBottomSheet(context, true);
+                  },
+                  icon: const Icon(Icons.auto_awesome),
+                )
+              : IconButton(
+                  onPressed: () {
+                    ref.read(expandAllCategoriesProvider.notifier).state = !ref.read(expandAllCategoriesProvider.notifier).state;
+                  },
+                  icon: Icon(
+                    expandAll ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
           IconButton(
             onPressed: () {
               if (showTabs) {

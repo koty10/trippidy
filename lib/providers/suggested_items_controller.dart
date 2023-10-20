@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trippidy/api/api_caller.dart';
+import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/dto/requests/suggestion_request.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/selected_category_provider.dart';
@@ -28,12 +29,14 @@ class SuggestedItemsController extends _$SuggestedItemsController {
     });
   }
 
-  Future<void> suggestItems() async {
+  Future<void> suggestItems(bool shared) async {
     state = const AsyncValue.loading();
     log("generating");
     var tripName = ref.read(tripDetailControllerProvider).name;
     var itemsCategory = ref.read(selectedCategoryProvider);
-    var alreadyPackedItems = ref.read(memberControllerProvider).items.where((element) => element.categoryName == itemsCategory).map((e) => e.name).toList();
+
+    var baseItems = shared ? ref.read(tripDetailControllerProvider).getAllSharedItems() : ref.read(memberControllerProvider).items;
+    var alreadyPackedItems = baseItems.where((element) => element.categoryName == itemsCategory).map((e) => e.name).toList();
 
     var suggestedItems = ref.read(apiCallerProvider).suggestItems(
           SuggestionRequest(

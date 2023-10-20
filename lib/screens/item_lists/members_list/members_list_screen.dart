@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
@@ -26,7 +27,18 @@ class MembersListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text("${currentTrip.name} - ${currentMember.userProfileFirstname} ${currentMember.userProfileLastname}"),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              currentTrip.name,
+            ),
+            Text(
+              "${currentMember.userProfileFirstname} ${currentMember.userProfileLastname}",
+              style: context.txtTheme.titleSmall,
+            )
+          ],
+        ),
         actions: [
           IconButton(
             onPressed: () {
