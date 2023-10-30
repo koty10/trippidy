@@ -3,7 +3,8 @@ const String AUTH0_CLIENT_ID = "2CGBd2OORWRiGpjvx7PQYUeLeEjuLGDj";
 const String AUTH0_DOMAIN = "trippidy.eu.auth0.com";
 const String AUTH0_SCHEME = "com.example.trippidy";
 
-const String baseUrl = 'http://koty10praha.tplinkdns.com:9680/trippidy/api/v1';
+//const String baseUrl = 'http://koty10praha.tplinkdns.com:9680/trippidy/api/v1';
+const String baseUrl = 'https://trippidy.koten.dev/api/v1';
 const String tripsEndpoint = '/my/trip';
 const String itemsEndpoint = '/my/item';
 const String userProfileEndpoint = '/my/userProfile';
