@@ -16,21 +16,27 @@ class MembersListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     List<Member> members = currentTrip.members.where((element) => element.userProfileId != ref.read(authControllerProvider).userProfile!.id).toList();
-    return Expanded(
-      child: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: members.length,
-        itemBuilder: (BuildContext context, int index) {
-          var curMember = members[index];
-          return MemberListTile(
-            member: curMember,
-            title: "${curMember.userProfileFirstname} ${curMember.userProfileLastname}",
-            currentTrip: currentTrip,
-            target: const MembersListScreen(),
-            items: currentTrip.getListItemsForUser(userId: curMember.id).entries,
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
+    return SliverPadding(
+      padding: const EdgeInsets.all(16),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            var curMember = members[index];
+            return Column(
+              children: [
+                MemberListTile(
+                  member: curMember,
+                  title: "${curMember.userProfileFirstname} ${curMember.userProfileLastname}",
+                  currentTrip: currentTrip,
+                  target: const MembersListScreen(),
+                  items: currentTrip.getListItemsForUser(userId: curMember.id).entries,
+                ),
+                const SizedBox(height: 16)
+              ],
+            );
+          },
+          childCount: members.length,
+        ),
       ),
     );
   }

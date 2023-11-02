@@ -59,64 +59,73 @@ class TripScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                MemberListTile(
-                  title: "My list",
-                  currentTrip: currentTrip,
-                  target: MyListScreen(
-                    currentTrip: currentTrip,
+      body: RefreshIndicator(
+        onRefresh: () => ref.read(tripDetailControllerProvider.notifier).refreshTrip(),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        MemberListTile(
+                          title: "My list",
+                          currentTrip: currentTrip,
+                          target: MyListScreen(
+                            currentTrip: currentTrip,
+                          ),
+                          member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
+                          items: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip).getMyListItems().entries,
+                        ),
+                        const SizedBox(height: 16),
+                        MemberListTile(
+                          title: "Shared list",
+                          currentTrip: currentTrip,
+                          target: OurListScreen(
+                            currentTrip: currentTrip,
+                          ),
+                          member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
+                          items: currentTrip
+                              .getOurListItems(loggedUserMember: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip))
+                              .entries,
+                          showGroupIcon: true,
+                        ),
+                      ],
+                    ),
                   ),
-                  member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
-                  items: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip).getMyListItems().entries,
-                ),
-                const SizedBox(height: 16),
-                MemberListTile(
-                  title: "Shared list",
-                  currentTrip: currentTrip,
-                  target: OurListScreen(
-                    currentTrip: currentTrip,
-                  ),
-                  member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
-                  items:
-                      currentTrip.getOurListItems(loggedUserMember: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip)).entries,
-                  showGroupIcon: true,
-                ),
-              ],
-            ),
-          ),
-          if (members.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 16, top: 8),
-              child: Text(
-                'Lists of other members',
-                textAlign: TextAlign.left,
-                style: context.txtTheme.bodyMedium,
+                  if (members.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 8),
+                      child: Text(
+                        'Lists of other members',
+                        textAlign: TextAlign.left,
+                        style: context.txtTheme.bodyMedium,
+                      ),
+                    ),
+                  if (members.isEmpty)
+                    Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LottieBuilder.asset(
+                            'assets/lotties/people.json',
+                            height: 200,
+                          ),
+                          const SizedBox(height: 20),
+                          const Text('There are no members here yet.'),
+                        ],
+                      ),
+                    ),
+                ],
               ),
             ),
-          members.isNotEmpty
-              ? MembersListView(currentTrip: currentTrip)
-              : Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LottieBuilder.asset(
-                        'assets/lotties/people.json',
-                        height: 200,
-                      ),
-                      const SizedBox(height: 20),
-                      const Center(child: Text('There are no members here yet.')),
-                    ],
-                  ),
-                ),
-          // ).animate().fadeIn(),
-        ],
+            if (members.isNotEmpty) MembersListView(currentTrip: currentTrip),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Add member"),

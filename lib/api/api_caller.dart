@@ -85,6 +85,17 @@ class ApiCaller {
     }
   }
 
+  Future<Trip> getTrip(String tripId) async {
+    log("get trip");
+    try {
+      final result = await _restClient.getTrip(tripId);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<UserProfile> getUserProfile() async {
     log("get userProfile");
     try {
