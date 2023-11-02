@@ -17,33 +17,61 @@ class TripOfferScreen extends ConsumerWidget {
 
     var tripsProvider = ref.watch(tripsControllerProvider);
     var loggedInUser = ref.watch(authControllerProvider);
-    List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: false);
+    //List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: false);
 
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
         title: const Text("Notifications"),
       ),
-      body: trips.isEmpty
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LottieBuilder.asset(
-                  'assets/lotties/empty_box.json',
-                  height: 200,
-                ),
-                const SizedBox(height: 20),
-                const Center(child: Text("There are no notifications.")),
-              ],
-            )
-          : ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              itemCount: trips.length,
-              itemBuilder: (BuildContext context, int index) {
-                return TripOfferTile(trip: trips[index]);
-              },
-              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
-            ),
+      body: tripsProvider.when(
+        data: (data) {
+          List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: false);
+          return trips.isEmpty
+              ? RefreshIndicator(
+                  onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+                  child: Stack(
+                    children: [
+                      // Centered Layout
+                      Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            LottieBuilder.asset(
+                              'assets/lotties/empty_box.json',
+                              height: 200,
+                            ),
+                            const SizedBox(height: 20),
+                            const Text("There are no notifications."),
+                          ],
+                        ),
+                      ),
+
+                      // Scrollable overlay
+                      Positioned.fill(
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Container(),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : RefreshIndicator(
+                  onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                    itemCount: trips.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TripOfferTile(trip: trips[index]);
+                    },
+                    separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
+                  ),
+                );
+        },
+        error: (error, stackTrace) => const Text("There was a problem to load data"),
+        loading: () => const Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 }

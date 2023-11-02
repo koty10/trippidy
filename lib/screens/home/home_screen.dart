@@ -36,26 +36,47 @@ class HomeScreen extends ConsumerWidget {
       ),
       drawer: const HomeScreenDrawer(),
       body: trips.isNotEmpty
-          ? ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              itemCount: trips.length,
-              itemBuilder: (BuildContext context, int index) {
-                return TripTile(trip: trips[index]);
-              },
-              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
+          ? RefreshIndicator(
+              onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                itemCount: trips.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return TripTile(trip: trips[index]);
+                },
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
+              ),
             )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LottieBuilder.asset(
-                  'assets/lotties/trip_map.json',
-                  height: 200,
-                ),
-                const SizedBox(height: 20),
-                const Center(
-                  child: Text('Start by adding a new trip.'),
-                ),
-              ],
+          : RefreshIndicator(
+              onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+              child: Stack(
+                children: [
+                  // Centered Layout
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LottieBuilder.asset(
+                          'assets/lotties/trip_map.json',
+                          height: 200,
+                        ),
+                        const SizedBox(height: 20),
+                        const Center(
+                          child: Text('Start by adding a new trip.'),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Scrollable overlay
+                  Positioned.fill(
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Container(),
+                    ),
+                  ),
+                ],
+              ),
             ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
