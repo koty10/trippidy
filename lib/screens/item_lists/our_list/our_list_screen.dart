@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
-import 'package:trippidy/model/dto/trip.dart';
 import 'package:flutter/material.dart';
 import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/expand_all_categories_provider.dart';
 import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/providers/suggested_items_controller.dart';
+import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 import 'package:trippidy/screens/item_lists/components/suggested_items_bottom_sheet.dart';
 
@@ -18,14 +18,12 @@ import '../components/no_items_animation_widget.dart';
 class OurListScreen extends ConsumerWidget {
   const OurListScreen({
     super.key,
-    required this.currentTrip,
   });
-
-  final Trip currentTrip;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Member member = ref.watch(memberControllerProvider);
+    final currentTrip = ref.watch(tripDetailControllerProvider);
     var items = currentTrip.getOurListItems(loggedUserMember: member).entries;
     var expandAll = ref.watch(expandAllCategoriesProvider);
     var showTabs = ref.watch(showTabsProvider);

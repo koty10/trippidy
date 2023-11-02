@@ -8,6 +8,7 @@ import 'package:trippidy/model/dto/item.dart';
 import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/model/dto/trip.dart';
 import 'package:trippidy/providers/selected_category_provider.dart';
+import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/item_lists/components/item_list_tile.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 
@@ -33,16 +34,46 @@ class ItemsByCategoryWidget extends ConsumerStatefulWidget {
   ConsumerState<ItemsByCategoryWidget> createState() => _ItemsByCategoryWidgetState();
 }
 
-class _ItemsByCategoryWidgetState extends ConsumerState<ItemsByCategoryWidget> with SingleTickerProviderStateMixin {
+class _ItemsByCategoryWidgetState extends ConsumerState<ItemsByCategoryWidget> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.categoriesWithItems.length, vsync: this);
+    _tabController = TabController(
+      vsync: this,
+      length: widget.categoriesWithItems.length,
+    );
+
     _tabController.addListener(() {
       final value = _tabController.index;
       ref.read(selectedCategoryProvider.notifier).state = widget.categoriesWithItems.elementAt(value).key;
+    });
+  }
+
+  void _reinitTabController() {
+    var previousTabName = ref.read(selectedCategoryProvider.notifier).state;
+    int currentTabIndexFromPreviousTabName = widget.categoriesWithItems.toList().indexWhere((entry) => entry.key == previousTabName);
+
+    // Dispose old controller without triggering any listeners
+    _tabController.dispose();
+
+    // Create new controller with new length
+    _tabController = TabController(
+      vsync: this,
+      length: widget.categoriesWithItems.length,
+    );
+
+    if (currentTabIndexFromPreviousTabName < _tabController.length && currentTabIndexFromPreviousTabName >= 0) {
+      _tabController.index = currentTabIndexFromPreviousTabName;
+    }
+
+    // Add post frame callback to update state after build completes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tabController.addListener(() {
+        final value = _tabController.index;
+        ref.read(selectedCategoryProvider.notifier).state = widget.categoriesWithItems.elementAt(value).key;
+      });
     });
   }
 
@@ -54,6 +85,8 @@ class _ItemsByCategoryWidgetState extends ConsumerState<ItemsByCategoryWidget> w
 
   @override
   Widget build(BuildContext context) {
+    _reinitTabController();
+
     log(ref.watch(selectedCategoryProvider));
     return Column(
       children: [
@@ -71,13 +104,16 @@ class _ItemsByCategoryWidgetState extends ConsumerState<ItemsByCategoryWidget> w
           child: TabBarView(
             controller: _tabController,
             children: widget.categoriesWithItems.map((category) {
-              return CategoryItemsView(
-                items: category.value,
-                currentMember: widget.currentMember,
-                currentTrip: widget.currentTrip,
-                showAvatars: widget.showAvatars,
-                onChangedCallback: widget.onChangedCallback,
-                onTapCallback: widget.onTapCallback,
+              return RefreshIndicator(
+                onRefresh: () => ref.read(tripDetailControllerProvider.notifier).refreshTrip(),
+                child: CategoryItemsView(
+                  items: category.value,
+                  currentMember: widget.currentMember,
+                  currentTrip: widget.currentTrip,
+                  showAvatars: widget.showAvatars,
+                  onChangedCallback: widget.onChangedCallback,
+                  onTapCallback: widget.onTapCallback,
+                ),
               );
             }).toList(),
           ),

@@ -3,6 +3,7 @@ import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/model/dto/item.dart';
 import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/utils/decimal_utils.dart';
+import 'package:trippidy/utils/string_utils.dart';
 
 import '../model/dto/trip.dart';
 
@@ -77,6 +78,15 @@ extension TripExtension on Trip {
     for (var element in tmp) {
       dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
     }
+
+    // Sort the Map by keys
+    dict = Map.fromEntries(dict.entries.toList()..sort((e1, e2) => customOrderSortKey(e1.key).compareTo(customOrderSortKey(e2.key))));
+
+    // Sort each list inside the Map
+    dict.forEach((key, value) {
+      value.sort((s1, s2) => customOrderSortKey(s1.name).compareTo(customOrderSortKey(s2.name)));
+    });
+
     return dict;
   }
 
@@ -90,6 +100,15 @@ extension TripExtension on Trip {
     for (var element in tmp) {
       dict[element.categoryName] != null ? dict[element.categoryName]?.add(element) : dict.putIfAbsent(element.categoryName, () => [element]);
     }
+
+    // Sort the Map by keys
+    dict = Map.fromEntries(dict.entries.toList()..sort((e1, e2) => customOrderSortKey(e1.key).compareTo(customOrderSortKey(e2.key))));
+
+    // Sort each list inside the Map
+    dict.forEach((key, value) {
+      value.sort((s1, s2) => customOrderSortKey(s1.name).compareTo(customOrderSortKey(s2.name)));
+    });
+
     return dict;
   }
 
