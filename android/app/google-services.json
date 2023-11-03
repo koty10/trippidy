@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:193908568505:android:e99b0314377d93e74b8668",
+        "mobilesdk_app_id": "1:193908568505:android:f57695ab7e4ec7224b8668",
         "android_client_info": {
           "package_name": "dev.rexie.trippidy"
         }
@@ -31,7 +31,7 @@
               "client_type": 3
             },
             {
-              "client_id": "193908568505-am1j56fp7sa7g7lqgrqr9aleqjbk67tn.apps.googleusercontent.com",
+              "client_id": "193908568505-92sg4ignbmc54uklne036ansmupaik9b.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "dev.rexie.trippidy"

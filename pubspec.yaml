@@ -41,7 +41,7 @@ dependencies:
 
   shimmer: ^2.0.0
 
-  firebase_core: ^2.4.1
+  firebase_core: ^2.21.0
   cloud_firestore: ^4.3.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -61,6 +61,7 @@ dependencies:
   # State management
   flutter_riverpod: ^2.3.4
   riverpod_annotation: ^2.0.4
+  firebase_crashlytics: ^3.4.3
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"

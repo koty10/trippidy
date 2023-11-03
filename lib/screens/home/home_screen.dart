@@ -32,7 +32,9 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Trips"),
-        actions: [NotificationButton(offersCount: offersCount)],
+        actions: [
+          NotificationButton(offersCount: offersCount),
+        ],
       ),
       drawer: const HomeScreenDrawer(),
       body: trips.isNotEmpty
