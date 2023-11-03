@@ -1,4 +1,4 @@
-package com.example.trippidy
+package dev.rexie.trippidy
 
 import io.flutter.embedding.android.FlutterActivity
 

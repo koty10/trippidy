@@ -8,7 +8,7 @@
 PRODUCT_NAME = trippidy
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.trippidy
+PRODUCT_BUNDLE_IDENTIFIER = dev.rexie.trippidy
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 dev.rexie. All rights reserved.

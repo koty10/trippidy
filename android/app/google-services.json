@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:193908568505:android:e99b0314377d93e74b8668",
         "android_client_info": {
-          "package_name": "com.example.trippidy"
+          "package_name": "dev.rexie.trippidy"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "193908568505-am1j56fp7sa7g7lqgrqr9aleqjbk67tn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.trippidy"
+                "bundle_id": "dev.rexie.trippidy"
               }
             }
           ]
