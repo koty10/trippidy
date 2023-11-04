@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/model/dto/item.dart';
 import 'package:trippidy/model/dto/member.dart';
 import 'package:trippidy/providers/member_controller.dart';
@@ -51,7 +52,7 @@ class MemberListTile extends ConsumerWidget {
                 radius: 12,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(currentTrip.members.firstWhere((element) => element.id == member.id).userProfileImage!),
+                  child: Image.network(currentTrip.members.firstWhere((element) => element.id == member.id).userProfileImage!.convertToImageProxy()),
                 ),
               ),
       ),

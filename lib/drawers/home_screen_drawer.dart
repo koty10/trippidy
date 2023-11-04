@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/screens/edit_profile/edit_profile_screen.dart';
 
@@ -17,7 +18,7 @@ class HomeScreenDrawer extends ConsumerWidget {
             accountName: Text("${user.firstname} ${user.lastname}"),
             accountEmail: Text(user.email),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: user.image == "" ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image),
+              backgroundImage: user.image == "" ? const AssetImage("images/user.png") as ImageProvider : NetworkImage(user.image.convertToImageProxy()),
             ),
             decoration: const BoxDecoration(
               color: Colors.black12,

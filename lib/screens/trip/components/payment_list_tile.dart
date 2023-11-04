@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/screens/trip/trip_payment_detail_screen.dart';
 
@@ -35,7 +36,7 @@ class PaymentListTile extends ConsumerWidget {
                   CircleAvatar(
                     backgroundImage: futurePayment.payer.userProfileImage == null
                         ? const AssetImage("images/user.png") as ImageProvider
-                        : NetworkImage(futurePayment.payer.userProfileImage!),
+                        : NetworkImage(futurePayment.payer.userProfileImage!.convertToImageProxy()),
                     radius: 16,
                   ),
                   const SizedBox(width: 8),
@@ -82,7 +83,7 @@ class PaymentListTile extends ConsumerWidget {
                   CircleAvatar(
                     backgroundImage: futurePayment.payee.userProfileImage == null
                         ? const AssetImage("images/user.png") as ImageProvider
-                        : NetworkImage(futurePayment.payee.userProfileImage!),
+                        : NetworkImage(futurePayment.payee.userProfileImage!.convertToImageProxy()),
                     radius: 16,
                   ),
                 ],

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class TripTile extends ConsumerWidget {
                 child: CircleAvatar(
                   radius: 12,
                   child: member.userProfileImage != null
-                      ? ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(member.userProfileImage!))
+                      ? ClipRRect(borderRadius: BorderRadius.circular(12), child: Image.network(member.userProfileImage!.convertToImageProxy()))
                       : Text(
                           member.userProfileLastname[0],
                           style: const TextStyle(

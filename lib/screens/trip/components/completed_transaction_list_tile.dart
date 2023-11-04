@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/model/dto/completed_transaction.dart';
 
 class CompletedTransactionListTile extends ConsumerWidget {
@@ -23,7 +24,7 @@ class CompletedTransactionListTile extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(completedTransaction.payerUserProfileImage),
+                  backgroundImage: NetworkImage(completedTransaction.payerUserProfileImage.convertToImageProxy()),
                   radius: 20,
                 ),
                 const SizedBox(height: 4),
@@ -56,7 +57,7 @@ class CompletedTransactionListTile extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(completedTransaction.payeeUserProfileImage),
+                  backgroundImage: NetworkImage(completedTransaction.payeeUserProfileImage.convertToImageProxy()),
                   radius: 20,
                 ),
                 const SizedBox(height: 4),

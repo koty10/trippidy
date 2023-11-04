@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:trippidy/components/trippidy_text_form_field.dart';
+import 'package:trippidy/extensions/string_extension.dart';
 import 'package:trippidy/extensions/trip_extension.dart';
 import 'package:trippidy/model/dto/future_transaction.dart';
 import 'package:trippidy/model/dto/member.dart';
@@ -234,7 +235,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(25),
                               child: Image.network(
-                                member.userProfileImage!,
+                                member.userProfileImage!.convertToImageProxy(),
                                 width: 50,
                                 height: 50,
                               ),
