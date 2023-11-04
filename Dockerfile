@@ -1,5 +1,15 @@
-# Start by building the application
-FROM ghcr.io/cirruslabs/flutter:stable AS build
+# Use the Dart SDK as the base image
+# Adjust the version as necessary
+FROM dart:stable AS build
+
+# Install Flutter manually
+RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+ENV PATH="$PATH:/usr/local/flutter/bin"
+
+# Enable Flutter web
+RUN flutter channel stable && \
+    flutter upgrade && \
+    flutter config --enable-web
 
 # Set up a working directory
 WORKDIR /app
