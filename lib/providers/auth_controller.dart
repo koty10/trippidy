@@ -94,7 +94,7 @@ class AuthController extends _$AuthController {
     // Web
     if (kIsWeb) {
       final Auth0Web auth0Web = ref.read(auth0webProviderProvider);
-      await auth0Web.loginWithRedirect();
+      await auth0Web.loginWithRedirect(redirectUrl: AUTH0_ALLOWED_URL);
     }
     // Android
     else {
