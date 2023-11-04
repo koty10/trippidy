@@ -19,7 +19,7 @@ COPY . .
 # Get Flutter dependencies
 RUN flutter pub get
 
-RUN flutter pub run build_runner build
+RUN dart run build_runner build --delete-conflicting-outputs
 
 # Build the Flutter web app
 RUN flutter build web
