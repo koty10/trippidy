@@ -11,6 +11,18 @@ import 'package:trippidy/screens/login/login_screen.dart';
 import 'package:trippidy/screens/new_profile/new_profile_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+void logMessage(String message, String stackTrace) {
+  var uri = Uri.parse('https://trippidy.koten.dev:9680/api/v1/logs');
+  http.post(uri,
+      body: json.encode({
+        'message': message,
+        'stackTrace': stackTrace,
+        'timestamp': DateTime.now().toIso8601String(),
+      }));
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +37,16 @@ Future<void> main() async {
     // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  } else {
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      logMessage(errorDetails.exceptionAsString(), errorDetails.stack.toString());
+    };
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      logMessage(error.toString(), stack.toString());
       return true;
     };
   }
