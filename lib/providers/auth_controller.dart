@@ -128,7 +128,7 @@ class AuthController extends _$AuthController {
   Future<void> logout() async {
     await HiveAuthStorage.deleteCredentials();
     if (kIsWeb) {
-      await ref.read(auth0webProviderProvider).logout();
+      await ref.read(auth0webProviderProvider).logout(returnToUrl: AUTH0_ALLOWED_URL);
     } else {
       await ref.read(auth0providerProvider).webAuthentication(scheme: AUTH0_SCHEME).logout();
     }
