@@ -1,5 +1,5 @@
 # Start by building the application
-FROM cirrusci/flutter AS build
+FROM ghcr.io/cirruslabs/flutter:stable AS build
 
 # Set up a working directory
 WORKDIR /app
