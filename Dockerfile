@@ -1,5 +1,4 @@
 # Use the Dart SDK as the base image
-# Adjust the version as necessary
 FROM dart:stable AS build
 
 # Install Flutter manually
@@ -14,11 +13,13 @@ RUN flutter channel stable && \
 # Set up a working directory
 WORKDIR /app
 
-# Copy your Flutter app files to the container
+# Copy Flutter app files to the container
 COPY . .
 
 # Get Flutter dependencies
 RUN flutter pub get
+
+RUN flutter pub run build_runner build
 
 # Build the Flutter web app
 RUN flutter build web
