@@ -4,7 +4,7 @@ const String AUTH0_DOMAIN = "trippidy.eu.auth0.com";
 const String AUTH0_SCHEME = "dev.rexie.trippidy";
 const String AUTH0_WEB_DOMAIN = "trippidy.eu.auth0.com";
 const String AUTH0_WEB_CLIENT_ID = "mBmzMpbwUdz8tsPFyam0spAnv8SdqIxm";
-const String AUTH0_ALLOWED_URL = "trippidy.koten.dev:9680";
+const String AUTH0_ALLOWED_URL = "https://trippidy.koten.dev:9680";
 
 //const String baseUrl = 'http://koty10praha.tplinkdns.com:9680/trippidy/api/v1';
 const String baseUrl = 'https://trippidy.koten.dev:9680/api/v1';
