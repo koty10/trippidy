@@ -16,7 +16,7 @@ class LoginScreen extends ConsumerWidget {
           const Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              "Vítejte!",
+              "Welcome to Trippidy!",
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -28,7 +28,7 @@ class LoginScreen extends ConsumerWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () => ref.read(authControllerProvider.notifier).login(),
-                  child: const Text("Přihlásit se"),
+                  child: const Text("Login"),
                 ),
               ),
             ],
