@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
 import 'package:trippidy/extensions/string_extension.dart';
+import 'package:trippidy/providers/auth_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
 import 'package:trippidy/screens/trip/trip_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,11 @@ class TripTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var myItems = trip.members
+        .firstWhere(
+          (element) => element.userProfileId == ref.read(authControllerProvider).userProfile!.id,
+        )
+        .items;
     return ListTile(
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -52,6 +58,7 @@ class TripTile extends ConsumerWidget {
             )
             .toList(),
       ),
+      subtitle: Text("${myItems.where((element) => element.isChecked).length}/${myItems.length}"),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       onTap: () {
         ref.read(tripDetailControllerProvider.notifier).setTrip(trip);
