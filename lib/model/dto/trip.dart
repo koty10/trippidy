@@ -67,10 +67,12 @@ class Trip {
     String? name,
     bool? isDeleted,
     List<CompletedTransaction>? completedTransactions,
+    bool dateFromNull = false,
+    bool dateToNull = false,
   }) {
     return Trip(
-      dateFrom: dateFrom ?? this.dateFrom,
-      dateTo: dateTo ?? this.dateTo,
+      dateFrom: dateFrom ?? (dateFromNull ? null : this.dateFrom),
+      dateTo: dateTo ?? (dateToNull ? null : this.dateTo),
       id: id ?? this.id,
       members: members ?? this.members,
       name: name ?? this.name,

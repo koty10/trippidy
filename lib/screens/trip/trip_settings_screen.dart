@@ -39,6 +39,18 @@ class TripSettingsScreen extends ConsumerWidget {
                     Text("Owner: ${currentTrip.getOwner().userProfileFirstname} ${currentTrip.getOwner().userProfileLastname}"),
                     if (currentTrip.dateFrom != null && currentTrip.dateTo != null)
                       Text("Date: ${format.format(currentTrip.dateFrom!)} - ${format.format(currentTrip.dateTo!)}"),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    ElevatedButton(
+                      child: const Text(
+                        "Copy trip",
+                      ),
+                      onPressed: () {
+                        ref.read(tripDetailControllerProvider.notifier).duplicateTrip();
+                        Navigator.pop(context);
+                      },
+                    ),
                   ],
                 ),
               ),

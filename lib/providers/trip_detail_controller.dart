@@ -3,6 +3,8 @@ import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/model/dto/completed_transaction.dart';
 import 'package:trippidy/model/enum/role.dart';
 import 'package:trippidy/model/dto/trip.dart';
+import 'package:trippidy/providers/auth_controller.dart';
+import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/trips_controller.dart';
 import 'package:uuid/uuid.dart';
 
@@ -87,5 +89,55 @@ class TripDetailController extends _$TripDetailController {
   Future<void> refreshTrip() async {
     state = await ref.read(apiCallerProvider).getTrip(state.id);
     ref.read(tripsControllerProvider.notifier).updateTrip(state);
+  }
+
+  Future<void> duplicateTrip() async {
+    final ApiCaller apiCaller = ref.read(apiCallerProvider);
+    var tripId = const Uuid().v4();
+    var memberId = const Uuid().v4();
+    var userProfile = ref.read(authControllerProvider).userProfile;
+    if (userProfile != null) {
+      var items = ref.read(memberControllerProvider).items.where((item) => !item.isShared).toList() +
+          state.members.expand((member) => member.items.where((item) => item.isShared && !item.isPrivate)).toList();
+      items = items
+          .map(
+            (e) => e.copyWith(
+              futureTransactions: [],
+              id: const Uuid().v4(),
+              categoryId: const Uuid().v4(),
+              memberId: memberId,
+              isChecked: false,
+            ),
+          )
+          .toList();
+      var tripCopy = state.copyWith(
+        name: "${state.name} - copy",
+        completedTransactions: [],
+        dateFromNull: true,
+        dateToNull: true,
+        id: tripId,
+        isDeleted: false,
+        members: [
+          Member(
+            id: memberId,
+            tripId: tripId,
+            userProfileId: userProfile.id,
+            items: items,
+            role: Role.admin.name,
+            accepted: true,
+            userProfileFirstname: "",
+            userProfileLastname: "",
+            userProfileEmail: "",
+            futureTransactions: [],
+            completedTransactionsSent: [],
+            completedTransactionsReceived: [],
+            userProfileBankAccountNumber: "",
+            userProfileIban: "",
+          ),
+        ],
+      );
+      state = await apiCaller.createTrip(tripCopy);
+      ref.read(tripsControllerProvider.notifier).addTripToList(state);
+    }
   }
 }
