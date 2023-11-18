@@ -111,9 +111,9 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                   key: _autocompleteKey,
                   optionsBuilder: (TextEditingValue textEditingValue) async {
                     log(textEditingValue.text);
-                    if (textEditingValue.text == '') {
-                      return const Iterable<String>.empty();
-                    }
+                    // if (textEditingValue.text == '') {
+                    //   return const Iterable<String>.empty();
+                    // }
                     log(result.where((String option) => option.toLowerCase().contains(textEditingValue.text.toLowerCase())).toString());
                     return result.where((String option) => option.toLowerCase().contains(textEditingValue.text.toLowerCase()));
                   },
@@ -122,7 +122,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                     return TrippidyTextFormField(
                       controller: textEditingController,
                       placeholder: "Category name",
-                      requiredMessage: "Category name is required",
+                      //requiredMessage: "Category name is required",
+                      required: false,
                       focusNode: focusNode,
                       onFieldSubmitted: () => submit(),
                       length: 128,
@@ -333,6 +334,10 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
 
   Future<void> submit() async {
     if (_formKey.currentState!.validate()) {
+      if (categoryTextController.text == "") {
+        categoryTextController.text = "Other";
+      }
+
       if (item == null) {
         await ref.read(memberControllerProvider.notifier).addItem(
               id: newItemId,
