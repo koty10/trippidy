@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 extension StringExtension on String {
   String capitalize() {
     if (isEmpty) {
@@ -7,6 +9,6 @@ extension StringExtension on String {
   }
 
   String convertToImageProxy() {
-    return this;
+    return kIsWeb ? 'https://trippidy.koten.dev:9680/external-img/?url=$this' : this;
   }
 }
