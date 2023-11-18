@@ -33,29 +33,27 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text("Trips"),
         actions: [
+          IconButton(onPressed: ref.read(tripsControllerProvider.notifier).loadTrips, icon: const Icon(Icons.refresh)),
           NotificationButton(offersCount: offersCount),
         ],
       ),
       drawer: const HomeScreenDrawer(),
-      body: trips.isNotEmpty
-          ? RefreshIndicator(
-              onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
-              child: ListView.separated(
+      body: RefreshIndicator(
+        onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+        child: trips.isNotEmpty
+            ? ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                 itemCount: trips.length,
                 itemBuilder: (BuildContext context, int index) {
                   return TripTile(trip: trips[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
-              ),
-            )
-          : RefreshIndicator(
-              onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
-              child: const NoItemsAnimationWidget(
+              )
+            : const NoItemsAnimationWidget(
                 message: "Start by adding a new trip.",
                 animationFile: "assets/lotties/trip_map.json",
               ),
-            ),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(

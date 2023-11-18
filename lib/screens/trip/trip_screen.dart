@@ -32,6 +32,7 @@ class TripScreen extends ConsumerWidget {
         leading: const BackButton(),
         title: Text(currentTrip.name),
         actions: [
+          IconButton(onPressed: ref.read(tripDetailControllerProvider.notifier).refreshTrip, icon: const Icon(Icons.refresh)),
           IconButton(
             onPressed: () {
               Navigator.push(

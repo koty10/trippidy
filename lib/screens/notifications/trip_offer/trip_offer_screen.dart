@@ -27,17 +27,14 @@ class TripOfferScreen extends ConsumerWidget {
       body: tripsProvider.when(
         data: (data) {
           List<Trip> trips = tripsProvider.value!.filterTrips(userProfileId: loggedInUser.userProfile!.id, accepted: false);
-          return trips.isEmpty
-              ? RefreshIndicator(
-                  onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
-                  child: const NoItemsAnimationWidget(
+          return RefreshIndicator(
+            onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+            child: trips.isEmpty
+                ? const NoItemsAnimationWidget(
                     message: "There are no notifications.",
                     animationFile: "assets/lotties/empty_box.json",
-                  ),
-                )
-              : RefreshIndicator(
-                  onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
-                  child: ListView.separated(
+                  )
+                : ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                     itemCount: trips.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -45,7 +42,7 @@ class TripOfferScreen extends ConsumerWidget {
                     },
                     separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
                   ),
-                );
+          );
         },
         error: (error, stackTrace) => const Text("There was a problem to load data"),
         loading: () => const Center(child: CircularProgressIndicator()),

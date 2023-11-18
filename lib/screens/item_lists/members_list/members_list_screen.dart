@@ -7,7 +7,6 @@ import 'package:trippidy/providers/expand_all_categories_provider.dart';
 import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
-import 'package:trippidy/providers/trips_controller.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 
 import '../components/no_items_animation_widget.dart';
@@ -41,6 +40,7 @@ class MembersListScreen extends ConsumerWidget {
           ],
         ),
         actions: [
+          IconButton(onPressed: ref.read(tripDetailControllerProvider.notifier).refreshTrip, icon: const Icon(Icons.refresh)),
           IconButton(
             onPressed: () {
               if (showTabs) {
@@ -69,7 +69,7 @@ class MembersListScreen extends ConsumerWidget {
           Expanded(
             child: items.isEmpty
                 ? RefreshIndicator(
-                    onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+                    onRefresh: ref.read(tripDetailControllerProvider.notifier).refreshTrip,
                     child: const NoItemsAnimationWidget(
                       message: "User has no public items.",
                       animationFile: "assets/lotties/empty_box.json",

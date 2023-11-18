@@ -9,7 +9,6 @@ import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/providers/suggested_items_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
-import 'package:trippidy/providers/trips_controller.dart';
 import 'package:trippidy/screens/add_item/add_item_screen.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
@@ -42,6 +41,7 @@ class MyListScreen extends ConsumerWidget {
           ],
         ),
         actions: [
+          IconButton(onPressed: ref.read(tripDetailControllerProvider.notifier).refreshTrip, icon: const Icon(Icons.refresh)),
           showTabs
               ? IconButton(
                   onPressed: () {
@@ -76,7 +76,7 @@ class MyListScreen extends ConsumerWidget {
       ),
       body: items.isEmpty
           ? RefreshIndicator(
-              onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+              onRefresh: ref.read(tripDetailControllerProvider.notifier).refreshTrip,
               child: const NoItemsAnimationWidget(
                 message: "You have no items.",
                 animationFile: "assets/lotties/empty_box.json",
