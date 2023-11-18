@@ -44,11 +44,11 @@ class HomeScreenDrawer extends ConsumerWidget {
               );
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.delete),
-            title: const Text('Trash'),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.delete),
+          //   title: const Text('Trash'),
+          //   onTap: () {},
+          // ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),

@@ -22,11 +22,11 @@ class AuthInterceptor extends Interceptor {
   @override
   Future<void> onError(DioError err, ErrorInterceptorHandler handler) async {
     log("onError started...");
-    if (err.response == null) {
-      //super.onError(err, handler);
-      return;
-    }
-    if (err.response!.statusCode == 401) {
+    //if (err.response == null) {
+    //super.onError(err, handler);
+    //return;
+    //}
+    if (err.response?.statusCode == 401) {
       log("onError status code == 401");
       // Call your service method here
       await ref.refresh();

@@ -7,6 +7,6 @@ extension StringExtension on String {
   }
 
   String convertToImageProxy() {
-    return 'https://trippidy.koten.dev:9680/external-img/?url=$this';
+    return this;
   }
 }

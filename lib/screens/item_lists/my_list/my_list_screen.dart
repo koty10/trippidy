@@ -23,7 +23,7 @@ class MyListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Member currentMember = ref.watch(memberControllerProvider);
     final currentTrip = ref.watch(tripDetailControllerProvider);
-    var items = currentTrip.getListItemsForUser(userId: currentMember.id).entries;
+    var items = currentTrip.getListItemsForUser(userId: currentMember.id, showPrivate: true).entries;
     var expandAll = ref.watch(expandAllCategoriesProvider);
     var showTabs = ref.watch(showTabsProvider);
 

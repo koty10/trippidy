@@ -69,10 +69,9 @@ extension TripExtension on Trip {
     return futurePayments;
   }
 
-  Map<String, List<Item>> getListItemsForUser({required String userId}) {
+  Map<String, List<Item>> getListItemsForUser({required String userId, bool showPrivate = false}) {
     var member = members.firstWhere((element) => element.id == userId);
-    //if (member == null) return {};
-    var tmp = member.items.where((element) => !element.isPrivate);
+    var tmp = showPrivate ? member.items : member.items.where((element) => !element.isPrivate);
 
     var dict = <String, List<Item>>{};
     for (var element in tmp) {
