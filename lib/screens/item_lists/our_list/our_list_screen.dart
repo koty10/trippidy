@@ -8,6 +8,7 @@ import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 import 'package:trippidy/providers/suggested_items_controller.dart';
 import 'package:trippidy/providers/trip_detail_controller.dart';
+import 'package:trippidy/providers/trips_controller.dart';
 import 'package:trippidy/screens/item_lists/components/items_wrapper_widget.dart';
 import 'package:trippidy/screens/item_lists/components/suggested_items_bottom_sheet.dart';
 
@@ -78,8 +79,12 @@ class OurListScreen extends ConsumerWidget {
         children: [
           Expanded(
               child: items.isEmpty
-                  ? const NoItemsAnimationWidget(
-                      message: "You have no shared items.",
+                  ? RefreshIndicator(
+                      onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
+                      child: const NoItemsAnimationWidget(
+                        message: "You have no shared items.",
+                        animationFile: "assets/lotties/empty_box.json",
+                      ),
                     )
                   : ItemsWrapperWidget(
                       categoriesWithItems: items,

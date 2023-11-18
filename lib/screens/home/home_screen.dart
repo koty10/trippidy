@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/trip_list_extension.dart';
 import 'package:trippidy/screens/home/components/notification_button.dart';
+import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
 
 import '../../drawers/home_screen_drawer.dart';
 import '../../model/dto/trip.dart';
@@ -51,33 +51,9 @@ class HomeScreen extends ConsumerWidget {
             )
           : RefreshIndicator(
               onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
-              child: Stack(
-                children: [
-                  // Centered Layout
-                  Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        LottieBuilder.asset(
-                          'assets/lotties/trip_map.json',
-                          height: 200,
-                        ),
-                        const SizedBox(height: 20),
-                        const Center(
-                          child: Text('Start by adding a new trip.'),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Scrollable overlay
-                  Positioned.fill(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Container(),
-                    ),
-                  ),
-                ],
+              child: const NoItemsAnimationWidget(
+                message: "Start by adding a new trip.",
+                animationFile: "assets/lotties/trip_map.json",
               ),
             ),
       floatingActionButton: FloatingActionButton.extended(

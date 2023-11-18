@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trippidy/extensions/trip_list_extension.dart';
+import 'package:trippidy/screens/item_lists/components/no_items_animation_widget.dart';
 
 import '../../../model/dto/trip.dart';
 import '../../../providers/auth_controller.dart';
 import '../../../providers/trips_controller.dart';
 import 'components/trip_offer_tile.dart';
-import 'package:lottie/lottie.dart';
 
 class TripOfferScreen extends ConsumerWidget {
   const TripOfferScreen({super.key});
@@ -30,31 +30,9 @@ class TripOfferScreen extends ConsumerWidget {
           return trips.isEmpty
               ? RefreshIndicator(
                   onRefresh: ref.read(tripsControllerProvider.notifier).loadTrips,
-                  child: Stack(
-                    children: [
-                      // Centered Layout
-                      Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            LottieBuilder.asset(
-                              'assets/lotties/empty_box.json',
-                              height: 200,
-                            ),
-                            const SizedBox(height: 20),
-                            const Text("There are no notifications."),
-                          ],
-                        ),
-                      ),
-
-                      // Scrollable overlay
-                      Positioned.fill(
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Container(),
-                        ),
-                      ),
-                    ],
+                  child: const NoItemsAnimationWidget(
+                    message: "There are no notifications.",
+                    animationFile: "assets/lotties/empty_box.json",
                   ),
                 )
               : RefreshIndicator(
