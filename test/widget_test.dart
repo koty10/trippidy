@@ -121,5 +121,263 @@ void main() {
       expect(futurePayments.first.payer.id, equals("member-id-2"));
       expect(futurePayments.first.payee.id, equals("member-id-1"));
     });
+
+    test('Two users with more items future transactions test', () {
+      var trip = tripTemplate.copyWith();
+      trip.members = [
+        memberTemplate.copyWith(
+          id: "member-id-1",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-1",
+              price: Decimal.fromInt(100),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-1",
+                  itemId: "item-id-1",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-2",
+                  itemId: "item-id-1",
+                  payerId: "member-id-2",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-2",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-2",
+              memberId: "member-id-2",
+              price: Decimal.fromInt(50),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-3",
+                  itemId: "item-id-2",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-4",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      var futurePayments = trip.getFuturePayments();
+
+      expect(futurePayments.length, equals(1));
+      expect(futurePayments.first.amount, equals(Decimal.fromInt(25)));
+      expect(futurePayments.first.payer.id, equals("member-id-2"));
+      expect(futurePayments.first.payee.id, equals("member-id-1"));
+    });
+
+    test('Three users with more items with same price future transactions test', () {
+      var trip = tripTemplate.copyWith();
+      trip.members = [
+        memberTemplate.copyWith(
+          id: "member-id-1",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-1",
+              price: Decimal.fromInt(100),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-1",
+                  itemId: "item-id-1",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-2",
+                  itemId: "item-id-1",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-3",
+                  itemId: "item-id-1",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-2",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-2",
+              memberId: "member-id-2",
+              price: Decimal.fromInt(100),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-4",
+                  itemId: "item-id-2",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-5",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-6",
+                  itemId: "item-id-2",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-3",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-3",
+              memberId: "member-id-3",
+              price: Decimal.fromInt(100),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-7",
+                  itemId: "item-id-3",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-8",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-9",
+                  itemId: "item-id-2",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      var futurePayments = trip.getFuturePayments();
+
+      expect(futurePayments, isEmpty);
+    });
+
+    test('Three users with more items have same balance future transactions test', () {
+      var trip = tripTemplate.copyWith();
+      trip.members = [
+        memberTemplate.copyWith(
+          id: "member-id-1",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-1",
+              price: Decimal.fromInt(100),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-1",
+                  itemId: "item-id-1",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-2",
+                  itemId: "item-id-1",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-3",
+                  itemId: "item-id-1",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-2",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-2",
+              memberId: "member-id-2",
+              price: Decimal.fromInt(50),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-4",
+                  itemId: "item-id-2",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-5",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-6",
+                  itemId: "item-id-2",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-3",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-3",
+              memberId: "member-id-3",
+              price: Decimal.fromInt(50),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-7",
+                  itemId: "item-id-3",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-8",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-9",
+                  itemId: "item-id-2",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      var futurePayments = trip.getFuturePayments();
+      var balances = [];
+
+      var memberBalance1 = Decimal.fromInt(-100) +
+          sumIfNotEmpty(futurePayments.where((x) => x.payee.id == "member-id-1").map((x) => x.amount)) -
+          sumIfNotEmpty(futurePayments.where((x) => x.payer.id == "member-id-1").map((x) => x.amount));
+      var memberBalance2 = Decimal.fromInt(-50) +
+          sumIfNotEmpty(futurePayments.where((x) => x.payee.id == "member-id-2").map((x) => x.amount)) -
+          sumIfNotEmpty(futurePayments.where((x) => x.payer.id == "member-id-2").map((x) => x.amount));
+      var memberBalance3 = Decimal.fromInt(-50) +
+          sumIfNotEmpty(futurePayments.where((x) => x.payee.id == "member-id-3").map((x) => x.amount)) -
+          sumIfNotEmpty(futurePayments.where((x) => x.payer.id == "member-id-3").map((x) => x.amount));
+
+      balances.add(memberBalance1);
+      balances.add(memberBalance2);
+      balances.add(memberBalance3);
+
+      Decimal minValue = balances.reduce((a, b) => a < b ? a : b);
+      Decimal maxValue = balances.reduce((a, b) => a > b ? a : b);
+
+      expect(maxValue - minValue < Decimal.fromInt(1), isTrue);
+    });
   });
+}
+
+Decimal sumIfNotEmpty(Iterable<Decimal> list) {
+  return list.isNotEmpty ? list.reduce((a, b) => a + b) : Decimal.zero;
 }
