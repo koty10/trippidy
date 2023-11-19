@@ -67,7 +67,7 @@ void main() {
       userProfileEmail: "test-1@example.com",
     );
 
-    test('Basic future transactions test', () {
+    test('One user with one item should be without future transactions test', () {
       var trip = tripTemplate.copyWith();
       trip.members = [
         memberTemplate.copyWith(
@@ -86,7 +86,7 @@ void main() {
       expect(futurePayments, isEmpty);
     });
 
-    test('Two users future transactions test', () {
+    test('Two users with one item should result in one future transaction test', () {
       var trip = tripTemplate.copyWith();
       trip.members = [
         memberTemplate.copyWith(
@@ -122,7 +122,7 @@ void main() {
       expect(futurePayments.first.payee.id, equals("member-id-1"));
     });
 
-    test('Two users with more items future transactions test', () {
+    test('Two users with more items where one is bigger that another should result in one future transaction test', () {
       var trip = tripTemplate.copyWith();
       trip.members = [
         memberTemplate.copyWith(
@@ -178,7 +178,7 @@ void main() {
       expect(futurePayments.first.payee.id, equals("member-id-1"));
     });
 
-    test('Three users with more items with same price future transactions test', () {
+    test('Three users with more items with the same price should be without future transactions test', () {
       var trip = tripTemplate.copyWith();
       trip.members = [
         memberTemplate.copyWith(
@@ -268,7 +268,7 @@ void main() {
       expect(futurePayments, isEmpty);
     });
 
-    test('Three users with more items have same balance future transactions test', () {
+    test('Three users with more items have same balance test', () {
       var trip = tripTemplate.copyWith();
       trip.members = [
         memberTemplate.copyWith(
@@ -374,6 +374,103 @@ void main() {
       Decimal maxValue = balances.reduce((a, b) => a > b ? a : b);
 
       expect(maxValue - minValue < Decimal.fromInt(1), isTrue);
+    });
+
+    test('Three users with more items where some items is shared with a subset of users should still result in minimum number of future transactions test', () {
+      var trip = tripTemplate.copyWith();
+      trip.members = [
+        memberTemplate.copyWith(
+          id: "member-id-1",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-1",
+              price: Decimal.fromInt(90),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-1",
+                  itemId: "item-id-1",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-2",
+                  itemId: "item-id-1",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-3",
+                  itemId: "item-id-1",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-2",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-2",
+              memberId: "member-id-2",
+              price: Decimal.fromInt(30),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-4",
+                  itemId: "item-id-2",
+                  payerId: "member-id-1",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-5",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-6",
+                  itemId: "item-id-2",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+        memberTemplate.copyWith(
+          id: "member-id-3",
+          items: [
+            itemTemplate.copyWith(
+              id: "item-id-3",
+              memberId: "member-id-3",
+              price: Decimal.fromInt(20),
+              futureTransactions: [
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-8",
+                  itemId: "item-id-2",
+                  payerId: "member-id-2",
+                ),
+                futureTransactionTemplate.copyWith(
+                  id: "future-transaction-9",
+                  itemId: "item-id-2",
+                  payerId: "member-id-3",
+                ),
+              ],
+            ),
+          ],
+        ),
+      ];
+
+      var futurePayments = trip.getFuturePayments();
+
+      expect(futurePayments.length, equals(2));
+      expect(
+        futurePayments.any(
+          (futurePayment) => futurePayment.payer.id == "member-id-2" && futurePayment.payee.id == "member-id-1" && futurePayment.amount == Decimal.fromInt(20),
+        ),
+        isTrue,
+      );
+      expect(
+        futurePayments.any(
+          (futurePayment) => futurePayment.payer.id == "member-id-3" && futurePayment.payee.id == "member-id-1" && futurePayment.amount == Decimal.fromInt(30),
+        ),
+        isTrue,
+      );
     });
   });
 }
