@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:decimal/decimal.dart';
 import 'package:trippidy/model/app/future_payment.dart';
 import 'package:trippidy/model/dto/item.dart';
@@ -29,7 +31,11 @@ extension TripExtension on Trip {
         for (var futureTransaction in item.futureTransactions) {
           if (futureTransaction.payerId != item.memberId) {
             // if current member is not a buyer
-            membersCopy.firstWhere((element) => element.id == futureTransaction.payerId).balance -= share; // current member owes his share
+            try {
+              membersCopy.firstWhere((element) => element.id == futureTransaction.payerId).balance -= share; // current member owes his share
+            } catch (e) {
+              log("no member with id == futureTransaction.payerId");
+            }
           }
         }
         member.balance += item.price - share; // buyer already payed whole price but still owes his share

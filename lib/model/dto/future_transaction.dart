@@ -13,14 +13,7 @@ class FutureTransaction {
   FutureTransaction copyWith({
     String? id,
     String? payerId,
-    String? payeeId,
     String? itemId,
-    String? itemName,
-    bool? itemIsChecked,
-    int? itemAmount,
-    bool? itemIsPrivate,
-    bool? itemIsShared,
-    int? itemPrice,
   }) {
     return FutureTransaction(
       id: id ?? this.id,
