@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:trippidy/extensions/build_context_extension.dart';
@@ -26,6 +27,16 @@ class TripScreen extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     Trip currentTrip = ref.watch(tripDetailControllerProvider);
     List<Member> members = currentTrip.members.where((element) => element.userProfileId != ref.read(authControllerProvider).userProfile!.id).toList();
+
+    var myItems = currentTrip.members
+        .firstWhere(
+          (element) => element.userProfileId == ref.read(authControllerProvider).userProfile!.id,
+        )
+        .items;
+    var ourItems = currentTrip
+        .getOurListItems(loggedUserMember: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip))
+        .entries
+        .expand((element) => element.value);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,23 +85,27 @@ class TripScreen extends ConsumerWidget {
                       children: [
                         MemberListTile(
                           title: "My list",
-                          currentTrip: currentTrip,
+                          subtitle: "${myItems.where((element) => element.isChecked).length}/${myItems.length}",
                           target: const MyListScreen(),
                           member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
                           items: currentTrip
                               .getListItemsForUser(userId: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip).id)
                               .entries,
+                          trailing:
+                              "${myItems.where((element) => element.isChecked).fold(Decimal.zero, (sum, item) => sum + item.price)}/${myItems.fold(Decimal.zero, (sum, item) => sum + item.price)} Kč",
                         ),
                         const SizedBox(height: 16),
                         MemberListTile(
                           title: "Shared list",
-                          currentTrip: currentTrip,
+                          subtitle: "${ourItems.where((element) => element.isChecked).length}/${ourItems.length}",
                           target: const OurListScreen(),
                           member: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip),
                           items: currentTrip
                               .getOurListItems(loggedUserMember: ref.read(memberControllerProvider.notifier).getLoggedInMemberFromTrip(currentTrip))
                               .entries,
                           showGroupIcon: true,
+                          trailing:
+                              "${ourItems.where((element) => element.isChecked).fold(Decimal.zero, (sum, item) => sum + item.price)}/${ourItems.fold(Decimal.zero, (sum, item) => sum + item.price)} Kč",
                         ),
                       ],
                     ),

@@ -27,7 +27,6 @@ class MembersListView extends ConsumerWidget {
                 MemberListTile(
                   member: curMember,
                   title: "${curMember.userProfileFirstname} ${curMember.userProfileLastname}",
-                  currentTrip: currentTrip,
                   target: const MembersListScreen(),
                   items: currentTrip.getListItemsForUser(userId: curMember.id).entries,
                 ),

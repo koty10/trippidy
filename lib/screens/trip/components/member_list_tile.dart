@@ -8,14 +8,20 @@ import 'package:trippidy/providers/member_controller.dart';
 import 'package:trippidy/providers/selected_category_provider.dart';
 import 'package:trippidy/providers/show_tabs_provider.dart';
 
-import '../../../model/dto/trip.dart';
-
 class MemberListTile extends ConsumerWidget {
   const MemberListTile(
-      {super.key, required this.title, required this.currentTrip, required this.target, required this.member, required this.items, this.showGroupIcon = false});
+      {super.key,
+      required this.title,
+      required this.target,
+      required this.member,
+      required this.items,
+      this.showGroupIcon = false,
+      this.subtitle = "",
+      this.trailing = ""});
 
   final String title;
-  final Trip currentTrip;
+  final String subtitle;
+  final String trailing;
   final Widget target;
   final Member member;
   final bool showGroupIcon;
@@ -43,7 +49,11 @@ class MemberListTile extends ConsumerWidget {
       dense: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       tileColor: !member.accepted ? context.colorScheme.onInverseSurface : context.colorScheme.onSecondary,
-      subtitle: !member.accepted ? const Text("Invitation sent") : null,
+      subtitle: !member.accepted
+          ? const Text("Invitation sent")
+          : subtitle.isNotEmpty
+              ? Text(subtitle)
+              : null,
       leading: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: showGroupIcon
@@ -52,13 +62,14 @@ class MemberListTile extends ConsumerWidget {
                 radius: 12,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(currentTrip.members.firstWhere((element) => element.id == member.id).userProfileImage!.convertToImageProxy()),
+                  child: Image.network(member.userProfileImage!.convertToImageProxy()),
                 ),
               ),
       ),
       title: Text(title, style: context.txtTheme.titleMedium),
       contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
       mouseCursor: SystemMouseCursors.click,
+      trailing: Text(trailing),
     );
   }
 }
