@@ -30,7 +30,8 @@ class ItemListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      onTap: (item.memberId == currentMember.id && onTapCallback != null) ? () => onTapCallback!(item) : null,
+      //item.memberId == currentMember.id &&
+      onTap: (onTapCallback != null) ? () => onTapCallback!(item) : null,
       title: Text(item.name),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -68,7 +69,8 @@ class ItemListTile extends ConsumerWidget {
             ),
           Checkbox(
             value: item.isChecked,
-            onChanged: (item.memberId == currentMember.id && onChangedCallback != null)
+            //item.memberId == currentMember.id &&
+            onChanged: (onChangedCallback != null)
                 ? (value) {
                     onChangedCallback!(
                       item,
