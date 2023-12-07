@@ -63,6 +63,17 @@ class ApiCaller {
     }
   }
 
+  Future<bool> deleteItem(Item item) async {
+    log("delete item");
+    try {
+      final result = await _restClient.deleteItem(item.id);
+      return result.data;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
   Future<Trip> createTrip(Trip item) async {
     log("create trip");
     try {

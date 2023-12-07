@@ -46,6 +46,9 @@ abstract class RestClient {
   @POST(itemsEndpoint)
   Future<HttpResponse<Item>> createItem(@Body() Item item);
 
+  @DELETE("$itemsEndpoint/{itemId}")
+  Future<HttpResponse<bool>> deleteItem(@Path("itemId") String itemId);
+
   @GET(userProfileEndpoint)
   Future<HttpResponse<UserProfile>> getUserProfile();
 

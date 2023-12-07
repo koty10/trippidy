@@ -293,12 +293,17 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                           ),
                         ),
                       ),
-                      child: const Text(
-                        "Cancel",
-                        style: TextStyle(fontSize: 16),
+                      child: Text(
+                        item == null ? "Cancel" : "Delete",
+                        style: const TextStyle(fontSize: 16),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        if (item != null) {
+                          await ref.read(memberControllerProvider.notifier).deleteItem(item!.memberId, item!);
+                        }
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
                       },
                     ),
                     Padding(

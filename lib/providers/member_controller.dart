@@ -30,7 +30,14 @@ class MemberController extends _$MemberController {
     return trip.members.firstWhere((element) => element.userProfileId == loggedInUserId);
   }
 
-  Future<void> addItem({String? id, required String name, String category = '', required bool shared, required bool private, required Decimal price, required List<FutureTransaction> futureTransactions}) async {
+  Future<void> addItem(
+      {String? id,
+      required String name,
+      String category = '',
+      required bool shared,
+      required bool private,
+      required Decimal price,
+      required List<FutureTransaction> futureTransactions}) async {
     final ApiCaller apiCaller = ref.read(apiCallerProvider);
     Item item = Item(
       amount: 1,
@@ -71,6 +78,18 @@ class MemberController extends _$MemberController {
     state = state.copyWith(items: updatedItems);
 
     _updateAllMembersFutureTransactions(item.futureTransactions, item);
+  }
+
+  Future<void> deleteItem(String memberId, Item item) async {
+    await ref.read(apiCallerProvider).deleteItem(item);
+    var m = ref.read(tripDetailControllerProvider).members.firstWhere((element) => element.id == memberId);
+    m.items = m.items.where((element) => element.id != item.id).toList();
+    ref.read(tripDetailControllerProvider.notifier).updateMember(m);
+    // ref.read(tripDetailControllerProvider).members.map((member) => member.id == memberId
+    //     ? member.copyWith(
+    //         items: member.items.where((item) => item.id != item.id).toList(),
+    //       )
+    //     : member);
   }
 
   // propagates changes in futureTransactions for current item to all trip members
