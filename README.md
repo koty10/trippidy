@@ -1,19 +1,12 @@
 # Trippidy
+This is a Flutter project for Trippidy - a tool for Online Organisation of Trips.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-Regenerate models:
-dart run build_runner build --delete-conflicting-outputs
+# Instalation
+- Follow the instructions on https://docs.flutter.dev/get-started/install
+- Install extensions to VS Code:
+  - Dart from dartcode.org
+  - Flutter from dartcode.org
+- Change values like domain in lib/constants.dart to your server or leave it unchanged and use my server
+- Regenerate models:
+  - `dart run build_runner build --delete-conflicting-outputs`
+- Connect a physical Android phone with USB debugging enabled or run an emulator and run the project from VS Code from lib/main.dart
